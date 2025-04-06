@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Button class="algo" label="verify" />
+    <Button label="verify" />
     <div class="card flex justify-center">
       <InputOtp v-model="value" :length="5" />
     </div>
