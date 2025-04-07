@@ -1,0 +1,33 @@
+@use "../colors" as custom-colors;
+.p-menubar {
+  display: flex;
+  justify-content: space-between;
+  background-color: custom-colors.$blue-950;
+  border-radius: 0 0 0.5rem 0.5rem;
+  border: none;
+  padding: 2rem;
+  &-item {
+    &-content {
+      color: custom-colors.$text-secondary;
+    }
+  }
+  &-submenu {
+    background-color: custom-colors.$blue-950;
+    border: none;
+  }
+  &-mobile {
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    padding: 1rem;
+    .p-menubar-button {
+      color: custom-colors.$text-secondary;
+    }
+    .p-menubar-button:hover {
+      color: custom-colors.$text-primary;
+    }
+    .p-menubar-root-list {
+      background-color: custom-colors.$blue-950;
+    }
+  }
+}
