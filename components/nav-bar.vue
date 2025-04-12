@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import { ref } from "vue";
-
+import { Icon } from "@iconify/vue";
 const items = ref([
   {
     label: "Transacción",
-    icon: "pi pi-home",
+    icon: "hugeicons:transaction",
   },
   {
     label: "Inventario",
-    icon: "pi pi-star",
+    icon: "si:inventory-fill",
   },
   {
     label: "Deudores",
-    icon: "pi pi-search",
+    icon: "lucide:book-user",
   },
   {
     label: "Informes",
-    icon: "pi pi-envelope",
+    icon: "mdi:report-box",
   },
 ]);
 </script>
@@ -26,6 +26,9 @@ const items = ref([
     <Menubar :model="items">
       <template #start>
         <h1>Lian Corp</h1>
+      </template>
+      <template #itemicon="{ item }">
+        <Icon :icon="item.icon!" width="1.5em" height="1.5em" />
       </template>
     </Menubar>
   </div>
