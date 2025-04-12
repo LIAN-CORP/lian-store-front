@@ -1,5 +1,6 @@
 <template>
   <nav-bar />
+  <card-product />
 </template>
 
 <style lang="scss" scoped></style>

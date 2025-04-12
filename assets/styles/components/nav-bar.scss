@@ -9,6 +9,7 @@
   &-item {
     &-content {
       color: custom-colors.$text-secondary;
+      font-size: 1.2rem;
     }
   }
   &-submenu {
@@ -20,14 +21,22 @@
     border-radius: 0;
     border: none;
     padding: 1rem;
-    .p-menubar-button {
-      color: custom-colors.$text-secondary;
-    }
-    .p-menubar-button:hover {
-      color: custom-colors.$text-primary;
-    }
-    .p-menubar-root-list {
-      background-color: custom-colors.$blue-950;
+    .p-menubar {
+      &-button {
+        color: custom-colors.$text-secondary;
+      }
+      &-button:hover {
+        color: custom-colors.$text-primary;
+      }
+      &-root-list {
+        background-color: custom-colors.$blue-950;
+      }
+      &-item {
+        &-content {
+          color: custom-colors.$text-secondary;
+          font-size: 1rem;
+        }
+      }
     }
   }
 }
