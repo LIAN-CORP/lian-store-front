@@ -1,4 +1,6 @@
-<script lang="ts"></script>
+<script setup lang="ts">
+import { Icon } from "@iconify/vue";
+</script>
 
 <template>
   <div class="host">
@@ -25,8 +27,20 @@
         </div>
       </div>
       <div class="card-footer">
-        <button class="btn btn-primary">Agregar</button>
-        <button class="btn btn-danger">Eliminar</button>
+        <Button severity="info" raised rounded>
+          <template #icon>
+            <Icon icon="grommet-icons:edit" width="1.5em" height="1.5em" />
+          </template>
+        </Button>
+        <Button severity="danger" raised rounded>
+          <template #icon>
+            <Icon
+              icon="material-symbols:delete-rounded"
+              width="1.5em"
+              height="1.5em"
+            />
+          </template>
+        </Button>
       </div>
     </article>
   </div>
