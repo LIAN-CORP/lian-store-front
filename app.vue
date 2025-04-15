@@ -1,6 +1,8 @@
 <template>
-  <nav-bar />
-  <card-product />
+  <NuxtLoadingIndicator color="blue" />
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
 
 <style lang="scss" scoped></style>
