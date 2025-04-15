@@ -1,5 +1,6 @@
 <template>
   <div>
-    <h1>JDLKSAJDLKASJDLKSAJDLKSAJD</h1>
+    <CardProduct />
+    <CardDebt />
   </div>
 </template>
