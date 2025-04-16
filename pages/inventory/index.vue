@@ -1,23 +1,48 @@
 <script setup lang="ts">
-function deleteProduct() {
-  console.log("eliminando......");
-}
+const product = {
+  id: 1,
+  product: "Producto 1",
+  category: "Categoria 1",
+  price: 100,
+  quantity: 10,
+};
+const confirm = useConfirm();
 function editProduct() {
   console.log("editando......");
 }
+const onDelete = () => {
+  confirm.require({
+    message: "¿Desea eliminar el producto?",
+    header: "Eliminar producto",
+    rejectProps: {
+      label: "Cancelar",
+      severity: "secondary",
+      outlined: true,
+    },
+    acceptProps: {
+      label: "Eliminar",
+      severity: "danger",
+    },
+    accept: () => {
+      console.log("Producto eliminado");
+    },
+  });
+};
 </script>
 
 <template>
   <section class="container">
-    <CardProduct @delete-product="deleteProduct" @edit-product="editProduct" />
-    <CardProduct @delete-product="deleteProduct" @edit-product="editProduct" />
-    <CardProduct @delete-product="deleteProduct" @edit-product="editProduct" />
-    <CardProduct @delete-product="deleteProduct" @edit-product="editProduct" />
-    <CardProduct @delete-product="deleteProduct" @edit-product="editProduct" />
-    <CardProduct @delete-product="deleteProduct" @edit-product="editProduct" />
-    <CardProduct @delete-product="deleteProduct" @edit-product="editProduct" />
-    <CardProduct @delete-product="deleteProduct" @edit-product="editProduct" />
+    <CardProduct
+      :id="product.id"
+      :product="product.product"
+      :category="product.category"
+      :price="product.price"
+      :quantity="product.quantity"
+      @delete-product="onDelete"
+      @edit-product="editProduct"
+    />
   </section>
+  <ConfirmDialog />
 </template>
 
 <style scoped lang="scss">

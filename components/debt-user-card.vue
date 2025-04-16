@@ -3,6 +3,10 @@ import { Icon } from "@iconify/vue/dist/iconify.js";
 import type { DebtUserProps } from "~/interfaces/debt/entity/debtusercard.inferface";
 
 defineProps<DebtUserProps>();
+const emit = defineEmits(["searchDebt"]);
+function onSearchDebt() {
+  emit("searchDebt");
+}
 
 function formatAmount(amount: number): string {
   return amount.toLocaleString("es-CO", {
@@ -26,7 +30,7 @@ function formatAmount(amount: number): string {
           <h2 class="user-name">{{ name }}</h2>
           <h3 class="user-amount-debt">${{ formatAmount(amount) }}</h3>
           <!-- Button Details -->
-          <Button class="button" label="ver">
+          <Button class="button" label="ver" @click="onSearchDebt">
             <template #icon>
               <Icon
                 icon="solar:card-search-linear"

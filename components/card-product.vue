@@ -1,6 +1,19 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
-defineEmits(["deleteProduct", "editProduct"]);
+const emit = defineEmits(["deleteProduct", "editProduct"]);
+function onDeleteProduct() {
+  emit("deleteProduct");
+}
+function onEditProduct() {
+  emit("editProduct");
+}
+defineProps<{
+  id: number;
+  product: string;
+  category: string;
+  price: number;
+  quantity: number;
+}>();
 </script>
 
 <template>
@@ -16,23 +29,23 @@ defineEmits(["deleteProduct", "editProduct"]);
       <div class="card-content">
         <dl>
           <dt>Producto:</dt>
-          <dd>ARROZ</dd>
+          <dd>{{ product }}</dd>
           <dt>Categoria:</dt>
-          <dd>COmida</dd>
+          <dd>{{ category }}</dd>
           <dt>Precio:</dt>
-          <dd>$1500</dd>
+          <dd>${{ price }}</dd>
           <dt>Cantidad:</dt>
-          <dd>100 u/c</dd>
+          <dd>{{ quantity }} u/c</dd>
         </dl>
       </div>
     </div>
     <div class="card-footer">
-      <Button severity="info" raised rounded @click="$emit('editProduct')">
+      <Button severity="info" raised rounded @click="onEditProduct">
         <template #icon>
           <Icon icon="grommet-icons:edit" width="1.5em" height="1.5em" />
         </template>
       </Button>
-      <Button severity="danger" raised rounded @click="$emit('deleteProduct')">
+      <Button severity="danger" raised rounded @click="onDeleteProduct">
         <template #icon>
           <Icon
             icon="material-symbols:delete-rounded"

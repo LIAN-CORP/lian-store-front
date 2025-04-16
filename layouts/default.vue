@@ -5,6 +5,4 @@
   </div>
 </template>
 
-<script setup lang="ts">
-  import navBar from '~/components/nav-bar.vue';
-</script>
+<script setup lang="ts"></script>
