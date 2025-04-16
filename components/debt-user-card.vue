@@ -1,0 +1,112 @@
+
+<template>
+  <div class="host">
+    <div class="card-wrapper">
+      <article class="card">
+        <!-- Float Icon -->
+        <div class="card-icon">
+          <Icon icon="mingcute:user-4-fill" />
+        </div>
+
+        <div class="card-info">
+          <!-- Card Info -->
+          <h2 class="user-name">{{ name }}</h2>
+          <h3 class="user-amount-debt">${{ formatAmount(amount) }}</h3>
+          <!-- Button Details -->
+          <button class="user-button">
+            <div class="user-button-content">
+              <Icon
+              icon="solar:card-search-linear"
+              width="1.5rem"
+              height="1.5rem"
+              />
+              <h3>Ver</h3>
+            </div>
+          </button>
+        </div>
+      </article>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { Icon } from "@iconify/vue/dist/iconify.js";
+  import type { DebtUserProps } from "~/interface/entity/debtusercard.inferface";
+
+  defineProps<DebtUserProps>();
+
+  function formatAmount(amount: number) : string {
+    return amount.toLocaleString(
+      'es-CO', 
+      {
+        minimumFractionDigits: 0, 
+        maximumFractionDigits: 0
+      });
+  }
+
+</script>
+
+<style lang="scss" scoped>
+.host {
+  padding: 2rem 1rem 1rem 1rem;
+}
+
+.card-wrapper {
+  position: relative;
+  width: fit-content;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  box-shadow: 0px 5px 14px 1px rgba(0, 0, 0, 0.25);
+  justify-items: center;
+  align-items: center;
+  width: 15rem;
+  position: relative;
+  padding-top: 2.5rem;
+
+  &-icon {
+    position: absolute;
+    color: #273e91;
+    top: -2rem;
+    padding: .15rem;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
+
+    :deep(svg) {
+      display: block;
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+
+  &-info {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0.5rem;
+    justify-items: center;
+    align-items: center;
+    gap: .4rem;
+  }
+}
+
+.user-button {
+  background-color: #273e91;
+  color: #ffffff;
+  padding: 0.8rem;
+  border-radius: 1rem;
+  border: none;
+  cursor: pointer;
+  :hover {
+    background-color: #3758ce;
+  }
+
+  &-content {
+    display: flex;
+    gap: 0.8rem;
+  }
+}
+</style>
