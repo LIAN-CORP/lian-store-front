@@ -34,7 +34,7 @@ const items = ref([
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 h1 {
   color: #ffffff;
   font-family: "LibreBarCode128";

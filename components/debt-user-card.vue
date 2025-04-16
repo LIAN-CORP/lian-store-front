@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import { Icon } from "@iconify/vue/dist/iconify.js";
+import type { DebtUserProps } from "~/interfaces/debt/entity/debtusercard.inferface";
+
+defineProps<DebtUserProps>();
+
+function formatAmount(amount: number): string {
+  return amount.toLocaleString("es-CO", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+}
+</script>
 
 <template>
   <div class="host">
@@ -13,38 +26,20 @@
           <h2 class="user-name">{{ name }}</h2>
           <h3 class="user-amount-debt">${{ formatAmount(amount) }}</h3>
           <!-- Button Details -->
-          <button class="user-button">
-            <div class="user-button-content">
+          <Button class="button" label="ver">
+            <template #icon>
               <Icon
-              icon="solar:card-search-linear"
-              width="1.5rem"
-              height="1.5rem"
+                icon="solar:card-search-linear"
+                width="1.5rem"
+                height="1.5rem"
               />
-              <h3>Ver</h3>
-            </div>
-          </button>
+            </template>
+          </Button>
         </div>
       </article>
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-  import { Icon } from "@iconify/vue/dist/iconify.js";
-  import type { DebtUserProps } from "~/interface/entity/debtusercard.inferface";
-
-  defineProps<DebtUserProps>();
-
-  function formatAmount(amount: number) : string {
-    return amount.toLocaleString(
-      'es-CO', 
-      {
-        minimumFractionDigits: 0, 
-        maximumFractionDigits: 0
-      });
-  }
-
-</script>
 
 <style lang="scss" scoped>
 .host {
@@ -71,7 +66,7 @@
     position: absolute;
     color: #273e91;
     top: -2rem;
-    padding: .15rem;
+    padding: 0.15rem;
     border-radius: 50%;
     background-color: #ffffff;
     box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
@@ -89,24 +84,10 @@
     padding-bottom: 0.5rem;
     justify-items: center;
     align-items: center;
-    gap: .4rem;
-  }
-}
-
-.user-button {
-  background-color: #273e91;
-  color: #ffffff;
-  padding: 0.8rem;
-  border-radius: 1rem;
-  border: none;
-  cursor: pointer;
-  :hover {
-    background-color: #3758ce;
-  }
-
-  &-content {
-    display: flex;
-    gap: 0.8rem;
+    gap: 0.4rem;
+    .button {
+      padding: 0.5rem 1.2rem;
+    }
   }
 }
 </style>
