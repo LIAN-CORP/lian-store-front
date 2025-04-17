@@ -6,6 +6,7 @@ const product = {
   price: 100,
   quantity: 10,
 };
+const toast = useToast();
 const confirm = useConfirm();
 function editProduct() {
   console.log("editando......");
@@ -24,7 +25,12 @@ const onDelete = () => {
       severity: "danger",
     },
     accept: () => {
-      console.log("Producto eliminado");
+      toast.add({
+        severity: "success",
+        summary: "Producto eliminado",
+        detail: "El producto ha sido eliminado correctamente",
+        life: 3000,
+      });
     },
   });
 };
