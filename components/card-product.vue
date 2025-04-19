@@ -22,7 +22,7 @@ defineProps<{
       <div class="card-image">
         <img
           class="product-image"
-          src="https://www.droguerialaeconomia.com/economia/site/img/1x/643297.jpg"
+          src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/arroz-roa-1000-g-1.webp"
           alt="product-image"
         />
       </div>

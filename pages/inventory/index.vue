@@ -1,4 +1,7 @@
 <script setup lang="ts">
+const showForm = ref(false);
+const toast = useToast();
+const confirm = useConfirm();
 const product = {
   id: 1,
   product: "Producto 1",
@@ -6,12 +9,10 @@ const product = {
   price: 100,
   quantity: 10,
 };
-const toast = useToast();
-const confirm = useConfirm();
-function editProduct() {
-  console.log("editando......");
+function onEditProduct() {
+  showForm.value = true;
 }
-const onDelete = () => {
+function onDelete() {
   confirm.require({
     message: "¿Desea eliminar el producto?",
     header: "Eliminar producto",
@@ -33,7 +34,7 @@ const onDelete = () => {
       });
     },
   });
-};
+}
 </script>
 
 <template>
@@ -45,10 +46,15 @@ const onDelete = () => {
       :price="product.price"
       :quantity="product.quantity"
       @delete-product="onDelete"
-      @edit-product="editProduct"
+      @edit-product="onEditProduct"
     />
   </section>
   <ConfirmDialog />
+  <Dialog v-model:visible="showForm" modal maximizable header="Editar Producto">
+    <template #default>
+      <EditProductForm />
+    </template>
+  </Dialog>
 </template>
 
 <style scoped lang="scss">
