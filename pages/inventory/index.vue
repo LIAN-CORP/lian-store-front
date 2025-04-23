@@ -4,7 +4,9 @@ const toast = useToast();
 const confirm = useConfirm();
 const product = {
   id: 1,
-  product: "Producto 1",
+  name: "Producto 1",
+  image:
+    "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
   category: "Categoria 1",
   price: 100,
   quantity: 10,
@@ -41,7 +43,8 @@ function onDelete() {
   <section class="container">
     <CardProduct
       :id="product.id"
-      :product="product.product"
+      :name="product.name"
+      :image="product.image"
       :category="product.category"
       :price="product.price"
       :quantity="product.quantity"
