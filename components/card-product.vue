@@ -84,8 +84,6 @@ defineProps<{
         dt {
           font-weight: bold;
         }
-        dd {
-        }
       }
     }
   }
