@@ -94,18 +94,6 @@ defineProps<{
     justify-content: center;
     gap: 1rem;
     padding: 0.5rem;
-    .btn {
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      &-primary {
-        background-color: #007bff;
-        color: #fff;
-      }
-      &-danger {
-        background-color: #dc3545;
-        color: #fff;
-      }
-    }
   }
 }
 </style>
