@@ -1,16 +1,20 @@
 <script setup lang="ts">
+const showForm = ref(false);
+const toast = useToast();
+const confirm = useConfirm();
 const product = {
   id: 1,
-  product: "Producto 1",
+  name: "Producto 1",
+  image:
+    "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
   category: "Categoria 1",
   price: 100,
   quantity: 10,
 };
-const confirm = useConfirm();
-function editProduct() {
-  console.log("editando......");
+function onEditProduct() {
+  showForm.value = true;
 }
-const onDelete = () => {
+function onDelete() {
   confirm.require({
     message: "¿Desea eliminar el producto?",
     header: "Eliminar producto",
@@ -24,25 +28,36 @@ const onDelete = () => {
       severity: "danger",
     },
     accept: () => {
-      console.log("Producto eliminado");
+      toast.add({
+        severity: "success",
+        summary: "Producto eliminado",
+        detail: "El producto ha sido eliminado correctamente",
+        life: 3000,
+      });
     },
   });
-};
+}
 </script>
 
 <template>
   <section class="container">
     <CardProduct
       :id="product.id"
-      :product="product.product"
+      :name="product.name"
+      :image="product.image"
       :category="product.category"
       :price="product.price"
       :quantity="product.quantity"
       @delete-product="onDelete"
-      @edit-product="editProduct"
+      @edit-product="onEditProduct"
     />
   </section>
   <ConfirmDialog />
+  <Dialog v-model:visible="showForm" modal maximizable header="Editar Producto">
+    <template #default>
+      <EditProductForm />
+    </template>
+  </Dialog>
 </template>
 
 <style scoped lang="scss">

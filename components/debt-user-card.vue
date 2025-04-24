@@ -17,42 +17,36 @@ function formatAmount(amount: number): string {
 </script>
 
 <template>
-  <div class="host">
-    <div class="card-wrapper">
-      <article class="card">
-        <!-- Float Icon -->
-        <div class="card-icon">
-          <Icon icon="mingcute:user-4-fill" />
-        </div>
+  <div class="card-wrapper">
+    <article class="card">
+      <!-- Float Icon -->
+      <div class="card-icon">
+        <Icon icon="mingcute:user-4-fill" />
+      </div>
+      <div class="nothing"></div>
 
-        <div class="card-info">
-          <!-- Card Info -->
-          <h2 class="user-name">{{ name }}</h2>
-          <h3 class="user-amount-debt">${{ formatAmount(amount) }}</h3>
-          <!-- Button Details -->
-          <Button class="button" label="ver" @click="onSearchDebt">
-            <template #icon>
-              <Icon
-                icon="solar:card-search-linear"
-                width="1.5rem"
-                height="1.5rem"
-              />
-            </template>
-          </Button>
-        </div>
-      </article>
-    </div>
+      <div class="card-info">
+        <!-- Card Info -->
+        <h2 class="user-name">{{ name }}</h2>
+        <h3 class="user-amount-debt">${{ formatAmount(amount) }}</h3>
+        <!-- Button Details -->
+        <Button class="button" label="ver" @click="onSearchDebt">
+          <template #icon>
+            <Icon
+              icon="solar:card-search-linear"
+              width="1.5rem"
+              height="1.5rem"
+            />
+          </template>
+        </Button>
+      </div>
+    </article>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.host {
-  padding: 2rem 1rem 1rem 1rem;
-}
-
 .card-wrapper {
-  position: relative;
-  width: fit-content;
+  padding: 2rem 0rem 0rem;
 }
 
 .card {
@@ -62,9 +56,8 @@ function formatAmount(amount: number): string {
   box-shadow: 0px 5px 14px 1px rgba(0, 0, 0, 0.25);
   justify-items: center;
   align-items: center;
-  width: 15rem;
+  width: 100%;
   position: relative;
-  padding-top: 2.5rem;
 
   &-icon {
     position: absolute;
@@ -77,9 +70,15 @@ function formatAmount(amount: number): string {
 
     :deep(svg) {
       display: block;
-      width: 4rem;
-      height: 4rem;
+      width: 4em;
+      height: 4em;
     }
+  }
+  .nothing {
+    background-color: #273e91;
+    width: 100%;
+    border-radius: 1rem 1rem 0 0;
+    height: 2.5em;
   }
 
   &-info {

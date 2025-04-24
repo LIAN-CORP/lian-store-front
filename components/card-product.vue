@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 const emit = defineEmits(["deleteProduct", "editProduct"]);
+import defaultImage from "@/assets/images/missing_product.webp";
 function onDeleteProduct() {
   emit("deleteProduct");
 }
@@ -9,7 +10,8 @@ function onEditProduct() {
 }
 defineProps<{
   id: number;
-  product: string;
+  name: string;
+  image: string;
   category: string;
   price: number;
   quantity: number;
@@ -22,14 +24,14 @@ defineProps<{
       <div class="card-image">
         <img
           class="product-image"
-          src="https://www.droguerialaeconomia.com/economia/site/img/1x/643297.jpg"
+          :src="image || defaultImage"
           alt="product-image"
         />
       </div>
       <div class="card-content">
         <dl>
           <dt>Producto:</dt>
-          <dd>{{ product }}</dd>
+          <dd>{{ name }}</dd>
           <dt>Categoria:</dt>
           <dd>{{ category }}</dd>
           <dt>Precio:</dt>
@@ -64,15 +66,16 @@ defineProps<{
   box-shadow: 0px 5px 14px 1px rgba(0, 0, 0, 0.25);
   &-body {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     .card-image {
-      width: 250px;
-      padding: 0.5rem;
-      border-radius: 1rem;
+      display: grid;
+      padding: 1rem;
+      place-items: center;
       .product-image {
-        object-fit: contain;
+        max-height: 200px;
         width: 100%;
+        object-fit: contain;
       }
     }
     .card-content {
@@ -80,8 +83,6 @@ defineProps<{
       dl {
         dt {
           font-weight: bold;
-        }
-        dd {
         }
       }
     }
@@ -91,18 +92,6 @@ defineProps<{
     justify-content: center;
     gap: 1rem;
     padding: 0.5rem;
-    .btn {
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      &-primary {
-        background-color: #007bff;
-        color: #fff;
-      }
-      &-danger {
-        background-color: #dc3545;
-        color: #fff;
-      }
-    }
   }
 }
 </style>

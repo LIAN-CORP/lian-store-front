@@ -1,11 +1,13 @@
 @use "typography";
 @use "colors";
 @use "components/nav-bar";
+@use "components/toast";
+@use "components/file-loader";
 * {
-  font-family: "Poppins";
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: "Poppins";
 }
 body {
   background-color: colors.$blue-50;
