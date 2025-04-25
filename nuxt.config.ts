@@ -4,6 +4,7 @@ import { customPreset } from "./theme/theme.preset";
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
+  ssr: false,
   modules: ["@primevue/nuxt-module"],
   css: ["/assets/styles/main.scss"],
   primevue: {
