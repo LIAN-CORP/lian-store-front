@@ -24,8 +24,11 @@ const items = ref([
     },
   },
   {
-    label: "Informes",
+    label: "Movimientos",
     icon: "mdi:report-box",
+    command: () => {
+      router.push("/movements");
+    },
   },
 ]);
 </script>
