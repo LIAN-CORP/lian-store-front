@@ -11,7 +11,9 @@ export default defineNuxtConfig({
     options: {
       theme: {
         preset: customPreset,
-        darkModeSelector: false,
+        options: {
+          darkModeSelector: false || "none",
+        },
         cssLayer: {
           name: "primevue",
           order: "app-styles, primevue",
