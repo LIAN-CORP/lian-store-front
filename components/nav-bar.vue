@@ -2,8 +2,6 @@
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
 
-const router = useRouter();
-
 const items = ref([
   {
     label: "Transacción",
@@ -13,19 +11,22 @@ const items = ref([
     label: "Inventario",
     icon: "si:inventory-fill",
     command: () => {
-      router.push("/inventory");
+      navigateTo("/inventory");
     },
   },
   {
     label: "Deudores",
     icon: "lucide:book-user",
     command: () => {
-      router.push("/debts");
+      navigateTo("/debts");
     },
   },
   {
-    label: "Informes",
+    label: "Movimientos",
     icon: "mdi:report-box",
+    command: () => {
+      navigateTo("/movements");
+    },
   },
 ]);
 </script>
@@ -39,6 +40,7 @@ const items = ref([
       <template #itemicon="{ item }">
         <Icon :icon="item.icon!" width="1.5em" height="1.5em" />
       </template>
+      <template #item></template>
     </Menubar>
   </div>
 </template>
