@@ -8,6 +8,7 @@ const product = {
   image:
     "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
   category: "Categoria 1",
+  subcategory: "Subcategoria 1",
   price: 100,
   quantity: 10,
 };
@@ -46,6 +47,7 @@ function onDelete() {
       :name="product.name"
       :image="product.image"
       :category="product.category"
+      :subcategory="product.subcategory"
       :price="product.price"
       :quantity="product.quantity"
       @delete-product="onDelete"
@@ -67,7 +69,7 @@ function onDelete() {
   padding: 1rem;
   gap: 1rem;
 }
-@media (max-width: 768px) {
+@media (max-width: 400px) {
   .container {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
