@@ -69,7 +69,7 @@ function onDelete() {
   padding: 1rem;
   gap: 1rem;
 }
-@media (max-width: 400px) {
+@media (max-width: 430px) {
   .container {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
