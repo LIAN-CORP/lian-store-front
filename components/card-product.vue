@@ -13,6 +13,7 @@ defineProps<{
   name: string;
   image: string;
   category: string;
+  subcategory: string;
   price: number;
   quantity: number;
 }>();
@@ -34,6 +35,8 @@ defineProps<{
           <dd>{{ name }}</dd>
           <dt>Categoria:</dt>
           <dd>{{ category }}</dd>
+          <dt>Subcategoria:</dt>
+          <dd>{{ subcategory }}</dd>
           <dt>Precio:</dt>
           <dd>${{ price }}</dd>
           <dt>Cantidad:</dt>
@@ -66,11 +69,11 @@ defineProps<{
   box-shadow: 0px 5px 14px 1px rgba(0, 0, 0, 0.25);
   &-body {
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
+    justify-content: space-evenly;
     .card-image {
       display: grid;
-      padding: 1rem;
+      padding: 0.5rem;
       place-items: center;
       .product-image {
         max-height: 200px;
