@@ -84,6 +84,7 @@ defineProps<{
     .card-content {
       padding: 0.5rem;
       dl {
+        max-width: 250px;
         dt {
           font-weight: bold;
         }
