@@ -65,6 +65,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 .card {
+  background-color: #ffffff;
   border-radius: 1rem;
   box-shadow: 0px 5px 14px 1px rgba(0, 0, 0, 0.25);
   &-body {
@@ -82,11 +83,11 @@ defineProps<{
       }
     }
     .card-content {
-      padding: 0.5rem;
+      padding: 1rem 0.5rem;
       dl {
         max-width: 250px;
         dt {
-          font-weight: bold;
+          font-weight: 600;
         }
       }
     }
