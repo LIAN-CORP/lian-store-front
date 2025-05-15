@@ -1,16 +1,16 @@
-.p-fileupload-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  .p-button {
-    width: 100%;
+@use "../colors" as custom-colors;
+.p-fileupload {
+  background-color: custom-colors.$blue-100;
+  border-color: rgb(170, 170, 170);
+  &-header {
+    justify-content: center;
   }
-}
-.p-fileupload-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 150px;
+  &-file {
+    &-info {
+      width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }
