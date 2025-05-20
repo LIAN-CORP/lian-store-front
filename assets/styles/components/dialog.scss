@@ -1,0 +1,4 @@
+@use "../colors" as custom-colors;
+.p-dialog {
+  background-color: custom-colors.$blue-100;
+}

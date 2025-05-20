@@ -62,7 +62,7 @@ function onDelete() {
           </template>
         </Button>
       </InputGroup>
-      <Button severity="success" label="Nuevo producto" raised>
+      <Button severity="success" label="Nuevo producto" raised rounded>
         <template #icon>
           <Icon icon="grommet-icons:add" width="1.5em" height="1.5em" />
         </template>
