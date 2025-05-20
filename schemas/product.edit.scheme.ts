@@ -1,34 +1,35 @@
 import { z } from "zod";
 export const ProductEditScheme = z.object({
+  product: z
+    .string()
+    .min(10, {
+      message: "el nombre debe contener al menos 10 letras",
+    })
+    .optional(),
+
   priceSale: z
-    .number({
-      message: "El precio es requerido",
-    })
+    .number()
     .positive({
-      message: "El precio no puede ser menor o igual a 0",
+      message: "El precio no puede ser igual a 0",
     })
-    .min(100, {
-      message: "El precio debe ser mayor a 100 pesos",
-    }),
+    .min(50, {
+      message: "El precio debe ser mayor a 50 pesos",
+    })
+    .optional(),
   priceBuying: z
-    .number({
-      message: "El precio es requerido",
-    })
+    .number()
     .positive({
-      message: "El precio no puede ser menor o igual a 0",
+      message: "El precio no puede ser igual a 0",
     })
-    .min(100, {
-      message: "El precio debe ser mayor a 100 pesos",
-    }),
+    .min(50, {
+      message: "El precio debe ser mayor a 50 pesos",
+    })
+    .optional(),
   stock: z
-    .number({
-      message: "El precio es requerido",
-    })
-    .positive({
-      message: "El precio no puede ser menor o igual a 0",
-    })
+    .number()
+    .positive()
     .min(0, {
-      message: "El stock no puede ser mayor a 0",
+      message: "El stock no puede ser menor a 0",
     })
     .optional(),
 });

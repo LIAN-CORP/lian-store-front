@@ -6,6 +6,7 @@ import {
   ProductEditScheme,
   type ProductEditData,
 } from "~/schemas/product.edit.scheme";
+import CustomTextField from "./custom-text-field.vue";
 
 const resolver = ref(zodResolver(ProductEditScheme));
 
@@ -25,8 +26,9 @@ function onShowSubcategoryForm() {
 }
 
 const productData = ref<ProductEditData>({
-  priceSale: 0,
+  product: "",
   priceBuying: 0,
+  priceSale: 0,
   stock: 0,
 });
 
@@ -62,64 +64,40 @@ const onFormSubmit = ({ valid }: FormSubmitEvent) => {
       :chooseButtonProps="{
         severity: 'contrast',
       }"
-      chooseIcon=" "
+      chooseIcon="none"
     />
-    <div class="formField">
-      <FloatLabel variant="on">
-        <InputNumber
-          inputId="priceSale"
-          name="priceSale"
-          fluid
-          v-model="productData.priceSale"
-        />
-        <label for="priceSale">Precio de venta</label>
-      </FloatLabel>
-      <Message
-        v-if="$form.priceSale?.invalid"
-        variant="simple"
-        size="small"
-        severity="error"
-        >{{ $form.priceSale.error?.message }}</Message
-      >
-    </div>
-    <div class="formField">
-      <FloatLabel variant="on">
-        <InputNumber
-          inputId="priceBuying"
-          name="priceBuying"
-          fluid
-          v-model="productData.priceBuying"
-        />
-        <label for="priceBuying">Precio de compra</label>
-      </FloatLabel>
-      <Message
-        v-if="$form.priceBuying?.invalid"
-        variant="simple"
-        size="small"
-        severity="error"
-        >{{ $form.priceBuying.error?.message }}</Message
-      >
-    </div>
-    <div class="formField">
-      <FloatLabel variant="on">
-        <InputNumber
-          inputId="stockID"
-          name="stock"
-          fluid
-          v-model="productData.stock"
-          showButtons
-        />
-        <label for="stockID">Cantidad</label>
-      </FloatLabel>
-      <Message
-        v-if="$form.stock?.invalid"
-        variant="simple"
-        size="small"
-        severity="error"
-        >{{ $form.stock.error?.message }}</Message
-      >
-    </div>
-
+    <CustomTextField
+      label="nombre del producto"
+      id="idNameProduct"
+      name="product"
+      v-model="productData.product"
+      :error="$form.product?.error?.message"
+    />
+    <CustomNumberField
+      label="precio de venta"
+      id="idPriceSale"
+      name="priceSale"
+      v-model="productData.priceSale"
+      :error="$form.priceSale?.error?.message"
+      :options="{ prefix: '$', min: 0 }"
+    />
+    <CustomNumberField
+      label="precio de compra"
+      id="idPriceBuying"
+      name="priceBuying"
+      v-model="productData.priceBuying"
+      :error="$form.priceBuying?.error?.message"
+      :options="{ prefix: '$', min: 0 }"
+    />
+    <CustomNumberField
+      label="cantidad"
+      id="idStock"
+      name="stock"
+      v-model="productData.stock"
+      :showButtons="true"
+      :error="$form.stock?.error?.message"
+      :options="{ min: 0, suffix: ' u/c' }"
+    />
     <article class="category-form">
       <InputGroup>
         <InputGroupAddon>
