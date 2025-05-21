@@ -1,0 +1,5 @@
+@use "../colors" as custom-colors;
+.p-datatable-header-cell {
+  background-color: custom-colors.$blue-950;
+  color: custom-colors.$text-secondary;
+}
