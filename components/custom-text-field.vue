@@ -83,4 +83,12 @@ defineProps({
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.p-inputtext {
+  background-color: #eef2ff;
+
+  &-fluid {
+    background-color: #eef2ff;
+  }
+}
+</style>
