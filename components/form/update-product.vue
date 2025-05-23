@@ -6,7 +6,6 @@ import {
   ProductEditScheme,
   type ProductEditData,
 } from "~/schemas/product.edit.scheme";
-import CustomTextField from "./custom-text-field.vue";
 
 const resolver = ref(zodResolver(ProductEditScheme));
 
@@ -115,7 +114,7 @@ const onFormSubmit = ({ valid }: FormSubmitEvent) => {
           :disabled="showCategory"
         />
       </InputGroup>
-      <CategoriesForm v-if="showCategory" />
+      <FormNewCategory v-if="showCategory" />
     </article>
 
     <article v-if="selected != null || showCategory" class="subcategory-form">
@@ -133,7 +132,7 @@ const onFormSubmit = ({ valid }: FormSubmitEvent) => {
           :disabled="showSubcategory || showCategory"
         />
       </InputGroup>
-      <CategoriesForm v-if="showSubcategory || showCategory" />
+      <FormNewCategory v-if="showSubcategory || showCategory" />
     </article>
 
     <Button type="submit" severity="success" rounded raised label="Guardar">

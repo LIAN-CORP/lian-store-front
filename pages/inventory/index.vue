@@ -93,7 +93,7 @@ function onDelete() {
   <ConfirmDialog />
   <Dialog v-model:visible="showForm" modal maximizable header="Editar Producto">
     <template #default>
-      <EditProductForm />
+      <FormUpdateProduct />
     </template>
   </Dialog>
 </template>
