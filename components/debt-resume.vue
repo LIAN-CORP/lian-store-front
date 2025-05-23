@@ -39,11 +39,11 @@ function redirect() {
       :value="debts"
       scrollHeight="300px"
       :virtual-scroller-options="{
-        itemSize: 5,
+        itemSize: 4,
         lazy: true,
         showLoader: true,
       }"
-      :rows="5"
+      :rows="4"
     >
       <Column field="date" header="Fecha" />
       <Column field="invoice" header="Factura" />
@@ -63,14 +63,16 @@ function redirect() {
         </template>
       </Column>
     </DataTable>
-    <BadgeDisplay
-      label="Total:"
-      value="390"
-      backgroundColor="#172455"
-      color="#ffffff"
-      borderColor="#172455"
-      withContainer
-    />
+    <div class="resume-badge">
+      <BadgeDisplay
+        label="Total:"
+        value="390"
+        backgroundColor="#172455"
+        color="#ffffff"
+        borderColor="#172455"
+        withContainer
+      />
+    </div>
   </article>
 </template>
 
@@ -80,5 +82,11 @@ function redirect() {
   flex-direction: column;
   gap: 1rem;
   justify-content: center;
+  &-badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+  }
 }
 </style>
