@@ -87,7 +87,7 @@ defineProps<{}>();
           </template>
         </Button>
       </div>
-      <CategoriesForm v-if="show == true" />
+      <FormNewPayment v-if="show == true" />
       <DataTable
         :value="products"
         scrollHeight="200px"
