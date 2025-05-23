@@ -1,6 +1,4 @@
-<script lang="ts" setup>
-import { Textarea } from "primevue";
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <Form class="new-category">
