@@ -1,13 +1,33 @@
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue/dist/iconify.js";
-
+import { Dialog } from "primevue";
+const payments = ref([
+  {
+    date: "2023-10-01",
+    id: "123456",
+    total: 100,
+  },
+  {
+    date: "2023-10-02",
+    id: "123457",
+    total: 200,
+  },
+  {
+    date: "2023-10-03",
+    id: "123458",
+    total: 300,
+  },
+]);
+const detailsDialog = ref(false);
 const selectedItem = ref();
 const options = ref([
   { name: "Ventas" },
   { name: "Compras" },
   { name: "Deudas a cobrar" },
 ]);
-const payments = ref();
+function showDetails() {
+  detailsDialog.value = true;
+}
 </script>
 
 <template>
@@ -35,8 +55,8 @@ const payments = ref();
         <Column field="id" header="Factura" />
         <Column field="total" header="Total" />
         <Column field="actions" header="Acciones">
-          <template #body>
-            <Button variant="text" severity="info">
+          <template #body="{ data }">
+            <Button variant="text" severity="info" @click="showDetails()">
               <template #icon>
                 <Icon
                   icon="lets-icons:chat-search"
@@ -51,6 +71,16 @@ const payments = ref();
       </DataTable>
     </div>
   </section>
+  <Dialog
+    modal
+    header=""
+    :style="{ width: '90vw', maxWidth: 'none' }"
+    v-model:visible="detailsDialog"
+  >
+    <template #default>
+      <InvoiceDetails />
+    </template>
+  </Dialog>
 </template>
 
 <style lang="scss" scoped>
