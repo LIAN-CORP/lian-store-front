@@ -88,8 +88,19 @@ function formatAmount(amount: number): string {
     justify-items: center;
     align-items: center;
     gap: 0.4rem;
-    .button {
-      padding: 0.5rem 1.2rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .card {
+    &-icon {
+      :deep(svg) {
+        width: 3em;
+        height: 3em;
+      }
+    }
+    &-info {
+      font-size: 0.7rem;
     }
   }
 }
