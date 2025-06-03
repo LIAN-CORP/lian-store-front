@@ -28,7 +28,7 @@ defineProps<{
   height: 100%;
   gap: 1rem;
   border-radius: 0 5px 5px 0;
-  border: 1px solid #edeaea;
+  border: 1px solid #c5c4c4;
   border-left: none;
   padding: 0.5rem;
   &-container {
