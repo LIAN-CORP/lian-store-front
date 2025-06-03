@@ -51,18 +51,18 @@ function onCellEditComplete(event: any) {
         <Column field="total" header="Total" />
       </DataTable>
     </article>
+    <div class="separator">
+      <Select placeholder="Tipo de pago" fluid />
+      <BadgeDisplay
+        class="transaction-footer-badge"
+        label="Total:"
+        value="390"
+        color="#000000"
+        withContainer
+        radius="10px"
+      />
+    </div>
     <article class="transaction-footer">
-      <div class="separator">
-        <Select placeholder="Tipo de pago" fluid />
-        <BadgeDisplay
-          class="transaction-footer-badge"
-          label="Total:"
-          value="390"
-          color="#000000"
-          withContainer
-          radius="10px"
-        />
-      </div>
       <Button label="crear" severity="success" />
     </article>
   </section>
@@ -94,16 +94,17 @@ function onCellEditComplete(event: any) {
       }
     }
   }
+  .separator {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
   &-footer {
     display: flex;
     flex-direction: column;
-
+    align-items: center;
     gap: 1rem;
-    .separator {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+
     &-badge {
       width: 100%;
     }
@@ -116,10 +117,8 @@ function onCellEditComplete(event: any) {
     &-header {
       flex-direction: column;
     }
-    &-footer {
-      .separator {
-        flex-direction: column-reverse;
-      }
+    .separator {
+      flex-direction: column-reverse;
     }
   }
 }
