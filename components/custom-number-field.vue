@@ -87,4 +87,12 @@ defineProps({
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.formField {
+  ::v-deep(.p-inputnumber) {
+    .p-inputnumber-input {
+      background-color: #eef2ff;
+    }
+  }
+}
+</style>
