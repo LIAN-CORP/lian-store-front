@@ -69,7 +69,7 @@ function onDelete() {
       </Button>
     </div>
     <article class="inventory-products">
-      <CardProduct
+      <InventoryCardProduct
         :id="product.id"
         :name="product.name"
         :image="product.image"
@@ -93,7 +93,7 @@ function onDelete() {
   <ConfirmDialog />
   <Dialog v-model:visible="showForm" modal maximizable header="Editar Producto">
     <template #default>
-      <FormUpdateProduct />
+      <InventoryUpdateProduct />
     </template>
   </Dialog>
 </template>

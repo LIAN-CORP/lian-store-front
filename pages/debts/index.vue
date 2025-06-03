@@ -29,7 +29,7 @@ function onSearchDebt() {}
       </InputGroup>
     </article>
     <article class="debt-clients">
-      <DebtUserCard name="Erick" :amount="100" @search-debt="onShowResume" />
+      <DebtsUserCard name="Erick" :amount="100" @search-debt="onShowResume" />
     </article>
     <article class="debt-footer">
       <Paginator
@@ -48,7 +48,7 @@ function onSearchDebt() {}
     :style="{ width: '90vw', maxWidth: 'none' }"
   >
     <template #default>
-      <DebtResume />
+      <DebtsInvoiceCollection />
     </template>
   </Dialog>
 </template>
