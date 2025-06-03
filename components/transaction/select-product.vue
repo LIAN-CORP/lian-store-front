@@ -77,7 +77,7 @@ function onProductChange() {
       </InputGroup>
     </div>
     <div class="select-content">
-      <DataView :value="products" data-key="id">
+      <DataView :value="products" data-key="id" class="algo">
         <template #list="data">
           <section class="cards-container">
             <article
@@ -109,20 +109,22 @@ function onProductChange() {
 
 <style lang="scss" scoped>
 .select {
-  background-color: #f8fbfd;
+  background-color: #eef2ff;
+
   &-header {
     padding: 1rem;
   }
   &-content {
     .cards-container {
       display: grid;
-      align-items: start;
       padding: 1rem;
       gap: 1rem;
-      background-color: #f8fbfd;
-      height: 800px;
+      background-color: #eef2ff;
+      height: 500px;
       overflow-y: auto;
       scrollbar-width: 2px;
+      box-shadow: inset 0px 0px 17px 0px rgba(0, 0, 0, 0.12);
+
       .product-card {
         display: flex;
         height: 100%;
@@ -138,6 +140,20 @@ function onProductChange() {
         &-label:hover {
           background-color: #8486e5;
         }
+      }
+    }
+  }
+}
+@media (max-width: 800px) {
+  .select {
+    &-header {
+      padding: 0.5rem;
+    }
+    &-content {
+      .cards-container {
+        padding: 0.2rem;
+        gap: 1rem;
+        height: 300px;
       }
     }
   }
