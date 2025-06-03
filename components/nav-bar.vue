@@ -8,6 +8,9 @@ const items = ref([
   {
     label: "Transacción",
     icon: "hugeicons:transaction",
+    command: () => {
+      router.push("/transaction");
+    },
   },
   {
     label: "Inventario",
