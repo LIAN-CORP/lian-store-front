@@ -6,13 +6,14 @@ defineProps<{
   borderColor?: string;
   value: number | string;
   withContainer?: boolean;
+  radius?: string;
 }>();
 </script>
 
 <template>
   <div
     :style="[
-      { color: color },
+      { color: color, borderRadius: radius },
       withContainer
         ? {
             backgroundColor: backgroundColor,
