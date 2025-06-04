@@ -114,7 +114,7 @@ const onFormSubmit = ({ valid }: FormSubmitEvent) => {
           :disabled="showCategory"
         />
       </InputGroup>
-      <FormNewCategory v-if="showCategory" />
+      <InventoryNewCategory v-if="showCategory" />
     </article>
 
     <article v-if="selected != null || showCategory" class="subcategory-form">
@@ -132,7 +132,7 @@ const onFormSubmit = ({ valid }: FormSubmitEvent) => {
           :disabled="showSubcategory || showCategory"
         />
       </InputGroup>
-      <FormNewCategory v-if="showSubcategory || showCategory" />
+      <InventoryNewCategory v-if="showSubcategory || showCategory" />
     </article>
 
     <Button type="submit" severity="success" rounded raised label="Guardar">

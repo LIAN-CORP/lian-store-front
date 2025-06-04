@@ -78,7 +78,7 @@ function showDetails() {
     v-model:visible="detailsDialog"
   >
     <template #default>
-      <InvoiceDetails />
+      <MovementsInvoiceDetails />
     </template>
   </Dialog>
 </template>
