@@ -67,7 +67,7 @@ function onCellEditComplete(event: any) {
       <Select placeholder="deudor" fluid />
       <Button label="+" />
     </div>
-    <DebtsNewDebtor input-color="#f8fbfd" />
+    <DebtsNewDebtor input-color="#FFFFFF" />
   </section>
   <Dialog v-model:visible="selectComponent" modal>
     <template #default>
