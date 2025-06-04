@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-const select = ref(false);
+const selectComponent = ref(false);
+function onShowSelectComponent() {
+  selectComponent.value = !selectComponent.value;
+}
 const selectedProducts = ref([
   {
     id: 1,
@@ -8,9 +11,7 @@ const selectedProducts = ref([
     quantity: 0,
   },
 ]);
-function onShowSelect() {
-  select.value = !select.value;
-}
+
 function onCellEditComplete(event: any) {
   const { data, field, newValue } = event;
   data[field] = newValue;
@@ -22,7 +23,7 @@ function onCellEditComplete(event: any) {
     <article class="transaction-header">
       <Button
         label="agregar producto"
-        @click="onShowSelect"
+        @click="onShowSelectComponent"
         severity="success"
       />
       <Select placeholder="Tipo de Movimiento" />
@@ -54,7 +55,7 @@ function onCellEditComplete(event: any) {
     <div class="separator">
       <Select placeholder="Tipo de pago" fluid />
       <BadgeDisplay
-        class="transaction-footer-badge"
+        class="separator-badge"
         label="Total:"
         value="390"
         color="#000000"
@@ -62,11 +63,13 @@ function onCellEditComplete(event: any) {
         radius="10px"
       />
     </div>
-    <article class="transaction-footer">
-      <Button label="crear" severity="success" />
-    </article>
+    <div class="transaction-debtor">
+      <Select placeholder="deudor" fluid />
+      <Button label="+" />
+    </div>
+    <DebtsNewDebtor input-color="#f8fbfd" />
   </section>
-  <Dialog v-model:visible="select" modal>
+  <Dialog v-model:visible="selectComponent" modal>
     <template #default>
       <TransactionSelectProduct />
     </template>
@@ -98,16 +101,15 @@ function onCellEditComplete(event: any) {
     display: flex;
     align-items: center;
     gap: 1rem;
-  }
-  &-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-
     &-badge {
       width: 100%;
     }
+  }
+  &-debtor {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    gap: 1rem;
   }
 }
 @media (max-width: 500px) {
