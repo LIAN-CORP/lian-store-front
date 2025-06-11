@@ -9,7 +9,7 @@
   &-item {
     &-content {
       color: custom-colors.$text-secondary;
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
   }
   &-submenu {
@@ -30,11 +30,15 @@
       }
       &-root-list {
         background-color: custom-colors.$blue-950;
+        .p-focus {
+          --p-menubar-item-focus-background: transparent;
+          --p-menubar-item-focus-color: white;
+        }
       }
       &-item {
         &-content {
           color: custom-colors.$text-secondary;
-          font-size: 1rem;
+          font-size: 0.7rem;
         }
       }
     }
