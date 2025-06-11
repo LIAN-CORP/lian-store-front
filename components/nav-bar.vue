@@ -7,10 +7,6 @@ const route = useRoute();
 function isActive(itemRoute: string) {
   return route.path == itemRoute;
 }
-
-onMounted(() => {
-  console.log("El componente se ha renderizado");
-});
 const items = ref([
   {
     label: "Transacción",
