@@ -14,7 +14,7 @@ const items = ref([
     to: "/transaction",
     class: "active_item",
     command: () => {
-      navigateTo("/transaction");
+      router.push("/transaction");
     },
   },
   {
