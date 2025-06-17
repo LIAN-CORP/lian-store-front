@@ -7,7 +7,18 @@
         "logout": "Logout"
     },
     "debtors": {
-        "search": "Search Debtor",
+        "search": "Search debtor",
         "details": "details"
+    },
+    "inventory":{
+        "search": "Search product",
+        "newProduct": "New product",
+        "labels":{
+            "name": "Product",
+            "category": "Category",
+            "subcategory": "Subcategory",
+            "price": "Price",
+            "stock": "Stock"
+        }
     }
 }
