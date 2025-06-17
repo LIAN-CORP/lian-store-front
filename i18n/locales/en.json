@@ -20,5 +20,22 @@
             "price": "Price",
             "stock": "Stock"
         }
+    },
+    "movements":{
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "filterButton": "Search",
+        "selectPlaceholder": "Select type of movement",
+        "table": {
+            "date": "Date",
+            "invoice": "Invoice",
+            "total": "Total",
+            "actions": "Actions"
+        },
+        "select": {
+            "sales": "Sales",
+            "purchases": "Purchases",
+            "debts": "Debts to collect"
+        }
     }
 }
