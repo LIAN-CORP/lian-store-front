@@ -1,3 +1,9 @@
 {
-    "hello": "hola en español"
+    "menuOptions": {
+        "transaction": "Transacción",
+        "inventory": "Inventario",
+        "debtors": "Deudores",
+        "movements": "Movimientos",
+        "logout": "Salir"
+    }
 }

@@ -1,3 +1,9 @@
 {
-    "hello": "hello in english"
+    "menuOptions": {
+        "transaction": "Transaction",
+        "inventory": "Inventory",
+        "debtors": "Debtors",
+        "movements": "Movements",
+        "logout": "Logout"
+    }
 }
