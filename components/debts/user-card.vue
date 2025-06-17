@@ -30,7 +30,11 @@ function formatAmount(amount: number): string {
         <h2 class="user-name">{{ name }}</h2>
         <h3 class="user-amount-debt">${{ formatAmount(amount) }}</h3>
         <!-- Button Details -->
-        <Button class="button" label="ver" @click="onSearchDebt">
+        <Button
+          class="button"
+          :label="$t('debtors.details')"
+          @click="onSearchDebt"
+        >
           <template #icon>
             <Icon
               icon="solar:card-search-linear"

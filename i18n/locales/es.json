@@ -5,5 +5,9 @@
         "debtors": "Deudores",
         "movements": "Movimientos",
         "logout": "Salir"
+    },
+    "debtors": {
+        "search": "Buscar Deudor",
+        "details": "detalles"
     }
 }

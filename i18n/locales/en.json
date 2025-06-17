@@ -5,5 +5,9 @@
         "debtors": "Debtors",
         "movements": "Movements",
         "logout": "Logout"
+    },
+    "debtors": {
+        "search": "Search Debtor",
+        "details": "details"
     }
 }

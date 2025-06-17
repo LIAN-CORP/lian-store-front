@@ -19,7 +19,7 @@ function onSearchDebt() {}
           id="in_label"
           v-model="searchValue"
           variant="filled"
-          placeholder="Buscar producto"
+          :placeholder="$t('debtors.search')"
         />
         <Button severity="info" @click="onSearch">
           <template #icon>
