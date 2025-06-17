@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 
+const activeLanguage = ref();
 const router = useRouter();
 const route = useRoute();
 
 function isActive(itemRoute: string) {
   return route.path == itemRoute;
 }
+
 const items = ref([
   {
     label: "Transacción",
@@ -46,6 +48,11 @@ const items = ref([
     type: "logout",
   },
 ]);
+
+const languages = ref([
+  { unicode: "🇨🇴", code: "es" },
+  { unicode: "🇬🇧", code: "en" },
+]);
 </script>
 
 <template>
@@ -57,7 +64,7 @@ const items = ref([
           style: isActive(context.item.to) ? 'background-color: #4155a4' : '',
         }),
       }"
-      breakpoint="1000px"
+      breakpoint="1020px"
     >
       <template #start>
         <h1>Lian Corp</h1>
@@ -77,6 +84,25 @@ const items = ref([
           style="color: #ff0101"
         />
       </template>
+
+      <template #end>
+        <Select
+          default-value="es"
+          size="small"
+          v-model="activeLanguage"
+          :options="languages"
+          option-value="code"
+          option-label="unicode"
+          @change="$i18n.setLocale(activeLanguage)"
+        >
+          <template #option="slotProps">
+            <div class="options-label">
+              <span>{{ slotProps.option.unicode }}</span>
+              <span>{{ slotProps.option.code.toUpperCase() }}</span>
+            </div>
+          </template>
+        </Select>
+      </template>
     </Menubar>
   </div>
 </template>
@@ -86,5 +112,13 @@ h1 {
   color: #ffffff;
   font-family: "LibreBarCode128";
   font-size: 3rem;
+}
+.options-label {
+  display: flex;
+  gap: 0.5rem;
+}
+.p-select {
+  background-color: #172455;
+  border: solid 1px #364065;
 }
 </style>
