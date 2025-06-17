@@ -5,8 +5,9 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   ssr: false,
-  modules: ["@primevue/nuxt-module"],
+  modules: ["@primevue/nuxt-module", "@nuxtjs/i18n"],
   css: ["/assets/styles/main.scss"],
+
   primevue: {
     options: {
       theme: {
@@ -19,6 +20,17 @@ export default defineNuxtConfig({
           order: "app-styles, primevue",
         },
       },
+    },
+  },
+
+  i18n: {
+    defaultLocale: "en",
+    locales: [
+      { code: "es", name: "Spanish", file: "es.json" },
+      { code: "en", name: "English", file: "en.json" },
+    ],
+    bundle: {
+      optimizeTranslationDirective: false,
     },
   },
 });
