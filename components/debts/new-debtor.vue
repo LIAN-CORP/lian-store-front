@@ -10,16 +10,20 @@ defineProps<{
       <CustomTextField
         id="clientNameID"
         name="clientName"
-        label="Nombre del cliente"
+        :label="$t('transaction.formDebtor.name')"
         :input-color="inputColor"
       />
       <CustomTextField
         id="clientPhoneID"
         name="clientPhone"
-        label="Teléfono del cliente"
+        :label="$t('transaction.formDebtor.phone')"
         :input-color="inputColor"
       />
-      <Button type="submit" label="Crear" severity="success" />
+      <Button
+        type="submit"
+        :label="$t('transaction.formDebtor.saveButton')"
+        severity="success"
+      />
     </Form>
   </section>
 </template>

@@ -6,9 +6,22 @@
         "movements": "Movimientos",
         "logout": "Salir"
     },
-    "debtors": {
-        "search": "Buscar deudor",
-        "details": "detalles"
+    "transaction": {
+        "addProduct": "Añadir producto",
+        "typeMovementPlaceholder": "Tipo de movimiento",
+        "debtorSelectPlaceholder": "Deudor",
+        "paymentTypePlaceholder": "Tipo de pago",
+        "table": {
+            "product": "Producto",
+            "quantity": "Cantidad",
+            "price": "Precio",
+            "total": "Total"
+        },
+        "formDebtor": {
+            "name": "Nombre del cliente",
+            "phone": "Número del cliente",
+            "saveButton": "Guardar"
+        }
     },
     "inventory":{
         "search": "Buscar producto",
@@ -19,6 +32,16 @@
             "subcategory": "Subcategoria",
             "price": "Precio",
             "stock": "Stock"
+        }
+    },
+     "debtors": {
+        "search": "Buscar deudor",
+        "details": "detalles",
+        "detailsTable": {
+            "date": "Fecha",
+            "invoice": "Factura",
+            "total": "Total",
+            "Actions": "Acciones"
         }
     },
     "movements":{

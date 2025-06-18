@@ -6,9 +6,22 @@
         "movements": "Movements",
         "logout": "Logout"
     },
-    "debtors": {
-        "search": "Search debtor",
-        "details": "details"
+    "transaction": {
+        "addProduct": "Add product",
+        "typeMovementPlaceholder": "Type of movement",
+        "debtorSelectPlaceholder": "Debtor",
+        "paymentTypePlaceholder": "Payment Type",
+        "table": {
+            "product": "Product",
+            "quantity": "Quantity",
+            "price": "Price",
+            "total": "Total"
+        },
+        "formDebtor": {
+            "name": "Client name",
+            "phone": "Phone number",
+            "saveButton": "Save"
+        }
     },
     "inventory":{
         "search": "Search product",
@@ -19,6 +32,16 @@
             "subcategory": "Subcategory",
             "price": "Price",
             "stock": "Stock"
+        }
+    },
+     "debtors": {
+        "search": "Search debtor",
+        "details": "details",
+        "detailsTable": {
+            "date": "Date",
+            "invoice": "Invoice",
+            "total": "Total",
+            "Actions": "Actions"
         }
     },
     "movements":{
