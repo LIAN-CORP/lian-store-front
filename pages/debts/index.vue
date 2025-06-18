@@ -19,7 +19,7 @@ function onSearchDebt() {}
           id="in_label"
           v-model="searchValue"
           variant="filled"
-          placeholder="Buscar producto"
+          :placeholder="$t('debtors.search')"
         />
         <Button severity="info" @click="onSearch">
           <template #icon>
@@ -44,7 +44,7 @@ function onSearchDebt() {}
     v-model:visible="showResume"
     modal
     maximizable
-    header="Deudas"
+    :header="$t('debtors.modalTitle')"
     :style="{ width: '90vw', maxWidth: 'none' }"
   >
     <template #default>

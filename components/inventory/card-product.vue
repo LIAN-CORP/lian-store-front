@@ -31,15 +31,15 @@ defineProps<{
       </div>
       <div class="card-content">
         <dl>
-          <dt>Producto:</dt>
+          <dt>{{ $t("inventory.labels.name") }}:</dt>
           <dd>{{ name }}</dd>
-          <dt>Categoria:</dt>
+          <dt>{{ $t("inventory.labels.category") }}:</dt>
           <dd>{{ category }}</dd>
-          <dt>Subcategoria:</dt>
+          <dt>{{ $t("inventory.labels.subcategory") }}:</dt>
           <dd>{{ subcategory }}</dd>
-          <dt>Precio:</dt>
+          <dt>{{ $t("inventory.labels.price") }}:</dt>
           <dd>${{ price }}</dd>
-          <dt>Cantidad:</dt>
+          <dt>{{ $t("inventory.labels.stock") }}:</dt>
           <dd>{{ quantity }} u/c</dd>
         </dl>
       </div>

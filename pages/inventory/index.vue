@@ -3,8 +3,6 @@ import { Icon } from "@iconify/vue/dist/iconify.js";
 
 const showForm = ref(false);
 const searchValue = ref("");
-const toast = useToast();
-const confirm = useConfirm();
 const product = {
   id: 1,
   name: "Producto 1",
@@ -21,29 +19,7 @@ function showSearch() {
 function onEditProduct() {
   showForm.value = true;
 }
-function onDelete() {
-  confirm.require({
-    message: "¿Desea eliminar el producto?",
-    header: "Eliminar producto",
-    rejectProps: {
-      label: "Cancelar",
-      severity: "secondary",
-      outlined: true,
-    },
-    acceptProps: {
-      label: "Eliminar",
-      severity: "danger",
-    },
-    accept: () => {
-      toast.add({
-        severity: "success",
-        summary: "Producto eliminado",
-        detail: "El producto ha sido eliminado correctamente",
-        life: 3000,
-      });
-    },
-  });
-}
+function onDelete() {}
 </script>
 
 <template>
@@ -54,7 +30,7 @@ function onDelete() {
           id="in_label"
           v-model="searchValue"
           variant="filled"
-          placeholder="Buscar producto"
+          :placeholder="$t('inventory.search')"
         />
         <Button severity="info" @click="showSearch">
           <template #icon>
@@ -62,7 +38,12 @@ function onDelete() {
           </template>
         </Button>
       </InputGroup>
-      <Button severity="success" label="Nuevo producto" raised rounded>
+      <Button
+        severity="success"
+        :label="$t('inventory.newProduct')"
+        raised
+        rounded
+      >
         <template #icon>
           <Icon icon="grommet-icons:add" width="1.5em" height="1.5em" />
         </template>

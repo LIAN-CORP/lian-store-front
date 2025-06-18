@@ -22,11 +22,11 @@ function onCellEditComplete(event: any) {
   <section class="transaction">
     <article class="transaction-header">
       <Button
-        label="agregar producto"
+        :label="$t('transaction.addProduct')"
         @click="onShowSelectComponent"
         severity="success"
       />
-      <Select placeholder="Tipo de Movimiento" />
+      <Select :placeholder="$t('transaction.typeMovementPlaceholder')" />
     </article>
 
     <article class="transaction-body">
@@ -36,8 +36,8 @@ function onCellEditComplete(event: any) {
         edit-mode="cell"
         @cell-edit-complete="onCellEditComplete"
       >
-        <Column field="product" header="Producto" />
-        <Column field="quantity" header="Cantidad">
+        <Column field="product" :header="$t('transaction.table.product')" />
+        <Column field="quantity" :header="$t('transaction.table.quantity')">
           <template #editor="{ data, field }">
             <InputNumber
               v-model="data[field]"
@@ -48,23 +48,23 @@ function onCellEditComplete(event: any) {
             />
           </template>
         </Column>
-        <Column field="price" header="Precio" />
-        <Column field="total" header="Total" />
+        <Column field="price" :header="$t('transaction.table.price')" />
+        <Column field="total" :header="$t('transaction.table.total')" />
       </DataTable>
     </article>
     <div class="separator">
-      <Select placeholder="Tipo de pago" fluid />
+      <Select :placeholder="$t('transaction.paymentTypePlaceholder')" fluid />
       <BadgeDisplay
         class="separator-badge"
         label="Total:"
-        value="390"
+        value="$390"
         color="#000000"
         withContainer
         radius="10px"
       />
     </div>
     <div class="transaction-debtor">
-      <Select placeholder="deudor" fluid />
+      <Select :placeholder="$t('transaction.debtorSelectPlaceholder')" fluid />
       <Button label="+" />
     </div>
     <DebtsNewDebtor input-color="#FFFFFF" />

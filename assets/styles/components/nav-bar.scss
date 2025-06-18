@@ -1,11 +1,22 @@
 @use "../colors" as custom-colors;
 .p-menubar {
   display: flex;
-  justify-content: space-between;
   background-color: custom-colors.$blue-950;
   border-radius: 0 0 0.5rem 0.5rem;
   border: none;
-  padding: 2rem;
+  padding: 1rem;
+  &-root-list {
+    flex-grow: 1;
+    justify-content: center;
+  }
+  &-start {
+    display: flex;
+  }
+  &-end {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
   &-item {
     &-content {
       color: custom-colors.$text-secondary;
@@ -23,12 +34,14 @@
     padding: 1rem;
     .p-menubar {
       &-button {
+        order: 1;
         color: custom-colors.$text-secondary;
       }
       &-button:hover {
         color: custom-colors.$text-primary;
       }
       &-root-list {
+        justify-content: center;
         background-color: custom-colors.$blue-950;
         .p-focus {
           --p-menubar-item-focus-background: transparent;

@@ -56,7 +56,7 @@ const onFormSubmit = ({ valid }: FormSubmitEvent) => {
       accept="image/*"
       :maxFileSize="10000000"
       @upload="onUpload"
-      chooseLabel="cambiar imagen"
+      :chooseLabel="$t('inventory.form.changeImage')"
       :fileLimit="1"
       :showUploadButton="false"
       :showCancelButton="false"
@@ -66,14 +66,14 @@ const onFormSubmit = ({ valid }: FormSubmitEvent) => {
       chooseIcon="none"
     />
     <CustomTextField
-      label="nombre del producto"
+      :label="$t('inventory.form.name')"
       id="idNameProduct"
       name="product"
       v-model="productData.product"
       :error="$form.product?.error?.message"
     />
     <CustomNumberField
-      label="precio de venta"
+      :label="$t('inventory.form.salePrice')"
       id="idPriceSale"
       name="priceSale"
       v-model="productData.priceSale"
@@ -81,7 +81,7 @@ const onFormSubmit = ({ valid }: FormSubmitEvent) => {
       :options="{ prefix: '$', min: 0 }"
     />
     <CustomNumberField
-      label="precio de compra"
+      :label="$t('inventory.form.buyingPrice')"
       id="idPriceBuying"
       name="priceBuying"
       v-model="productData.priceBuying"
@@ -89,7 +89,7 @@ const onFormSubmit = ({ valid }: FormSubmitEvent) => {
       :options="{ prefix: '$', min: 0 }"
     />
     <CustomNumberField
-      label="cantidad"
+      :label="$t('inventory.form.quantity')"
       id="idStock"
       name="stock"
       v-model="productData.stock"
@@ -108,7 +108,7 @@ const onFormSubmit = ({ valid }: FormSubmitEvent) => {
         </InputGroupAddon>
         <Select
           optionLabel="name"
-          placeholder="Categoría"
+          :placeholder="$t('inventory.form.categoryPlaceholder')"
           v-model="selected"
           :options="categories"
           :disabled="showCategory"
@@ -128,14 +128,20 @@ const onFormSubmit = ({ valid }: FormSubmitEvent) => {
         </InputGroupAddon>
         <Select
           optionLabel="name"
-          placeholder="SubCategoría"
+          :placeholder="$t('inventory.form.subcategoryPlaceholder')"
           :disabled="showSubcategory || showCategory"
         />
       </InputGroup>
       <InventoryNewCategory v-if="showSubcategory || showCategory" />
     </article>
 
-    <Button type="submit" severity="success" rounded raised label="Guardar">
+    <Button
+      type="submit"
+      severity="success"
+      rounded
+      raised
+      :label="$t('inventory.form.saveButton')"
+    >
     </Button>
   </Form>
 </template>

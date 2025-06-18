@@ -5,12 +5,14 @@
     <CustomTextField
       id="categoryNameID"
       name="Category"
-      label="Nombre de la Categoría"
+      :label="$t('inventory.form.categoryName')"
     />
     <div class="formField">
       <FloatLabel variant="on">
         <Textarea inputId="description" name="description" fluid />
-        <label for="description">Descripción</label>
+        <label for="description">{{
+          $t("inventory.form.categoryDescription")
+        }}</label>
       </FloatLabel>
       <!-- <Message
         v-if="$form.stock?.invalid"

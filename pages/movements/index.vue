@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue/dist/iconify.js";
-import { Dialog } from "primevue";
+const { t } = useI18n();
+const detailsDialog = ref(false);
+const selectedItem = ref();
+const options = ref([
+  { label: t("movements.select.sales"), value: "sales" },
+  { label: t("movements.select.purchases"), value: "purchases" },
+  { label: t("movements.select.debts"), value: "debts" },
+]);
 const payments = ref([
   {
     date: "2023-10-01",
@@ -18,13 +25,7 @@ const payments = ref([
     total: 300,
   },
 ]);
-const detailsDialog = ref(false);
-const selectedItem = ref();
-const options = ref([
-  { name: "Ventas" },
-  { name: "Compras" },
-  { name: "Deudas a cobrar" },
-]);
+
 function showDetails() {
   detailsDialog.value = true;
 }
@@ -35,26 +36,27 @@ function showDetails() {
     <article class="movements-header">
       <IftaLabel>
         <DatePicker fluid input-id="start_date" show-icon />
-        <label for="start_date">Fecha Inicial</label>
+        <label for="start_date">{{ $t("movements.startDate") }}</label>
       </IftaLabel>
       <IftaLabel>
         <DatePicker fluid input-id="end_date" show-icon />
-        <label for="end_date">Fecha Final</label>
+        <label for="end_date">{{ $t("movements.endDate") }}</label>
       </IftaLabel>
-      <Button label="Buscar" severity="warn" />
+      <Button :label="$t('movements.filterButton')" severity="warn" />
     </article>
     <Select
       :options="options"
-      option-label="name"
-      placeholder="Seleccione el tipo de movimiento"
+      option-label="label"
+      option-value="value"
+      :placeholder="$t('movements.selectPlaceholder')"
       v-model="selectedItem"
     ></Select>
     <div class="movements-content">
       <DataTable :value="payments" paginator :rows="9">
-        <Column field="date" header="Fecha" />
-        <Column field="id" header="Factura" />
-        <Column field="total" header="Total" />
-        <Column field="actions" header="Acciones">
+        <Column field="date" :header="$t('movements.table.resume.date')" />
+        <Column field="id" :header="$t('movements.table.resume.invoice')" />
+        <Column field="total" :header="$t('movements.table.resume.total')" />
+        <Column field="actions" :header="$t('movements.table.resume.actions')">
           <template #body="{ data }">
             <Button variant="text" severity="info" @click="showDetails()">
               <template #icon>
@@ -73,7 +75,7 @@ function showDetails() {
   </section>
   <Dialog
     modal
-    header=""
+    :header="$t('movements.modalTitle')"
     :style="{ width: '90vw', maxWidth: 'none' }"
     v-model:visible="detailsDialog"
   >

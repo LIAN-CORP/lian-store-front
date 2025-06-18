@@ -1,0 +1,101 @@
+{
+    "menuOptions": {
+        "transaction": "Transaction",
+        "inventory": "Inventory",
+        "debtors": "Debtors",
+        "movements": "Movements",
+        "logout": "Logout"
+    },
+    "transaction": {
+        "addProduct": "Add product",
+        "typeMovementPlaceholder": "Type of movement",
+        "debtorSelectPlaceholder": "Debtor",
+        "paymentTypePlaceholder": "Payment Type",
+        "table": {
+            "product": "Product",
+            "quantity": "Quantity",
+            "price": "Price",
+            "total": "Total"
+        },
+        "formDebtor": {
+            "name": "Client name",
+            "phone": "Phone number",
+            "saveButton": "Save"
+        }
+    },
+    "inventory":{
+        "search": "Search product",
+        "newProduct": "New product",
+        "labels":{
+            "name": "Product",
+            "category": "Category",
+            "subcategory": "Subcategory",
+            "price": "Price",
+            "stock": "Stock"
+        },
+        "form": {
+            "changeImage": "Change Image",
+            "name": "Product name",
+            "salePrice": "Sale price",
+            "buyingPrice": "Buying price",
+            "quantity": "Quantity",
+            "categoryPlaceholder": "Category",
+            "subcategoryPlaceholder": "Subcategory",
+            "categoryName": "Category name",
+            "categoryDescription": "Description",
+            "saveButton": "Save"
+        }
+    },
+     "debtors": {
+        "search": "Search debtor",
+        "details": "resume",
+        "modalTitle": "Debts",
+        "detailsTable": {
+            "date": "Date",
+            "invoice": "Invoice",
+            "total": "Total",
+            "actions": "Actions"
+        }
+    },
+    "movements":{
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "filterButton": "Search",
+        "selectPlaceholder": "Select type of movement",
+        "clientNameLabel": "Client",
+        "clientPhoneLabel": "Phone",
+        "typeMovement": "Movement",
+        "debtBadge": "Amount due",
+        "modalTitle": "Details",
+        "table": {
+            "resume":{
+                "date": "Date",
+                "invoice": "Invoice",
+                "total": "Total",
+                "actions": "Actions"
+            },
+            "payment": {
+                "receipt": "Receipt number",
+                "method": "Method",
+                "amount": "Amount"
+            },
+            "product": {
+                "product": "Product",
+                "quantity": "Quantity",
+                "unitPrice": "Unit price",
+                "total": "Total"
+            }
+        },
+        "form": {
+            "title": "New Payment",
+            "amount": "Amount",
+            "method": "Payment Method",
+            "saveButton": "Save"
+        },
+        "select": {
+            "sales": "Sales",
+            "purchases": "Purchases",
+            "debts": "Debts to collect"
+        }
+    }
+}
