@@ -51,10 +51,16 @@ defineProps<{}>();
 <template>
   <section class="invoice">
     <article class="invoice-header">
-      <BadgeDisplay label="Cliente:" value="Erick Enrique Chaparro Martinez" />
+      <BadgeDisplay
+        :label="$t('movements.clientNameLabel')"
+        value="Erick Enrique Chaparro Martinez"
+      />
       <div class="invoice-separator">
-        <BadgeDisplay label="Teléfono:" value="0000000000" />
-        <BadgeDisplay label="Movimiento:" value="Deuda" />
+        <BadgeDisplay
+          :label="$t('movements.clientPhoneLabel')"
+          value="0000000000"
+        />
+        <BadgeDisplay :label="$t('movements.typeMovement')" value="Deuda" />
       </div>
     </article>
     <article class="invoice-body">
@@ -68,13 +74,19 @@ defineProps<{}>();
         }"
         :rows="3"
       >
-        <Column field="payment" header="#Pago" />
-        <Column field="method" header="Método" />
-        <Column field="quantity" header="Cantidad" />
+        <Column
+          field="payment"
+          :header="$t('movements.table.payment.receipt')"
+        />
+        <Column field="method" :header="$t('movements.table.payment.method')" />
+        <Column
+          field="quantity"
+          :header="$t('movements.table.payment.amount')"
+        />
       </DataTable>
       <div class="debt-badge-container">
         <BadgeDisplay
-          label="Deuda:"
+          :label="$t('movements.debtBadge') + ':'"
           value="390"
           backgroundColor="#172455"
           color="#ffffff"
@@ -98,10 +110,19 @@ defineProps<{}>();
         }"
         :rows="5"
       >
-        <Column field="product" header="Producto" />
-        <Column field="quantity" header="Cantidad" />
-        <Column field="price" header="Precio Unitario" />
-        <Column field="total" header="Total" />
+        <Column
+          field="product"
+          :header="$t('movements.table.product.product')"
+        />
+        <Column
+          field="quantity"
+          :header="$t('movements.table.product.quantity')"
+        />
+        <Column
+          field="price"
+          :header="$t('movements.table.product.unitPrice')"
+        />
+        <Column field="total" :header="$t('movements.table.product.total')" />
       </DataTable>
       <div class="total-badge-container">
         <BadgeDisplay

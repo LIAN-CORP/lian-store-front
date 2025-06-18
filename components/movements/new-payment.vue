@@ -2,15 +2,23 @@
 
 <template>
   <Form class="new-payment">
-    <h3>Crear Pago</h3>
+    <h3>{{ $t("movements.form.title") }}</h3>
     <CustomNumberField
       id="paymentID"
       name="payment"
-      label="Monto"
+      :label="$t('movements.form.amount')"
       :options="{ prefix: '$', min: 0 }"
     />
-    <CustomTextField id="methodID" name="method" label="Método de pago" />
-    <Button type="submit" label="Crear" severity="success" />
+    <CustomTextField
+      id="methodID"
+      name="method"
+      :label="$t('movements.form.method')"
+    />
+    <Button
+      type="submit"
+      :label="$t('movements.form.saveButton')"
+      severity="success"
+    />
   </Form>
 </template>
 

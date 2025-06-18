@@ -53,10 +53,10 @@ function showDetails() {
     ></Select>
     <div class="movements-content">
       <DataTable :value="payments" paginator :rows="9">
-        <Column field="date" :header="$t('movements.table.date')" />
-        <Column field="id" :header="$t('movements.table.invoice')" />
-        <Column field="total" :header="$t('movements.table.total')" />
-        <Column field="actions" :header="$t('movements.table.actions')">
+        <Column field="date" :header="$t('movements.table.resume.date')" />
+        <Column field="id" :header="$t('movements.table.resume.invoice')" />
+        <Column field="total" :header="$t('movements.table.resume.total')" />
+        <Column field="actions" :header="$t('movements.table.resume.actions')">
           <template #body="{ data }">
             <Button variant="text" severity="info" @click="showDetails()">
               <template #icon>

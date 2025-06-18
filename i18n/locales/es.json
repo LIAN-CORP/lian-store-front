@@ -49,11 +49,34 @@
         "endDate": "Fecha Final",
         "filterButton": "Buscar",
         "selectPlaceholder": "Selecciona el tipo de movimiento",
+        "clientNameLabel": "Cliente",
+        "clientPhoneLabel": "Teléfono",
+        "typeMovement": "Movimiento",
+        "debtBadge": "Saldo Pendiente",
         "table": {
-            "date": "Fecha",
-            "invoice": "Factura",
-            "total": "Total",
-            "actions": "Acciones"
+            "resume": {
+                "date": "Fecha",
+                "invoice": "Factura",
+                "total": "Total",
+                "actions": "Acciones"
+            },
+            "payment": {
+                "receipt": "Factura",
+                "method": "Método",
+                "amount": "Monto"
+            },
+            "product": {
+                "product": "Producto",
+                "quantity": "Cantidad",
+                "unitPrice": "Precio Unitario",
+                "total": "Total"
+            }
+        },
+        "form": {
+            "title": "Nuevo Pago",
+            "amount": "Monto",
+            "method": "Método de pago",
+            "saveButton": "Guardar"
         },
         "select": {
             "sales": "Ventas",

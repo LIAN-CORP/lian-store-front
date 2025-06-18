@@ -49,11 +49,34 @@
         "endDate": "End Date",
         "filterButton": "Search",
         "selectPlaceholder": "Select type of movement",
+        "clientNameLabel": "Client",
+        "clientPhoneLabel": "Phone",
+        "typeMovement": "Movement",
+        "debtBadge": "Amount due",
         "table": {
-            "date": "Date",
-            "invoice": "Invoice",
-            "total": "Total",
-            "actions": "Actions"
+            "resume":{
+                "date": "Date",
+                "invoice": "Invoice",
+                "total": "Total",
+                "actions": "Actions"
+            },
+            "payment": {
+                "receipt": "Receipt number",
+                "method": "Method",
+                "amount": "Amount"
+            },
+            "product": {
+                "product": "Product",
+                "quantity": "Quantity",
+                "unitPrice": "Unit price",
+                "total": "Total"
+            }
+        },
+        "form": {
+            "title": "New Payment",
+            "amount": "Amount",
+            "method": "Payment Method",
+            "saveButton": "Save"
         },
         "select": {
             "sales": "Sales",
