@@ -45,10 +45,10 @@ function redirect() {
       }"
       :rows="4"
     >
-      <Column field="date" header="Fecha" />
-      <Column field="invoice" header="Factura" />
-      <Column field="total" header="Total" />
-      <Column field="actions" header="Acciones">
+      <Column field="date" :header="$t('debtors.detailsTable.date')" />
+      <Column field="invoice" :header="$t('debtors.detailsTable.invoice')" />
+      <Column field="total" :header="$t('debtors.detailsTable.total')" />
+      <Column field="actions" :header="$t('debtors.detailsTable.actions')">
         <template #body="{ data }">
           <Button variant="text" severity="info" @click="redirect()">
             <template #icon>

@@ -41,7 +41,7 @@
             "date": "Date",
             "invoice": "Invoice",
             "total": "Total",
-            "Actions": "Actions"
+            "actions": "Actions"
         }
     },
     "movements":{
