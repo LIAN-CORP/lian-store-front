@@ -29,9 +29,21 @@
         "labels":{
             "name": "Producto",
             "category": "Categoría",
-            "subcategory": "Subcategoria",
+            "subcategory": "Subcategoría",
             "price": "Precio",
             "stock": "Stock"
+        },
+        "form": {
+            "changeImage": "Cambiar Imagen",
+            "name": "Nombre del producto",
+            "salePrice": "Precio de venta",
+            "buyingPrice": "Precio de compra",
+            "quantity": "Cantidad",
+            "categoryPlaceholder": "Categoría",
+            "subcategoryPlaceholder": "Subcategoría",
+            "categoryName": "Nombre de la categoría",
+            "categoryDescription": "Descripción",
+            "saveButton": "Guardar"
         }
     },
      "debtors": {

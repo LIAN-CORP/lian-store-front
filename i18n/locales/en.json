@@ -32,6 +32,18 @@
             "subcategory": "Subcategory",
             "price": "Price",
             "stock": "Stock"
+        },
+        "form": {
+            "changeImage": "Change Image",
+            "name": "Product name",
+            "salePrice": "Sale price",
+            "buyingPrice": "Buying price",
+            "quantity": "Quantity",
+            "categoryPlaceholder": "Category",
+            "subcategoryPlaceholder": "Subcategory",
+            "categoryName": "Category name",
+            "categoryDescription": "Description",
+            "saveButton": "Save"
         }
     },
      "debtors": {
