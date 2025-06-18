@@ -36,7 +36,8 @@
     },
      "debtors": {
         "search": "Search debtor",
-        "details": "details",
+        "details": "resume",
+        "modalTitle": "Debts",
         "detailsTable": {
             "date": "Date",
             "invoice": "Invoice",
@@ -53,6 +54,7 @@
         "clientPhoneLabel": "Phone",
         "typeMovement": "Movement",
         "debtBadge": "Amount due",
+        "modalTitle": "Details",
         "table": {
             "resume":{
                 "date": "Date",

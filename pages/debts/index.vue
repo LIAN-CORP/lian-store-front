@@ -44,7 +44,7 @@ function onSearchDebt() {}
     v-model:visible="showResume"
     modal
     maximizable
-    header="Deudas"
+    :header="$t('debtors.modalTitle')"
     :style="{ width: '90vw', maxWidth: 'none' }"
   >
     <template #default>

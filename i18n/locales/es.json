@@ -36,12 +36,13 @@
     },
      "debtors": {
         "search": "Buscar deudor",
-        "details": "detalles",
+        "details": "resumen",
+        "modalTitle": "Deudas",
         "detailsTable": {
             "date": "Fecha",
             "invoice": "Factura",
             "total": "Total",
-            "Actions": "Acciones"
+            "actions": "Acciones"
         }
     },
     "movements":{
@@ -53,6 +54,7 @@
         "clientPhoneLabel": "Teléfono",
         "typeMovement": "Movimiento",
         "debtBadge": "Saldo Pendiente",
+        "modalTitle": "Detalles",
         "table": {
             "resume": {
                 "date": "Fecha",

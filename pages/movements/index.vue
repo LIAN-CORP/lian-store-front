@@ -75,7 +75,7 @@ function showDetails() {
   </section>
   <Dialog
     modal
-    header=""
+    :header="$t('movements.modalTitle')"
     :style="{ width: '90vw', maxWidth: 'none' }"
     v-model:visible="detailsDialog"
   >
