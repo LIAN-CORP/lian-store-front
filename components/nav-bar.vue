@@ -7,6 +7,7 @@ const route = useRoute();
 const { t, locale } = useI18n();
 const localePath = useLocalePath();
 function isActive(itemRoute: string) {
+  if (!itemRoute) return false;
   return route.path == localePath(itemRoute);
 }
 
@@ -46,7 +47,6 @@ const items = computed(() => [
   },
   {
     label: t("menuOptions.logout"),
-    to: "/",
     type: "logout",
   },
 ]);
