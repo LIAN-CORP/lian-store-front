@@ -5,10 +5,39 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   ssr: false,
+  runtimeConfig: {
+    public: {
+      apiBase: "",
+    },
+  },
   modules: ["@primevue/nuxt-module", "@nuxtjs/i18n"],
   css: ["/assets/styles/main.scss"],
-
   primevue: {
+    autoImport: false,
+    components: {
+      include: [
+        "Button",
+        "DataTable",
+        "Column",
+        "Menubar",
+        "Dialog",
+        "Form",
+        "FloatLabel",
+        "InputNumber",
+        "Message",
+        "InputText",
+        "Select",
+        "Textarea",
+        "FileUpload",
+        "InputGroup",
+        "InputGroupAddon",
+        "DataView",
+        "Paginator",
+        "IftaLabel",
+        "DatePicker",
+        "Toast",
+      ],
+    },
     options: {
       theme: {
         preset: customPreset,
@@ -22,7 +51,6 @@ export default defineNuxtConfig({
       },
     },
   },
-
   i18n: {
     defaultLocale: "es",
     locales: [
