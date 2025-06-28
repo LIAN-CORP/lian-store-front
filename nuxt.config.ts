@@ -36,6 +36,8 @@ export default defineNuxtConfig({
         "IftaLabel",
         "DatePicker",
         "Toast",
+        "ConfirmDialog",
+        "Checkbox",
       ],
     },
     options: {
