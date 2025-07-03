@@ -1,6 +1,6 @@
 export interface GetListProducts {
   name: string;
-  image: string;
+  image?: string;
   description: string;
   priceSell: number;
   stock: number;

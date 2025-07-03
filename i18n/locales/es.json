@@ -25,7 +25,9 @@
     },
     "inventory":{
         "search": "Buscar producto",
-        "newProduct": "Nuevo producto",
+        "newProduct": "Nuevo Producto",
+        "editProduct": "Editar Producto",
+
         "labels":{
             "name": "Producto",
             "category": "Categoría",
