@@ -1,20 +1,12 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue/dist/iconify.js";
+const { data } = useProduct();
 
 const showForm = ref(false);
 const searchValue = ref("");
-const product = {
-  id: 1,
-  name: "Producto 1",
-  image:
-    "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
-  category: "Categoria 1",
-  subcategory: "Subcategoria 1",
-  price: 100,
-  quantity: 10,
-};
 function showSearch() {
   console.log(searchValue.value);
+  console.log(data.value?.content);
 }
 function onEditProduct() {
   showForm.value = true;
@@ -51,24 +43,20 @@ function onDelete() {}
     </div>
     <article class="inventory-products">
       <InventoryCardProduct
-        :id="product.id"
+        v-for="product in data?.content"
+        :id="1"
         :name="product.name"
         :image="product.image"
-        :category="product.category"
-        :subcategory="product.subcategory"
-        :price="product.price"
-        :quantity="product.quantity"
+        :category="product.subcategory.category.name"
+        :subcategory="product.subcategory.name"
+        :price="product.priceSell"
+        :quantity="product.stock"
         @delete-product="onDelete"
         @edit-product="onEditProduct"
       />
     </article>
     <div class="inventory-footer">
-      <Paginator
-        :rows="10"
-        :totalRecords="120"
-        template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-        currentPageReportTemplate="Mostrado {first} a {last} de {totalRecords}"
-      />
+      <Paginator :rows="10" :totalRecords="data!.totalElements" />
     </div>
   </section>
   <ConfirmDialog />
