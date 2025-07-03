@@ -2,10 +2,7 @@
 import { Icon } from "@iconify/vue/dist/iconify.js";
 import type { FormSubmitEvent } from "@primevue/forms";
 import { zodResolver } from "@primevue/forms/resolvers/zod";
-import {
-  ProductEditScheme,
-  type ProductEditData,
-} from "~/schemas/product.edit.scheme";
+import { ProductEditScheme } from "~/schemas/product.edit.scheme";
 
 const resolver = ref(zodResolver(ProductEditScheme));
 
@@ -24,20 +21,13 @@ function onShowSubcategoryForm() {
   showSubcategory.value = !showSubcategory.value;
 }
 
-const productData = ref<ProductEditData>({
-  product: "",
-  priceBuying: 0,
-  priceSale: 0,
-  stock: 0,
-});
-
 function onUpload() {
   console.log("File uploaded successfully!");
 }
 
-const onFormSubmit = ({ valid }: FormSubmitEvent) => {
+const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
   if (valid) {
-    console.log("Form submitted successfully!", productData.value);
+    console.log("Form submitted successfully!", values);
   } else {
     console.log("Form submission failed!");
   }
@@ -45,12 +35,7 @@ const onFormSubmit = ({ valid }: FormSubmitEvent) => {
 </script>
 
 <template>
-  <Form
-    class="product-edit"
-    v-slot="$form"
-    :resolver="resolver"
-    @submit="onFormSubmit"
-  >
+  <Form class="product-edit" :resolver="resolver" @submit="onFormSubmit">
     <FileUpload
       url="/api/upload"
       accept="image/*"
@@ -69,32 +54,24 @@ const onFormSubmit = ({ valid }: FormSubmitEvent) => {
       :label="$t('inventory.form.name')"
       id="idNameProduct"
       name="product"
-      v-model="productData.product"
-      :error="$form.product?.error?.message"
     />
     <CustomNumberField
       :label="$t('inventory.form.salePrice')"
       id="idPriceSale"
       name="priceSale"
-      v-model="productData.priceSale"
-      :error="$form.priceSale?.error?.message"
       :options="{ prefix: '$', min: 0 }"
     />
     <CustomNumberField
       :label="$t('inventory.form.buyingPrice')"
       id="idPriceBuying"
       name="priceBuying"
-      v-model="productData.priceBuying"
-      :error="$form.priceBuying?.error?.message"
       :options="{ prefix: '$', min: 0 }"
     />
     <CustomNumberField
       :label="$t('inventory.form.quantity')"
       id="idStock"
       name="stock"
-      v-model="productData.stock"
       :showButtons="true"
-      :error="$form.stock?.error?.message"
       :options="{ min: 0, suffix: ' u/c' }"
     />
     <article class="category-form">

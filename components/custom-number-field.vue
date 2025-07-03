@@ -10,7 +10,6 @@ const props = withDefaults(
     id: string;
     name: string;
     label: string;
-    error?: string;
     fluid?: boolean;
     showButtons?: boolean;
     size?: string;
@@ -34,39 +33,39 @@ const props = withDefaults(
 
 <template>
   <div class="formField">
-    <FloatLabel
-      variant="on"
-      :style="{
-        '--p-floatlabel-on-active-background': inputColor,
-      }"
-    >
-      <InputNumber
-        :inputStyle="{ backgroundColor: inputColor }"
-        :inputId="props.id"
-        :name="props.name"
-        :placeholder="props.placeholder"
-        :fluid="props.fluid"
-        :size="props.size"
-        :showButtons="props.showButtons"
-        :disabled="props.disabled"
-        :prefix="props.prefix"
-        :suffix="props.suffix"
-        :min="props.min"
-        :max="props.max"
-        :step="props.step"
-        buttonLayout="vertical"
-        v-model="model"
-        @update:modelValue="emit('update:modelValue', $event)"
-      />
-      <label :for="props.id">{{ props.label }}</label>
-    </FloatLabel>
-    <Message
-      v-if="props.error"
-      variant="simple"
-      size="small"
-      severity="error"
-      >{{ props.error }}</Message
-    >
+    <FormField v-slot="$field" :name="name">
+      <FloatLabel
+        variant="on"
+        :style="{
+          '--p-floatlabel-on-active-background': inputColor,
+        }"
+      >
+        <InputNumber
+          :inputStyle="{ backgroundColor: inputColor }"
+          :inputId="props.id"
+          :name="props.name"
+          :placeholder="props.placeholder"
+          :fluid="props.fluid"
+          :size="props.size"
+          :showButtons="props.showButtons"
+          :disabled="props.disabled"
+          :prefix="props.prefix"
+          :suffix="props.suffix"
+          :min="props.min"
+          :max="props.max"
+          :step="props.step"
+          buttonLayout="vertical"
+        />
+        <label :for="props.id">{{ props.label }}</label>
+      </FloatLabel>
+      <Message
+        v-if="$field.invalid"
+        variant="simple"
+        size="small"
+        severity="error"
+        >{{ $field.error?.message }}</Message
+      >
+    </FormField>
   </div>
 </template>
 

@@ -9,7 +9,6 @@ const props = withDefaults(
     id: string;
     name: string;
     label: string;
-    error?: string;
     size?: string;
     placeholder?: string;
     pattern?: string;
@@ -28,30 +27,34 @@ const props = withDefaults(
 
 <template>
   <div class="formField">
-    <FloatLabel
-      variant="on"
-      :style="{
-        '--p-floatlabel-on-active-background': inputColor,
-      }"
-    >
-      <InputText
-        :style="{ backgroundColor: inputColor }"
-        :name="name"
-        :placeholder="placeholder"
-        :fluid="fluid"
-        :size="size"
-        :disabled="disabled"
-        :maxlength="maxlength"
-        :minlength="minlength"
-        :pattern="pattern"
-        v-model="model"
-        @update:modelValue="emit('update:modelValue', $event)"
-      />
-      <label>{{ label }}</label>
-    </FloatLabel>
-    <Message v-if="error" variant="simple" size="small" severity="error">{{
-      error
-    }}</Message>
+    <FormField v-slot="$field" :name="name">
+      <FloatLabel
+        variant="on"
+        :style="{
+          '--p-floatlabel-on-active-background': inputColor,
+        }"
+      >
+        <InputText
+          :style="{ backgroundColor: inputColor }"
+          :name="name"
+          :placeholder="placeholder"
+          :fluid="fluid"
+          :size="size"
+          :disabled="disabled"
+          :maxlength="maxlength"
+          :minlength="minlength"
+          :pattern="pattern"
+        />
+        <label>{{ label }}</label>
+      </FloatLabel>
+      <Message
+        v-if="$field?.invalid"
+        variant="simple"
+        size="small"
+        severity="error"
+        >{{ $field.error?.message }}</Message
+      >
+    </FormField>
   </div>
 </template>
 

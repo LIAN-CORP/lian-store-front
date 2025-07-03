@@ -37,6 +37,7 @@ export default defineNuxtConfig({
         "Toast",
         "ConfirmDialog",
         "Checkbox",
+        "FormField",
       ],
     },
     options: {
