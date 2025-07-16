@@ -36,6 +36,7 @@ const props = withDefaults(
       >
         <InputText
           :style="{ backgroundColor: inputColor }"
+          :id="id"
           :name="name"
           :placeholder="placeholder"
           :fluid="fluid"
@@ -45,7 +46,7 @@ const props = withDefaults(
           :minlength="minlength"
           :pattern="pattern"
         />
-        <label>{{ label }}</label>
+        <label :for="id">{{ label }}</label>
       </FloatLabel>
       <Message
         v-if="$field?.invalid"

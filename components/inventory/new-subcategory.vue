@@ -1,25 +1,36 @@
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue/dist/iconify.js";
 
-const emit = defineEmits(["isForm", "category"]);
+const props = defineProps<{
+  category: string;
+  showForm: boolean;
+}>();
 
-const showCategory = ref(false);
-const chooseCategory = ref(null);
+const chooseSubcategory = ref(null);
+
+const showSubCategoryForm = ref();
+
+watch(
+  () => props.showForm,
+  (newValue) => {
+    showSubCategoryForm.value = newValue;
+  },
+  { immediate: true }
+);
 
 function onShowCategoryForm() {
-  showCategory.value = !showCategory.value;
-  chooseCategory.value = null;
-  emit("isForm");
+  showSubCategoryForm.value = !showSubCategoryForm.value;
+  chooseSubcategory.value = null;
 }
-const categories = ref([
-  { name: "Categoria 1", id: 1 },
-  { name: "Categoria 2", id: 2 },
-  { name: "Categoria 3", id: 3 },
+const subCategories = ref([
+  { name: "SubCategoria 1", id: 1 },
+  { name: "SubCategoria 2", id: 2 },
+  { name: "SUbCategoria 3", id: 3 },
 ]);
 </script>
 
 <template>
-  <InputGroup>
+  <InputGroup v-if="showForm === true || category != ''">
     <InputGroupAddon>
       <Button severity="secondary" @click="onShowCategoryForm">
         <template #icon>
@@ -29,25 +40,23 @@ const categories = ref([
     </InputGroupAddon>
     <Select
       optionLabel="name"
-      optionValue="name"
       :placeholder="$t('inventory.form.categoryPlaceholder')"
-      v-model="chooseCategory"
-      :options="categories"
-      :disabled="showCategory"
-      @update:modelValue="$emit('category', chooseCategory)"
+      v-model="chooseSubcategory"
+      :options="subCategories"
+      :disabled="showSubCategoryForm"
     />
   </InputGroup>
-  <Form class="new-category" v-if="showCategory">
+  <Form class="new-subcategory" v-if="showSubCategoryForm">
     <CustomTextField
-      id="categoryNameID"
+      id="subcategoryNameID"
       name="Category"
       :label="$t('inventory.form.categoryName')"
     />
     <div class="formField">
       <FormField v-slot="$field">
         <FloatLabel variant="on">
-          <Textarea id="description" name="description" fluid />
-          <label for="description">{{
+          <Textarea id="subcategoryDescription" name="description" fluid />
+          <label for="subcategoryDescription">{{
             $t("inventory.form.categoryDescription")
           }}</label>
         </FloatLabel>
@@ -64,7 +73,7 @@ const categories = ref([
 </template>
 
 <style lang="scss" scoped>
-.new-category {
+.new-subcategory {
   display: flex;
   flex-direction: column;
   padding: 1rem 0;

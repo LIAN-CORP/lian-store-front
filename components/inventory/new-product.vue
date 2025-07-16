@@ -1,24 +1,17 @@
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue/dist/iconify.js";
 import type { FormSubmitEvent } from "@primevue/forms";
 import { zodResolver } from "@primevue/forms/resolvers/zod";
 import { ProductEditScheme } from "~/schemas/product.edit.scheme";
 
 const resolver = ref(zodResolver(ProductEditScheme));
+const isForm = ref(false);
+const category = ref("");
 
-const selected = ref(null);
-const categories = ref([
-  { name: "Categoria 1", id: 1 },
-  { name: "Categoria 2", id: 2 },
-  { name: "Categoria 3", id: 3 },
-]);
-const showSubcategory = ref(false);
-const showCategory = ref(false);
-function onShowCategoryForm() {
-  showCategory.value = !showCategory.value;
+function showSubCategoryForm() {
+  isForm.value = !isForm.value;
 }
-function onShowSubcategoryForm() {
-  showSubcategory.value = !showSubcategory.value;
+function obtainCategory(name: string) {
+  category.value = name;
 }
 
 function onUpload() {
@@ -74,44 +67,11 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
       :showButtons="true"
       :options="{ min: 0, suffix: ' u/c' }"
     />
-    <article class="category-form">
-      <InputGroup>
-        <InputGroupAddon>
-          <Button severity="secondary" @click="onShowCategoryForm">
-            <template #icon>
-              <Icon icon="mingcute:add-fill" width="20" height="20" />
-            </template>
-          </Button>
-        </InputGroupAddon>
-        <Select
-          optionLabel="name"
-          :placeholder="$t('inventory.form.categoryPlaceholder')"
-          v-model="selected"
-          :options="categories"
-          :disabled="showCategory"
-        />
-      </InputGroup>
-      <InventoryNewCategory v-if="showCategory" />
-    </article>
-
-    <article v-if="selected != null || showCategory" class="subcategory-form">
-      <InputGroup>
-        <InputGroupAddon>
-          <Button severity="secondary" @click="onShowSubcategoryForm">
-            <template #icon>
-              <Icon icon="mingcute:add-fill" width="20" height="20" />
-            </template>
-          </Button>
-        </InputGroupAddon>
-        <Select
-          optionLabel="name"
-          :placeholder="$t('inventory.form.subcategoryPlaceholder')"
-          :disabled="showSubcategory || showCategory"
-        />
-      </InputGroup>
-      <InventoryNewCategory v-if="showSubcategory || showCategory" />
-    </article>
-
+    <InventoryNewCategory
+      @is-form="showSubCategoryForm"
+      @category="obtainCategory"
+    />
+    <InventoryNewSubcategory :showForm="isForm" :category="category" />
     <Button
       type="submit"
       severity="success"
