@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue/dist/iconify.js";
-const { data } = useProduct();
+const { data } = await useProduct();
 
 const showEditForm = ref(false);
 const showNewProductForm = ref(false);
 const searchValue = ref("");
 function showSearch() {
-  console.log(searchValue.value);
+  console.log(data.value);
 }
 function onEditProduct() {
   showEditForm.value = true;
@@ -43,11 +43,11 @@ function onDelete() {}
     <article class="inventory-products">
       <InventoryCardProduct
         v-for="product in data?.content"
-        :id="1"
+        :id="product.id"
         :name="product.name"
-        image=""
-        :category="product.subcategory.category.name"
-        :subcategory="product.subcategory.name"
+        :image="product.imagePath"
+        :category="product.category"
+        :subcategory="product.subcategory"
         :price="product.priceSell"
         :quantity="product.stock"
         @delete-product="onDelete"
@@ -78,7 +78,6 @@ function onDelete() {}
 </template>
 
 <style scoped lang="scss">
-@use "../../assets/styles/colors.scss";
 .inventory {
   .p-inputgroup {
     width: 40%;
