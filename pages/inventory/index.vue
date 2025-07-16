@@ -45,7 +45,7 @@ function onDelete() {}
         v-for="product in data?.content"
         :id="product.id"
         :name="product.name"
-        :image="product.imagePath"
+        :image="product.imagePath || ''"
         :category="product.category"
         :subcategory="product.subcategory"
         :price="product.priceSell"
