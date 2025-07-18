@@ -11,11 +11,7 @@ function onShowCategoryForm() {
   chooseCategory.value = null;
   emit("isForm");
 }
-const categories = ref([
-  { name: "Categoria 1", id: 1 },
-  { name: "Categoria 2", id: 2 },
-  { name: "Categoria 3", id: 3 },
-]);
+const { data } = useCategory().fetchCategories;
 </script>
 
 <template>
@@ -29,10 +25,10 @@ const categories = ref([
     </InputGroupAddon>
     <Select
       optionLabel="name"
-      optionValue="name"
+      optionValue="id"
       :placeholder="$t('inventory.form.categoryPlaceholder')"
       v-model="chooseCategory"
-      :options="categories"
+      :options="data?.content"
       :disabled="showCategory"
       @update:modelValue="$emit('category', chooseCategory)"
     />

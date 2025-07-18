@@ -12,6 +12,7 @@ function showSubCategoryForm() {
 }
 function obtainCategory(name: string) {
   category.value = name;
+  console.log(name);
 }
 
 function onUpload() {
