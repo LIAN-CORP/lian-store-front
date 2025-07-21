@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue/dist/iconify.js";
-const { data } = await useProduct();
+const { data } = await useGetProduct();
 
 const showEditForm = ref(false);
 const showNewProductForm = ref(false);

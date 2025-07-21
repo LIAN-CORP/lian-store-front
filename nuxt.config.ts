@@ -11,6 +11,20 @@ export default defineNuxtConfig({
   },
   modules: ["@primevue/nuxt-module", "@nuxtjs/i18n"],
   css: ["/assets/styles/main.scss"],
+
+  i18n: {
+    defaultLocale: "es",
+    locales: [
+      { code: "es", name: "Spanish", file: "es.json" },
+      { code: "en", name: "English", file: "en.json" },
+    ],
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
+  },
+  imports: {
+    dirs: ["composables", "composables/**"],
+  },
   primevue: {
     autoImport: false,
     components: {
@@ -52,16 +66,6 @@ export default defineNuxtConfig({
           order: "app-styles, primevue",
         },
       },
-    },
-  },
-  i18n: {
-    defaultLocale: "es",
-    locales: [
-      { code: "es", name: "Spanish", file: "es.json" },
-      { code: "en", name: "English", file: "en.json" },
-    ],
-    bundle: {
-      optimizeTranslationDirective: false,
     },
   },
 });

@@ -1,9 +1,9 @@
 import type { GetListProducts } from "~/interfaces/inventory/response/get.list.products.";
 import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface";
 
-export const useProduct = () => {
-  const url = useRuntimeConfig().public.apiBase;
-  return useFetch<paginatedResponse<GetListProducts>>(`${url}/product`, {
+export default async function useGetProduct() {
+  const url = useGetApiUrl("product");
+  return await useFetch<paginatedResponse<GetListProducts>>(url, {
     query: {
       page: 0,
       size: 10,
@@ -11,4 +11,4 @@ export const useProduct = () => {
       sortBy: "name",
     },
   });
-};
+}

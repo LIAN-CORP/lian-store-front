@@ -7,7 +7,7 @@ const props = defineProps<{
 }>();
 const subCategories = ref();
 
-const chooseSubcategory = ref(null);
+const chooseSubcategory = ref();
 
 const showSubCategoryForm = ref();
 
@@ -23,8 +23,9 @@ watch(
   () => props.category,
   async (auxValue) => {
     if (auxValue) {
-      const data = await useSubcategory(auxValue);
-      subCategories.value = data.content;
+      const data = await useGetSubcategory(auxValue);
+      if (data) subCategories.value = data!.content;
+      chooseSubcategory.value = null;
     }
   },
   {

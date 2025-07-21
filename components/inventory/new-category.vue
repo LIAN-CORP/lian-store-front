@@ -11,7 +11,7 @@ function onShowCategoryForm() {
   chooseCategory.value = null;
   emit("isForm");
 }
-const { data } = useCategory().fetchCategories;
+const { data } = await useGetCategory();
 </script>
 
 <template>
