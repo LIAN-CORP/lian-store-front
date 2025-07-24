@@ -1,6 +1,5 @@
 @use "../colors" as custom-colors;
 .p-fileupload {
-  background-color: custom-colors.$blue-100;
   border-color: rgb(170, 170, 170);
   &-header {
     justify-content: center;

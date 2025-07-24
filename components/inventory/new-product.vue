@@ -29,66 +29,95 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
 </script>
 
 <template>
-  <Form class="product-edit" :resolver="resolver" @submit="onFormSubmit">
-    <FileUpload
-      url="/api/upload"
-      accept="image/*"
-      :maxFileSize="10000000"
-      @upload="onUpload"
-      :chooseLabel="$t('inventory.form.changeImage')"
-      :fileLimit="1"
-      :showUploadButton="false"
-      :showCancelButton="false"
-      :chooseButtonProps="{
-        severity: 'contrast',
-      }"
-      chooseIcon="none"
-    />
-    <CustomTextField
-      :label="$t('inventory.form.name')"
-      id="idNameProduct"
-      name="product"
-    />
-    <CustomNumberField
-      :label="$t('inventory.form.salePrice')"
-      id="idPriceSale"
-      name="priceSale"
-      :options="{ prefix: '$', min: 0 }"
-    />
-    <CustomNumberField
-      :label="$t('inventory.form.buyingPrice')"
-      id="idPriceBuying"
-      name="priceBuying"
-      :options="{ prefix: '$', min: 0 }"
-    />
-    <CustomNumberField
-      :label="$t('inventory.form.quantity')"
-      id="idStock"
-      name="stock"
-      :showButtons="true"
-      :options="{ min: 0, suffix: ' u/c' }"
-    />
-    <InventoryNewCategory
-      @is-form="showSubCategoryForm"
-      @category="obtainCategory"
-    />
-    <InventoryNewSubcategory :showForm="isForm" :category="category" />
-    <Button
-      type="submit"
-      severity="success"
-      rounded
-      raised
-      :label="$t('inventory.form.saveButton')"
-    >
-    </Button>
-  </Form>
+  <section class="newProduct">
+    <h3 class="newProduct-title">New Product</h3>
+    <Form class="newProduct-form" :resolver="resolver" @submit="onFormSubmit">
+      <FileUpload
+        url="/api/upload"
+        accept="image/*"
+        :maxFileSize="10000000"
+        @upload="onUpload"
+        :chooseLabel="$t('inventory.form.changeImage')"
+        :fileLimit="1"
+        :showUploadButton="false"
+        :showCancelButton="false"
+        :chooseButtonProps="{
+          severity: 'contrast',
+        }"
+        chooseIcon="none"
+      />
+      <div class="fields">
+        <CustomTextField
+          :label="$t('inventory.form.name')"
+          id="idNameProduct"
+          name="product"
+          input-color="white"
+        />
+        <CustomNumberField
+          :label="$t('inventory.form.salePrice')"
+          id="idPriceSale"
+          name="priceSale"
+          :options="{ prefix: '$', min: 0 }"
+          input-color="white"
+        />
+        <CustomNumberField
+          :label="$t('inventory.form.buyingPrice')"
+          id="idPriceBuying"
+          name="priceBuying"
+          :options="{ prefix: '$', min: 0 }"
+          input-color="white"
+        />
+        <CustomNumberField
+          :label="$t('inventory.form.quantity')"
+          id="idStock"
+          name="stock"
+          :showButtons="true"
+          :options="{ min: 0, suffix: ' u/c' }"
+          input-color="white"
+        />
+        <InventoryNewCategory
+          @is-form="showSubCategoryForm"
+          @category="obtainCategory"
+        />
+        <InventoryNewSubcategory :showForm="isForm" :category="category" />
+        <Button
+          type="submit"
+          severity="success"
+          rounded
+          raised
+          :label="$t('inventory.form.saveButton')"
+        >
+        </Button>
+      </div>
+    </Form>
+  </section>
 </template>
 
 <style lang="scss" scoped>
-.product-edit {
+.newProduct {
+  background-color: white;
   display: flex;
   flex-direction: column;
-  padding: 1rem 0;
-  gap: 1rem;
+  border-radius: 1rem;
+  box-shadow: inset 0px 0px 17px 0px rgba(0, 0, 0, 0.12);
+  &-title {
+    text-align: center;
+    padding: 0.5rem 1rem;
+    background-color: #172455;
+    border-radius: 1rem 1rem 0 0;
+    font-size: 1.5rem;
+    color: white;
+  }
+  &-form {
+    display: flex;
+    padding: 2rem;
+    gap: 2rem;
+    .fields {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 400px;
+    }
+  }
 }
 </style>
