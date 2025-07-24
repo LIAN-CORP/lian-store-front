@@ -27,4 +27,18 @@
     padding: 3em;
   }
 }
+@media (max-width: 1000px) {
+  .product {
+    &-body {
+      padding: 1em;
+    }
+  }
+}
+@media (max-width: 500px) {
+  .product {
+    &-body {
+      padding: 1em;
+    }
+  }
+}
 </style>

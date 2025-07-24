@@ -15,10 +15,6 @@ function obtainCategory(name: string) {
   console.log(name);
 }
 
-function onUpload() {
-  console.log("File uploaded successfully!");
-}
-
 const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
   if (valid) {
     console.log("Form submitted successfully!", values);
@@ -32,20 +28,7 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
   <section class="newProduct">
     <h3 class="newProduct-title">New Product</h3>
     <Form class="newProduct-form" :resolver="resolver" @submit="onFormSubmit">
-      <FileUpload
-        url="/api/upload"
-        accept="image/*"
-        :maxFileSize="10000000"
-        @upload="onUpload"
-        :chooseLabel="$t('inventory.form.changeImage')"
-        :fileLimit="1"
-        :showUploadButton="false"
-        :showCancelButton="false"
-        :chooseButtonProps="{
-          severity: 'contrast',
-        }"
-        chooseIcon="none"
-      />
+      <CustomFileUpload />
       <div class="fields">
         <CustomTextField
           :label="$t('inventory.form.name')"
@@ -110,13 +93,34 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
   }
   &-form {
     display: flex;
-    padding: 2rem;
-    gap: 2rem;
+    padding: 1rem;
+    gap: 1rem;
     .fields {
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      width: 400px;
+    }
+  }
+}
+@media (max-width: 750px) {
+  .newProduct {
+    &-form {
+      flex-direction: column;
+      .fields {
+        gap: 1rem;
+        width: auto;
+      }
+    }
+  }
+}
+@media (max-width: 500px) {
+  .newProduct {
+    &-form {
+      padding: 0.5rem;
+      .fields {
+        gap: 1rem;
+        width: auto;
+      }
     }
   }
 }
