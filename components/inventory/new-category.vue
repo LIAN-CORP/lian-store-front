@@ -17,7 +17,7 @@ const { data } = await useGetCategory();
 <template>
   <InputGroup>
     <InputGroupAddon>
-      <Button severity="secondary" @click="onShowCategoryForm">
+      <Button @click="onShowCategoryForm">
         <template #icon>
           <Icon icon="mingcute:add-fill" width="20" height="20" />
         </template>

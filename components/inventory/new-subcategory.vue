@@ -4,6 +4,7 @@ import { Icon } from "@iconify/vue/dist/iconify.js";
 const props = defineProps<{
   category: string;
   showForm: boolean;
+  prueba: string;
 }>();
 const subCategories = ref();
 
@@ -40,22 +41,28 @@ function onShowCategoryForm() {
 </script>
 
 <template>
-  <InputGroup v-if="showForm === true || category != ''">
-    <InputGroupAddon>
-      <Button severity="secondary" @click="onShowCategoryForm">
-        <template #icon>
-          <Icon icon="mingcute:add-fill" width="20" height="20" />
-        </template>
-      </Button>
-    </InputGroupAddon>
-    <Select
-      optionLabel="name"
-      :placeholder="$t('inventory.form.categoryPlaceholder')"
-      v-model="chooseSubcategory"
-      :options="subCategories"
-      :disabled="showSubCategoryForm"
-    />
-  </InputGroup>
+  <FormField :name="prueba" v-slot="$field">
+    <InputGroup>
+      <InputGroupAddon>
+        <Button severity="secondary" @click="onShowCategoryForm">
+          <template #icon>
+            <Icon icon="mingcute:add-fill" width="20" height="20" />
+          </template>
+        </Button>
+      </InputGroupAddon>
+
+      <Select
+        :name="prueba"
+        optionValue="id"
+        optionLabel="name"
+        :placeholder="$t('inventory.form.categoryPlaceholder')"
+        v-model="chooseSubcategory"
+        :options="subCategories"
+        :disabled="showSubCategoryForm"
+      />
+      <Message>{{ $field.error?.message }}</Message>
+    </InputGroup>
+  </FormField>
   <Form class="new-subcategory" v-if="showSubCategoryForm">
     <CustomTextField
       id="subcategoryNameID"

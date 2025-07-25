@@ -62,7 +62,11 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
           @is-form="showSubCategoryForm"
           @category="obtainCategory"
         />
-        <InventoryNewSubcategory :showForm="isForm" :category="category" />
+        <InventoryNewSubcategory
+          :showForm="isForm"
+          :category="category"
+          prueba="subcategoryId"
+        />
         <Button
           type="submit"
           severity="success"

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { string, z } from "zod";
 export const ProductEditScheme = z.object({
   product: z
     .string()
@@ -32,5 +32,8 @@ export const ProductEditScheme = z.object({
       message: "El stock no puede ser menor a 0",
     })
     .optional(),
+  subcategoryId: string().min(1, {
+    message: "debe seleccionar uno",
+  }),
 });
 export type ProductEditData = z.infer<typeof ProductEditScheme>;
