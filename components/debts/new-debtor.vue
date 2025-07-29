@@ -19,11 +19,7 @@ defineProps<{
         :label="$t('transaction.formDebtor.phone')"
         :input-color="inputColor"
       />
-      <Button
-        type="submit"
-        :label="$t('transaction.formDebtor.saveButton')"
-        severity="success"
-      />
+      <Button type="submit" :label="$t('button.save')" severity="success" />
     </Form>
   </section>
 </template>

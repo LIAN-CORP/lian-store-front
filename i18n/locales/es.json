@@ -1,4 +1,11 @@
 {
+     "button":{
+        "save": "Guardar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "cancel": "Cancelar",
+        "search": "Buscar"
+    },
     "menuOptions": {
         "transaction": "Transacción",
         "inventory": "Inventario",
@@ -19,8 +26,7 @@
         },
         "formDebtor": {
             "name": "Nombre del cliente",
-            "phone": "Número del cliente",
-            "saveButton": "Guardar"
+            "phone": "Número del cliente"
         }
     },
     "inventory":{
@@ -44,8 +50,7 @@
             "categoryPlaceholder": "Categoría",
             "subcategoryPlaceholder": "Subcategoría",
             "categoryName": "Nombre de la categoría",
-            "categoryDescription": "Descripción",
-            "saveButton": "Guardar"
+            "categoryDescription": "Descripción"
         }
     },
      "debtors": {
@@ -62,7 +67,6 @@
     "movements":{
         "startDate": "Fecha Inicial",
         "endDate": "Fecha Final",
-        "filterButton": "Buscar",
         "selectPlaceholder": "Selecciona el tipo de movimiento",
         "clientNameLabel": "Cliente",
         "clientPhoneLabel": "Teléfono",
@@ -91,8 +95,7 @@
         "form": {
             "title": "Nuevo Pago",
             "amount": "Monto",
-            "method": "Método de pago",
-            "saveButton": "Guardar"
+            "method": "Método de pago"
         },
         "select": {
             "sales": "Ventas",

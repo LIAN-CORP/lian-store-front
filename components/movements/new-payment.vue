@@ -14,11 +14,7 @@
       name="method"
       :label="$t('movements.form.method')"
     />
-    <Button
-      type="submit"
-      :label="$t('movements.form.saveButton')"
-      severity="success"
-    />
+    <Button type="submit" :label="$t('button.save')" severity="success" />
   </Form>
 </template>
 

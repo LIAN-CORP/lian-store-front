@@ -82,7 +82,7 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
           severity="success"
           rounded
           raised
-          :label="$t('inventory.form.saveButton')"
+          :label="$t('button.save')"
         >
         </Button>
       </div>

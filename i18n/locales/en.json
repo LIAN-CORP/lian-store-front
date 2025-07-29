@@ -1,4 +1,10 @@
 {
+    "button":{
+        "save": "Save",
+        "delete": "Delete",
+        "edit": "Edit",
+        "cancel": "Cancel"
+    },
     "menuOptions": {
         "transaction": "Transaction",
         "inventory": "Inventory",
@@ -19,8 +25,7 @@
         },
         "formDebtor": {
             "name": "Client name",
-            "phone": "Phone number",
-            "saveButton": "Save"
+            "phone": "Phone number"
         }
     },
     "inventory":{
@@ -43,8 +48,7 @@
             "categoryPlaceholder": "Category",
             "subcategoryPlaceholder": "Subcategory",
             "categoryName": "Category name",
-            "categoryDescription": "Description",
-            "saveButton": "Save"
+            "categoryDescription": "Description"
         }
     },
      "debtors": {
@@ -61,7 +65,6 @@
     "movements":{
         "startDate": "Start Date",
         "endDate": "End Date",
-        "filterButton": "Search",
         "selectPlaceholder": "Select type of movement",
         "clientNameLabel": "Client",
         "clientPhoneLabel": "Phone",
@@ -90,8 +93,7 @@
         "form": {
             "title": "New Payment",
             "amount": "Amount",
-            "method": "Payment Method",
-            "saveButton": "Save"
+            "method": "Payment Method"
         },
         "select": {
             "sales": "Sales",
