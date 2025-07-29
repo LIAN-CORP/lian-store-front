@@ -3,16 +3,22 @@ import type { FormSubmitEvent } from "@primevue/forms";
 import { zodResolver } from "@primevue/forms/resolvers/zod";
 import { ProductEditScheme } from "~/schemas/product.edit.scheme";
 
+const { data } = await useGetCategory();
 const resolver = ref(zodResolver(ProductEditScheme));
-const isForm = ref(false);
-const category = ref("");
+const subcategories = ref();
 
-function showSubCategoryForm() {
-  isForm.value = !isForm.value;
+const showForm = ref(false);
+const activeForm = ref("");
+
+function onShowCategoryForm(name: string) {
+  showForm.value = !showForm.value;
+  activeForm.value = name;
 }
-function obtainCategory(name: string) {
-  category.value = name;
-  console.log(name);
+
+async function updateSubcategories(name: string) {
+  if (!name) subcategories.value = [];
+  const fetchSubCategories = await useGetSubcategory(name);
+  subcategories.value = fetchSubCategories?.content;
 }
 
 const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
@@ -58,14 +64,18 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
           :options="{ min: 0, suffix: ' u/c' }"
           input-color="white"
         />
-        <InventoryNewCategory
-          @is-form="showSubCategoryForm"
-          @category="obtainCategory"
+        <CustomSelectInput
+          name="category"
+          :label="$t('inventory.form.categoryPlaceholder')"
+          :prop-options="data?.content"
+          @on-click="onShowCategoryForm"
+          @model-value="updateSubcategories"
         />
-        <InventoryNewSubcategory
-          :showForm="isForm"
-          :category="category"
-          prueba="subcategoryId"
+        <CustomSelectInput
+          name="subcategoryId"
+          :prop-options="subcategories"
+          @on-click="onShowCategoryForm"
+          label="subcategoria"
         />
         <Button
           type="submit"
@@ -77,6 +87,12 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
         </Button>
       </div>
     </Form>
+    <Dialog v-model:visible="showForm" :header="activeForm" modal>
+      <template #default>
+        <InventoryNewCategory v-if="activeForm === 'category'" />
+        <InventoryNewSubcategory v-if="activeForm === 'subcategoryId'" />
+      </template>
+    </Dialog>
   </section>
 </template>
 

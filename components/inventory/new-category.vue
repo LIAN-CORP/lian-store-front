@@ -1,61 +1,19 @@
-<script lang="ts" setup>
-import { Icon } from "@iconify/vue/dist/iconify.js";
-
-const emit = defineEmits(["isForm", "category"]);
-
-const showCategory = ref(false);
-const chooseCategory = ref(null);
-
-function onShowCategoryForm() {
-  showCategory.value = !showCategory.value;
-  chooseCategory.value = null;
-  emit("isForm");
-}
-const { data } = await useGetCategory();
-</script>
+<script lang="ts" setup></script>
 
 <template>
-  <InputGroup>
-    <InputGroupAddon>
-      <Button @click="onShowCategoryForm">
-        <template #icon>
-          <Icon icon="mingcute:add-fill" width="20" height="20" />
-        </template>
-      </Button>
-    </InputGroupAddon>
-    <Select
-      optionLabel="name"
-      optionValue="id"
-      :placeholder="$t('inventory.form.categoryPlaceholder')"
-      v-model="chooseCategory"
-      :options="data?.content"
-      :disabled="showCategory"
-      @update:modelValue="$emit('category', chooseCategory)"
-    />
-  </InputGroup>
-  <Form class="new-category" v-if="showCategory">
+  <Form class="new-category">
     <CustomTextField
       id="categoryNameID"
-      name="Category"
+      name="category"
       :label="$t('inventory.form.categoryName')"
+      input-color="white"
     />
-    <div class="formField">
-      <FormField v-slot="$field">
-        <FloatLabel variant="on">
-          <Textarea id="description" name="description" fluid />
-          <label for="description">{{
-            $t("inventory.form.categoryDescription")
-          }}</label>
-        </FloatLabel>
-        <Message
-          v-if="$field.invalid"
-          variant="simple"
-          size="small"
-          severity="error"
-          >{{ $field.error?.message }}
-        </Message>
-      </FormField>
-    </div>
+    <CustomTextAreaField
+      id="description"
+      name="description"
+      :label="$t('inventory.form.categoryDescription')"
+      input-color="white"
+    />
   </Form>
 </template>
 
