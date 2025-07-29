@@ -31,7 +31,7 @@
     },
     "inventory":{
         "search": "Buscar producto",
-        "newProduct": "Nuevo Producto",
+        "newProductButton": "Nuevo Producto",
         "editProduct": "Editar Producto",
 
         "labels":{
@@ -41,16 +41,25 @@
             "price": "Precio",
             "stock": "Stock"
         },
-        "form": {
+        "select": {
+            "categoryPlaceholder": "Categoría",
+            "subcategoryPlaceholder": "Subcategoría"
+        },
+        "newProduct":{
             "changeImage": "Cambiar Imagen",
+            "imageLabel": "Selecciona una imagen",
             "name": "Nombre del producto",
             "salePrice": "Precio de venta",
             "buyingPrice": "Precio de compra",
-            "quantity": "Cantidad",
-            "categoryPlaceholder": "Categoría",
-            "subcategoryPlaceholder": "Subcategoría",
-            "categoryName": "Nombre de la categoría",
-            "categoryDescription": "Descripción"
+            "quantity": "Cantidad"
+        } ,
+        "newCategory": {
+            "name": "Nombre de la categoría",
+            "description": "Descripción"
+        },
+        "newSubcategory":{
+            "name": "Nombre de la subcategoria",
+            "description": "Descripción"
         }
     },
      "debtors": {

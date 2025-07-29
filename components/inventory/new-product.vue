@@ -37,27 +37,27 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
       <CustomFileUpload />
       <div class="fields">
         <CustomTextField
-          :label="$t('inventory.form.name')"
+          :label="$t('inventory.newProduct.name')"
           id="idNameProduct"
           name="product"
           input-color="white"
         />
         <CustomNumberField
-          :label="$t('inventory.form.salePrice')"
+          :label="$t('inventory.newProduct.salePrice')"
           id="idPriceSale"
           name="priceSale"
           :options="{ prefix: '$', min: 0 }"
           input-color="white"
         />
         <CustomNumberField
-          :label="$t('inventory.form.buyingPrice')"
+          :label="$t('inventory.newProduct.buyingPrice')"
           id="idPriceBuying"
           name="priceBuying"
           :options="{ prefix: '$', min: 0 }"
           input-color="white"
         />
         <CustomNumberField
-          :label="$t('inventory.form.quantity')"
+          :label="$t('inventory.newProduct.quantity')"
           id="idStock"
           name="stock"
           :showButtons="true"
@@ -66,7 +66,7 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
         />
         <CustomSelectInput
           name="category"
-          :label="$t('inventory.form.categoryPlaceholder')"
+          :label="$t('inventory.select.categoryPlaceholder')"
           :prop-options="data?.content"
           @on-click="onShowCategoryForm"
           @model-value="updateSubcategories"
@@ -75,7 +75,7 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
           name="subcategoryId"
           :prop-options="subcategories"
           @on-click="onShowCategoryForm"
-          label="subcategoria"
+          :label="$t('inventory.select.subcategoryPlaceholder')"
         />
         <Button
           type="submit"

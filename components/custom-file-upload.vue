@@ -23,12 +23,14 @@ function onFileSelect(event: any) {
       url="/api/upload"
       accept="image/*"
       :maxFileSize="10000000"
-      :chooseLabel="$t('inventory.form.changeImage')"
+      :chooseLabel="$t('inventory.newProduct.changeImage')"
       :fileLimit="1"
       @select="onFileSelect"
     >
       <template #filelabel>
-        <span>{{ previewImageName || "selecciona una imagen" }}</span>
+        <span>{{
+          previewImageName || $t("inventory.newProduct.imageLabel")
+        }}</span>
       </template>
     </FileUpload>
     <img class="fileUploader-preview" :src="previewImage ?? defaultImage" />

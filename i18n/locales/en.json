@@ -30,7 +30,7 @@
     },
     "inventory":{
         "search": "Search product",
-        "newProduct": "New Product",
+        "newProductButton": "New Product",
         "editProduct": "Edit Product",
         "labels":{
             "name": "Product",
@@ -39,16 +39,25 @@
             "price": "Price",
             "stock": "Stock"
         },
-        "form": {
+        "select": {
+            "categoryPlaceholder": "Category",
+            "subcategoryPlaceholder": "Subcategory"
+        },
+        "newProduct":{
             "changeImage": "Change Image",
+            "imageLabel": "Select an image",
             "name": "Product name",
             "salePrice": "Sale price",
             "buyingPrice": "Buying price",
-            "quantity": "Quantity",
-            "categoryPlaceholder": "Category",
-            "subcategoryPlaceholder": "Subcategory",
-            "categoryName": "Category name",
-            "categoryDescription": "Description"
+            "quantity": "Quantity"
+        } ,
+        "newCategory": {
+            "name": "Category name",
+            "description": "Description"
+        },
+        "newSubcategory":{
+            "name": "Subcategory name",
+            "description": "Description"
         }
     },
      "debtors": {

@@ -5,15 +5,16 @@
     <CustomTextField
       id="categoryNameID"
       name="category"
-      :label="$t('inventory.form.categoryName')"
+      :label="$t('inventory.newCategory.name')"
       input-color="white"
     />
     <CustomTextAreaField
       id="description"
       name="description"
-      :label="$t('inventory.form.categoryDescription')"
+      :label="$t('inventory.newCategory.description')"
       input-color="white"
     />
+    <Button :label="$t('button.save')" type="submit" severity="success" />
   </Form>
 </template>
 
