@@ -1,21 +1,33 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import {
+  NewCategoryScheme,
+  type NewCategory,
+} from "~/schemas/new.category.scheme";
+
+const { handleSubmit } = useForm({
+  name: "newCategory",
+  validationSchema: toTypedSchema(NewCategoryScheme),
+});
+
+const onSubmit = handleSubmit((values: NewCategory) => {
+  console.log("Formulario enviado:", values);
+});
+</script>
 
 <template>
-  <Form class="new-category">
+  <form @submit="onSubmit" class="new-category">
     <CustomTextField
       id="categoryNameID"
-      name="category"
+      name="name"
       :label="$t('inventory.newCategory.name')"
-      input-color="white"
     />
     <CustomTextAreaField
       id="description"
       name="description"
       :label="$t('inventory.newCategory.description')"
-      input-color="white"
     />
     <Button :label="$t('button.save')" type="submit" severity="success" />
-  </Form>
+  </form>
 </template>
 
 <style lang="scss" scoped>
