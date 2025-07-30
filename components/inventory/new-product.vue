@@ -1,10 +1,14 @@
 <script lang="ts" setup>
-import type { FormSubmitEvent } from "@primevue/forms";
-import { zodResolver } from "@primevue/forms/resolvers/zod";
-import { ProductEditScheme } from "~/schemas/product.edit.scheme";
+import {
+  ProductEditScheme,
+  type ProductEditData,
+} from "~/schemas/product.edit.scheme";
 
 const { data } = await useGetCategory();
-const resolver = ref(zodResolver(ProductEditScheme));
+const { handleSubmit } = useForm({
+  name: "newProduct",
+  validationSchema: toTypedSchema(ProductEditScheme),
+});
 const subcategories = ref();
 
 const showForm = ref(false);
@@ -21,19 +25,15 @@ async function updateSubcategories(name: string) {
   subcategories.value = fetchSubCategories?.content;
 }
 
-const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
-  if (valid) {
-    console.log("Form submitted successfully!", values);
-  } else {
-    console.log("Form submission failed!");
-  }
-};
+const onSubmit = handleSubmit((values: ProductEditData) => {
+  console.log("data", values);
+});
 </script>
 
 <template>
   <section class="newProduct">
     <h3 class="newProduct-title">New Product</h3>
-    <Form class="newProduct-form" :resolver="resolver" @submit="onFormSubmit">
+    <form class="newProduct-form" @submit="onSubmit">
       <CustomFileUpload />
       <div class="fields">
         <CustomTextField
@@ -86,7 +86,7 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
         >
         </Button>
       </div>
-    </Form>
+    </form>
     <Dialog v-model:visible="showForm" :header="activeForm" modal>
       <template #default>
         <InventoryNewCategory v-if="activeForm === 'category'" />
