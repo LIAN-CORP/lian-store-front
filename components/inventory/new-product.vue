@@ -5,7 +5,7 @@ import {
 } from "~/schemas/product.edit.scheme";
 
 const { data } = await useGetCategory();
-const { handleSubmit } = useForm({
+const { handleSubmit, resetField } = useForm({
   name: "newProduct",
   validationSchema: toTypedSchema(ProductEditScheme),
 });
@@ -15,12 +15,17 @@ const showForm = ref(false);
 const activeForm = ref("");
 
 function onShowCategoryForm(name: string) {
+  subcategories.value = null;
+  resetField("subcategoryId");
   showForm.value = !showForm.value;
   activeForm.value = name;
 }
 
 async function updateSubcategories(name: string) {
-  if (!name) subcategories.value = [];
+  if (!name) {
+    subcategories.value = [];
+    return;
+  }
   const fetchSubCategories = await useGetSubcategory(name);
   subcategories.value = fetchSubCategories?.content;
 }

@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-const model = defineModel({
-  type: Number,
-});
-
 const emit = defineEmits(["update:modelValue"]);
 
 const props = withDefaults(

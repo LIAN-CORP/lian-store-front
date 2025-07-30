@@ -1,6 +1,6 @@
 import { z } from "zod";
 export const NewCategoryScheme = z.object({
-  name: z
+  category: z
     .string({
       message: "no esta el nombre",
     })

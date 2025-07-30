@@ -8,12 +8,11 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 const emit = defineEmits(["onClick", "modelValue"]);
-
+const { value, errorMessage, resetField } = useField<string>(() => props.name);
 function onClickButton() {
+  resetField();
   emit("onClick", props.name);
-  emit("modelValue");
 }
-const { value, errorMessage } = useField<string>(() => props.name);
 </script>
 
 <template>

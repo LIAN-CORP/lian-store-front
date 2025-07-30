@@ -18,7 +18,7 @@ const onSubmit = handleSubmit((values: NewCategory) => {
   <form @submit="onSubmit" class="new-category">
     <CustomTextField
       id="categoryNameID"
-      name="name"
+      name="category"
       :label="$t('inventory.newCategory.name')"
     />
     <CustomTextAreaField
