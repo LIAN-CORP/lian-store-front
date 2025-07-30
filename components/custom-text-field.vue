@@ -1,9 +1,4 @@
 <script lang="ts" setup>
-const model = defineModel({
-  type: String,
-});
-const emit = defineEmits(["update:modelValue"]);
-
 const props = withDefaults(
   defineProps<{
     id: string;
@@ -23,39 +18,40 @@ const props = withDefaults(
     inputColor: "#eef2ff",
   }
 );
+
+const { value, errorMessage } = useField<string>(() => props.name);
 </script>
 
 <template>
   <div class="formField">
-    <FormField v-slot="$field" :name="name">
-      <FloatLabel
-        variant="on"
-        :style="{
-          '--p-floatlabel-on-active-background': inputColor,
-        }"
-      >
-        <InputText
-          :style="{ backgroundColor: inputColor }"
-          :id="id"
-          :name="name"
-          :placeholder="placeholder"
-          :fluid="fluid"
-          :size="size"
-          :disabled="disabled"
-          :maxlength="maxlength"
-          :minlength="minlength"
-          :pattern="pattern"
-        />
-        <label :for="id">{{ label }}</label>
-      </FloatLabel>
-      <Message
-        v-if="$field?.invalid"
-        variant="simple"
-        size="small"
-        severity="error"
-        >{{ $field.error?.message }}</Message
-      >
-    </FormField>
+    <FloatLabel
+      variant="on"
+      :style="{
+        '--p-floatlabel-on-active-background': inputColor,
+      }"
+    >
+      <InputText
+        :style="{ backgroundColor: inputColor }"
+        :id="id"
+        :name="name"
+        :placeholder="placeholder"
+        :fluid="fluid"
+        :size="size"
+        :disabled="disabled"
+        :maxlength="maxlength"
+        :minlength="minlength"
+        :pattern="pattern"
+        v-model:model-value="value"
+      />
+      <label :for="id">{{ label }}</label>
+    </FloatLabel>
+    <Message
+      v-if="errorMessage"
+      variant="simple"
+      size="small"
+      severity="error"
+      >{{ errorMessage }}</Message
+    >
   </div>
 </template>
 

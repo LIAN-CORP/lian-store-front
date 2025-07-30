@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-withDefaults(
+const props = withDefaults(
   defineProps<{
     id: string;
     name: string;
@@ -18,31 +18,27 @@ withDefaults(
     inputColor: "#eef2ff",
   }
 );
+const { value, errorMessage } = useField<string>(() => props.name);
 </script>
 
 <template>
   <div class="formField">
-    <FormField v-slot="$field" :name="name">
-      <FloatLabel variant="on">
-        <Textarea
-          :style="{ backgroundColor: inputColor }"
-          :id="id"
-          :name="name"
-          :fluid="fluid"
-          :placeholder="placeholder"
-          :size="size"
-          :disabled="disabled"
-        />
-        <label :for="id">{{ label }}</label>
-      </FloatLabel>
-      <Message
-        v-if="$field.invalid"
-        variant="simple"
-        size="small"
-        severity="error"
-        >{{ $field.error?.message }}
-      </Message>
-    </FormField>
+    <FloatLabel variant="on">
+      <Textarea
+        :style="{ backgroundColor: inputColor }"
+        :id="id"
+        :name="name"
+        :fluid="fluid"
+        :placeholder="placeholder"
+        :size="size"
+        :disabled="disabled"
+        v-model:model-value="value"
+      />
+      <label :for="id">{{ label }}</label>
+    </FloatLabel>
+    <Message v-if="errorMessage" variant="simple" size="small" severity="error"
+      >{{ errorMessage }}
+    </Message>
   </div>
 </template>
 
