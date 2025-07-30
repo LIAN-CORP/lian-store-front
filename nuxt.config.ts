@@ -9,8 +9,18 @@ export default defineNuxtConfig({
       apiBase: "",
     },
   },
-  modules: ["@primevue/nuxt-module", "@nuxtjs/i18n"],
+  modules: ["@primevue/nuxt-module", "@nuxtjs/i18n", "@vee-validate/nuxt"],
   css: ["/assets/styles/main.scss"],
+
+  veeValidate: {
+    autoImports: true,
+    componentNames: {
+      Form: "VeeForm",
+      Field: "VeeField",
+      FieldArray: "VeeFieldArray",
+      ErrorMessage: "VeeErrorMessage",
+    },
+  },
 
   i18n: {
     defaultLocale: "es",
