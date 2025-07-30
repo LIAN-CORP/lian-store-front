@@ -34,40 +34,38 @@ const { value, errorMessage } = useField<number>(() => props.name);
 
 <template>
   <div class="formField">
-    <FormField v-slot="$field" :name="name">
-      <FloatLabel
-        variant="on"
-        :style="{
-          '--p-floatlabel-on-active-background': inputColor,
-        }"
-      >
-        <InputNumber
-          :inputStyle="{ backgroundColor: inputColor }"
-          :inputId="props.id"
-          :name="props.name"
-          :placeholder="props.placeholder"
-          :fluid="props.fluid"
-          :size="props.size"
-          :showButtons="props.showButtons"
-          :disabled="props.disabled"
-          :prefix="props.prefix"
-          :suffix="props.suffix"
-          :min="props.min"
-          :max="props.max"
-          :step="props.step"
-          buttonLayout="vertical"
-          v-model:modelValue="value"
-        />
-        <label :for="props.id">{{ props.label }}</label>
-      </FloatLabel>
-      <Message
-        v-if="errorMessage"
-        variant="simple"
-        size="small"
-        severity="error"
-        >{{ errorMessage }}</Message
-      >
-    </FormField>
+    <FloatLabel
+      variant="on"
+      :style="{
+        '--p-floatlabel-on-active-background': inputColor,
+      }"
+    >
+      <InputNumber
+        :inputStyle="{ backgroundColor: inputColor }"
+        :inputId="props.id"
+        :name="props.name"
+        :placeholder="props.placeholder"
+        :fluid="props.fluid"
+        :size="props.size"
+        :showButtons="props.showButtons"
+        :disabled="props.disabled"
+        :prefix="props.prefix"
+        :suffix="props.suffix"
+        :min="props.min"
+        :max="props.max"
+        :step="props.step"
+        buttonLayout="vertical"
+        v-model:modelValue="value"
+      />
+      <label :for="props.id">{{ props.label }}</label>
+    </FloatLabel>
+    <Message
+      v-if="errorMessage"
+      variant="simple"
+      size="small"
+      severity="error"
+      >{{ errorMessage }}</Message
+    >
   </div>
 </template>
 
