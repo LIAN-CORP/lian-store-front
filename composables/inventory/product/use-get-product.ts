@@ -1,4 +1,4 @@
-import type { GetListProducts } from "~/interfaces/inventory/response/get.list.products.";
+import type { GetListProducts } from "~/interfaces/inventory/product/response/get.list.products.";
 import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface";
 
 export default async function useGetProduct() {

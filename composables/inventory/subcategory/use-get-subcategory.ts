@@ -1,4 +1,4 @@
-import type { GetListSubcategories } from "~/interfaces/inventory/response/get.list.subcategories";
+import type { GetListSubcategories } from "~/interfaces/inventory/subcategory/response/get.list.subcategories";
 import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface";
 
 export default async function useGetSubcategory(
