@@ -46,6 +46,7 @@
             "subcategoryPlaceholder": "Subcategoría"
         },
         "newProduct":{
+            "title": "Crear Producto",
             "changeImage": "Cambiar Imagen",
             "imageLabel": "Selecciona una imagen",
             "name": "Nombre del producto",
@@ -54,10 +55,12 @@
             "quantity": "Cantidad"
         } ,
         "newCategory": {
+            "title": "Nueva Categoría",
             "name": "Nombre de la categoría",
             "description": "Descripción"
         },
         "newSubcategory":{
+            "title": "Nueva Subcategoria",
             "name": "Nombre de la subcategoria",
             "description": "Descripción"
         }

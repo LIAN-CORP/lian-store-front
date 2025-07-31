@@ -44,6 +44,7 @@
             "subcategoryPlaceholder": "Subcategory"
         },
         "newProduct":{
+            "title": "Create Product",
             "changeImage": "Change Image",
             "imageLabel": "Select an image",
             "name": "Product name",
@@ -52,10 +53,12 @@
             "quantity": "Quantity"
         } ,
         "newCategory": {
+            "title": "New Category",
             "name": "Category name",
             "description": "Description"
         },
         "newSubcategory":{
+            "title": "New Subcategory",
             "name": "Subcategory name",
             "description": "Description"
         }

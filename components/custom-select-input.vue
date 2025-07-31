@@ -2,6 +2,7 @@
 import { Icon } from "@iconify/vue/dist/iconify.js";
 
 const props = defineProps<{
+  title?: string;
   name: string;
   propOptions?: T[];
   label: string;
@@ -11,7 +12,7 @@ const emit = defineEmits(["onClick", "modelValue"]);
 const { value, errorMessage, resetField } = useField<string>(() => props.name);
 function onClickButton() {
   resetField();
-  emit("onClick", props.name);
+  emit("onClick", props.title);
 }
 </script>
 

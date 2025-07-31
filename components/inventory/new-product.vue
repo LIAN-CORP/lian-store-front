@@ -37,7 +37,7 @@ const onSubmit = handleSubmit((values: ProductEditData) => {
 
 <template>
   <section class="newProduct">
-    <h3 class="newProduct-title">New Product</h3>
+    <h3 class="newProduct-title">{{ $t("inventory.newProduct.title") }}</h3>
     <form class="newProduct-form" @submit="onSubmit">
       <CustomFileUpload />
       <div class="fields">
@@ -71,6 +71,7 @@ const onSubmit = handleSubmit((values: ProductEditData) => {
         />
         <CustomSelectInput
           name="category"
+          :title="$t('inventory.newCategory.title')"
           :label="$t('inventory.select.categoryPlaceholder')"
           :prop-options="data?.content"
           @on-click="onShowCategoryForm"
@@ -78,6 +79,7 @@ const onSubmit = handleSubmit((values: ProductEditData) => {
         />
         <CustomSelectInput
           name="subcategoryId"
+          :title="$t('inventory.newSubcategory.title')"
           :prop-options="subcategories"
           @on-click="onShowCategoryForm"
           :label="$t('inventory.select.subcategoryPlaceholder')"
@@ -94,8 +96,12 @@ const onSubmit = handleSubmit((values: ProductEditData) => {
     </form>
     <Dialog v-model:visible="showForm" :header="activeForm" modal>
       <template #default>
-        <InventoryNewCategory v-if="activeForm === 'category'" />
-        <InventoryNewSubcategory v-if="activeForm === 'subcategoryId'" />
+        <InventoryNewCategory
+          v-if="activeForm === $t('inventory.newCategory.title')"
+        />
+        <InventoryNewSubcategory
+          v-if="activeForm === $t('inventory.newSubcategory.title')"
+        />
       </template>
     </Dialog>
   </section>
