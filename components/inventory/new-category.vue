@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { NewCategoryRequest } from "~/interfaces/inventory/category/request/new.category.request";
 import {
   NewCategoryScheme,
   type NewCategory,
@@ -9,8 +10,13 @@ const { handleSubmit } = useForm({
   validationSchema: toTypedSchema(NewCategoryScheme),
 });
 
-const onSubmit = handleSubmit((values: NewCategory) => {
-  console.log("Formulario enviado:", values);
+const onSubmit = handleSubmit(async (values: NewCategory) => {
+  const category: NewCategoryRequest = {
+    name: values.category,
+    description: values.description,
+  };
+  const response = await useNewCategory(category);
+  console.log(response);
 });
 </script>
 

@@ -4,14 +4,14 @@ export const NewCategoryScheme = z.object({
     .string({
       message: "no esta el nombre",
     })
-    .min(10, {
+    .min(3, {
       message: "necesita 10 letras",
     }),
   description: z
     .string({
       message: "no esta la descripción",
     })
-    .min(10, {
+    .min(5, {
       message: "necesita 10 letras",
     }),
 });
