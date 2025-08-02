@@ -16,7 +16,11 @@ const onSubmit = handleSubmit(async (values: NewCategory) => {
     description: values.description,
   };
   const response = await useNewCategory(category);
-  console.log(response);
+  if (response.ok) {
+    console.log(response.data);
+  } else {
+    console.log(response.data);
+  }
 });
 </script>
 
