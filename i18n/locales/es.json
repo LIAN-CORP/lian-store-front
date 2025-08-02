@@ -6,6 +6,11 @@
         "cancel": "Cancelar",
         "search": "Buscar"
     },
+    "toast": {
+        "success": "Éxito",
+        "error": "Error",
+        "info": "Info"
+    },
     "menuOptions": {
         "transaction": "Transacción",
         "inventory": "Inventario",

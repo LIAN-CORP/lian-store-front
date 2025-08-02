@@ -5,6 +5,11 @@
         "edit": "Edit",
         "cancel": "Cancel"
     },
+    "toast": {
+        "success": "Success",
+        "error": "Error",
+        "info": "Info"
+    },
     "menuOptions": {
         "transaction": "Transaction",
         "inventory": "Inventory",

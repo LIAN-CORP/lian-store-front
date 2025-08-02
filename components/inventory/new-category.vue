@@ -4,7 +4,7 @@ import {
   NewCategoryScheme,
   type NewCategory,
 } from "~/schemas/new.category.scheme";
-
+const { successToast, errorToast } = useCreateToast();
 const { handleSubmit } = useForm({
   name: "newCategory",
   validationSchema: toTypedSchema(NewCategoryScheme),
@@ -17,9 +17,9 @@ const onSubmit = handleSubmit(async (values: NewCategory) => {
   };
   const response = await useNewCategory(category);
   if (response.ok) {
-    console.log(response.data);
+    successToast("la categoría se creo exitosamente");
   } else {
-    console.log(response.data);
+    errorToast("la categoría no se pudo crear");
   }
 });
 </script>
