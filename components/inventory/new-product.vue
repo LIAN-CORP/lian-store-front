@@ -10,23 +10,31 @@ const { handleSubmit, resetField } = useForm({
   validationSchema: toTypedSchema(ProductEditScheme),
 });
 const subcategories = ref();
+const selectedCategory = ref("");
 
 const showForm = ref(false);
 const activeForm = ref("");
 
 function onShowCategoryForm(name: string) {
   subcategories.value = null;
+  selectedCategory.value = "";
   resetField("subcategoryId");
   showForm.value = !showForm.value;
   activeForm.value = name;
 }
 
-async function updateSubcategories(name: string) {
-  if (!name) {
+function onShowSubcategoryForm(name: string) {
+  activeForm.value = name;
+  showForm.value = !showForm.value;
+}
+
+async function updateSubcategories(id: string) {
+  selectedCategory.value = id;
+  if (!id) {
     subcategories.value = [];
     return;
   }
-  const fetchSubCategories = await useGetSubcategory(name);
+  const fetchSubCategories = await useGetSubcategory(id);
   subcategories.value = fetchSubCategories?.content;
 }
 
@@ -81,7 +89,8 @@ const onSubmit = handleSubmit((values: ProductEditData) => {
           name="subcategoryId"
           :title="$t('inventory.newSubcategory.title')"
           :prop-options="subcategories"
-          @on-click="onShowCategoryForm"
+          @on-click="onShowSubcategoryForm"
+          :disabled="!selectedCategory"
           :label="$t('inventory.select.subcategoryPlaceholder')"
         />
         <Button
@@ -100,6 +109,7 @@ const onSubmit = handleSubmit((values: ProductEditData) => {
           v-if="activeForm === $t('inventory.newCategory.title')"
         />
         <InventoryNewSubcategory
+          :category-id="selectedCategory"
           v-if="activeForm === $t('inventory.newSubcategory.title')"
         />
       </template>

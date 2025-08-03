@@ -1,9 +1,42 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import type { NewSubcategoryRequest } from "~/interfaces/inventory/subcategory/resquest/new.subcategory.request";
+import {
+  newSubcategoryScheme,
+  type NewSubcategory,
+} from "~/schemas/new.subcategory.scheme";
+
+const { successToast, errorToast } = useCreateToast();
+
+const props = defineProps<{
+  categoryId: string;
+}>();
+
+const { handleSubmit } = useForm({
+  name: "NewSubcategory",
+  validationSchema: toTypedSchema(newSubcategoryScheme),
+});
+
+const onSubmit = handleSubmit(async (values: NewSubcategory) => {
+  const subcategory: NewSubcategoryRequest = {
+    name: values.subcategory,
+    description: values.description,
+    categoryId: props.categoryId,
+  };
+  console.log(subcategory);
+  const response = await useNewSubcategory(subcategory);
+  if (response.ok) {
+    successToast("la subcategoría se creo exitosamente");
+  } else {
+    console.log(response.data);
+    errorToast("la subcategoría no se pudo crear");
+  }
+});
+</script>
 
 <template>
-  <Form class="new-subcategory">
+  <form @submit="onSubmit" class="new-subcategory">
     <CustomTextField
-      id="subcategoryNameID"
+      id="subcategoryID"
       name="subcategory"
       :label="$t('inventory.newSubcategory.name')"
       input-color="white"
@@ -15,7 +48,7 @@
       input-color="white"
     />
     <Button :label="$t('button.save')" type="submit" severity="success" />
-  </Form>
+  </form>
 </template>
 
 <style lang="scss" scoped>

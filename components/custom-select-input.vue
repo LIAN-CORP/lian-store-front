@@ -20,7 +20,7 @@ function onClickButton() {
   <div class="select-input">
     <InputGroup>
       <InputGroupAddon>
-        <Button @click="onClickButton">
+        <Button @click="onClickButton" :disabled="disabled">
           <template #icon>
             <Icon icon="mingcute:add-fill" width="20" height="20" />
           </template>
