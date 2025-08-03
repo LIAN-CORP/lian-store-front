@@ -6,7 +6,7 @@ import {
 } from "~/schemas/new.subcategory.scheme";
 
 const { successToast, errorToast } = useCreateToast();
-
+const emit = defineEmits(["created"]);
 const props = defineProps<{
   categoryId: string;
 }>();
@@ -26,6 +26,7 @@ const onSubmit = handleSubmit(async (values: NewSubcategory) => {
   const response = await useNewSubcategory(subcategory);
   if (response.ok) {
     successToast("la subcategoría se creo exitosamente");
+    emit("created");
   } else {
     console.log(response.data);
     errorToast("la subcategoría no se pudo crear");

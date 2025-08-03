@@ -4,6 +4,7 @@ import {
   NewCategoryScheme,
   type NewCategory,
 } from "~/schemas/new.category.scheme";
+const emit = defineEmits(["created"]);
 const { successToast, errorToast } = useCreateToast();
 const { handleSubmit } = useForm({
   name: "newCategory",
@@ -18,6 +19,7 @@ const onSubmit = handleSubmit(async (values: NewCategory) => {
   const response = await useNewCategory(category);
   if (response.ok) {
     successToast("la categoría se creo exitosamente");
+    emit("created");
   } else {
     errorToast("la categoría no se pudo crear");
   }

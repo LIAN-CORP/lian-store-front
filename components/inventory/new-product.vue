@@ -3,13 +3,13 @@ import {
   ProductEditScheme,
   type ProductEditData,
 } from "~/schemas/product.edit.scheme";
-
-const { data } = await useGetCategory();
+const { t } = useI18n();
+const { subcategories, refresh } = useGetSubcategory();
+const { categories, categoryRefresh } = useGetCategory();
 const { handleSubmit, resetField } = useForm({
   name: "newProduct",
   validationSchema: toTypedSchema(ProductEditScheme),
 });
-const subcategories = ref();
 const selectedCategory = ref("");
 
 const showForm = ref(false);
@@ -28,14 +28,13 @@ function onShowSubcategoryForm(name: string) {
   showForm.value = !showForm.value;
 }
 
-async function updateSubcategories(id: string) {
+function updateSubcategories(id: string) {
   selectedCategory.value = id;
   if (!id) {
     subcategories.value = [];
     return;
   }
-  const fetchSubCategories = await useGetSubcategory(id);
-  subcategories.value = fetchSubCategories?.content;
+  refresh(id);
 }
 
 const onSubmit = handleSubmit((values: ProductEditData) => {
@@ -81,7 +80,7 @@ const onSubmit = handleSubmit((values: ProductEditData) => {
           name="category"
           :title="$t('inventory.newCategory.title')"
           :label="$t('inventory.select.categoryPlaceholder')"
-          :prop-options="data?.content"
+          :prop-options="categories"
           @on-click="onShowCategoryForm"
           @model-value="updateSubcategories"
         />
@@ -107,10 +106,12 @@ const onSubmit = handleSubmit((values: ProductEditData) => {
       <template #default>
         <InventoryNewCategory
           v-if="activeForm === $t('inventory.newCategory.title')"
+          @created="categoryRefresh"
         />
         <InventoryNewSubcategory
           :category-id="selectedCategory"
           v-if="activeForm === $t('inventory.newSubcategory.title')"
+          @created="refresh(selectedCategory)"
         />
       </template>
     </Dialog>

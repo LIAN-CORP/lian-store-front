@@ -1,9 +1,12 @@
 import type { GetListCategories } from "~/interfaces/inventory/category/response/get.list.categories";
 import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface";
 
-export default async function useGetCategory() {
+export default function useGetCategory() {
   const url = useGetApiUrl("category");
-  return useFetch<paginatedResponse<GetListCategories>>(url, {
+
+  const { data, error, refresh, status } = useFetch<
+    paginatedResponse<GetListCategories>
+  >(url, {
     query: {
       page: 0,
       size: 10,
@@ -11,4 +14,13 @@ export default async function useGetCategory() {
     },
     lazy: true,
   });
+
+  const categories = computed(() => data.value?.content ?? []);
+
+  return {
+    categories,
+    error,
+    status,
+    categoryRefresh: refresh,
+  };
 }
