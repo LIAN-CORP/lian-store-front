@@ -11,6 +11,28 @@
         "error": "Error",
         "info": "Info"
     },
+    "auth":{
+        "attribution": {
+            "button": "Créditos",
+            "title": "Créditos",
+            "label": "Fondo SVG gratuito por: "
+        },
+        "login": {
+            "title": "¡Bienvenido!",
+            "username": "Nombre de Usuario",
+            "password": "Contraseña",
+            "button" : "Iniciar Sesión" ,
+            "changeForm": "¡Regístrate Aquí!"
+        },
+        "register": {
+            "title": "Nuevo Usuario",
+            "username": "Nombre de Usuario",
+            "password": "Contraseña",
+            "confirmPassword": "Confirmar Contraseña",
+            "button" : "Registrarse" ,
+            "changeForm": "¡Inicia Sesión Aquí!"
+        }
+    },
     "menuOptions": {
         "transaction": "Transacción",
         "inventory": "Inventario",

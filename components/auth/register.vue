@@ -2,31 +2,31 @@
 
 <template>
   <section class="register">
-    <h2>crear usuario</h2>
+    <h2>{{ $t("auth.register.title") }}</h2>
     <form class="register-form">
       <CustomTextField
         id="usernameId"
         name="username"
-        label="username"
+        :label="$t('auth.register.username')"
         input-color="white"
         autocomplete="username"
       />
       <CustomTextField
         id="passwordId"
         name="password"
-        label="password"
+        :label="$t('auth.register.password')"
         input-color="white"
       />
       <CustomTextField
         id="confirmPasswordId"
         name="confirmPassword"
-        label="confirm password"
+        :label="$t('auth.register.confirmPassword')"
         input-color="white"
       />
-      <Button rounded severity="success" label="register" />
+      <Button rounded severity="success" :label="$t('auth.register.button')" />
     </form>
     <Button
-      label="registrate aqui"
+      :label="$t('auth.register.changeForm')"
       variant="link"
       @click="$emit('showLogin', 'login')"
     />

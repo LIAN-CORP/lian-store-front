@@ -1,26 +1,35 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+function prueba() {
+  navigateTo("inventory");
+}
+</script>
 
 <template>
   <section class="login">
-    <h2>¡Bienvenido!</h2>
+    <h2>{{ $t("auth.login.title") }}</h2>
     <form class="login-form">
       <CustomTextField
         id="usernameId"
         name="username"
-        label="username"
+        :label="$t('auth.login.username')"
         input-color="white"
         autocomplete="username"
       />
       <CustomTextField
         id="passwordId"
         name="password"
-        label="password"
+        :label="$t('auth.login.password')"
         input-color="white"
       />
-      <Button rounded severity="success" label="Login" />
+      <Button
+        rounded
+        severity="success"
+        :label="$t('auth.login.button')"
+        @click="prueba"
+      />
     </form>
     <Button
-      label="registrate aqui"
+      :label="$t('auth.login.changeForm')"
       variant="link"
       @click="$emit('showRegister', 'register')"
     />
