@@ -27,7 +27,8 @@ function onClick() {
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background-color: #f8fbfd;
+  background-image: url("/public/login.svg");
+  background-size: cover;
   h2 {
     font-size: 4em;
   }
