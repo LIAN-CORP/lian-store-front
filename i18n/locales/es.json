@@ -13,8 +13,6 @@
     },
     "auth":{
         "attribution": {
-            "button": "Créditos",
-            "title": "Créditos",
             "label": "Fondo SVG gratuito por: "
         },
         "login": {

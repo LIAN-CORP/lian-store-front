@@ -32,39 +32,29 @@ function onChangeForm(name: string) {
           @showLogin="onChangeForm"
         />
       </div>
-      <div class="auth-actions">
-        <Button
-          variant="text"
-          :label="$t('auth.attribution.button')"
-          @click="onShowAttributionModal"
-        />
-      </div>
     </div>
+    <p class="credits">
+      {{ $t("auth.attribution.label") }}
+      <a target="_blank" href="https://bgjar.com">BGJar</a>
+    </p>
   </section>
-  <Dialog
-    modal
-    :header="$t('auth.attribution.title')"
-    v-model:visible="attributionModal"
-  >
-    <template #default>
-      <p>
-        {{ $t("auth.attribution.label") }}
-        <a target="_blank" href="https://bgjar.com">BGJar</a>
-      </p>
-    </template>
-  </Dialog>
 </template>
 
 <style lang="scss" scoped>
 .background {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  place-items: center;
   background-image: url("../public/login.svg");
   background-size: cover;
   height: 100vh;
   width: 100vw;
   padding: 1rem;
+  .credits {
+    text-align: center;
+    margin-top: auto;
+    opacity: 0.6;
+  }
   .auth {
     display: flex;
     flex-direction: column;
@@ -75,9 +65,6 @@ function onChangeForm(name: string) {
     min-width: 400px;
     background-color: white;
     box-shadow: 0px 0px 10px -3px rgba(66, 68, 90, 1);
-    &-actions {
-      display: flex;
-    }
     h2 {
       font-family: "LibreBarCode128";
       font-size: 5em;

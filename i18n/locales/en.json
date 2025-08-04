@@ -13,8 +13,6 @@
 
     "auth":{
         "attribution": {
-            "button": "Attribution",
-            "title": "Attribution",
             "label": "Free SVG Background by: "
         },
         "login": {
