@@ -1,4 +1,16 @@
 {
+     "button":{
+        "save": "Guardar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "cancel": "Cancelar",
+        "search": "Buscar"
+    },
+    "toast": {
+        "success": "Éxito",
+        "error": "Error",
+        "info": "Info"
+    },
     "menuOptions": {
         "transaction": "Transacción",
         "inventory": "Inventario",
@@ -19,13 +31,14 @@
         },
         "formDebtor": {
             "name": "Nombre del cliente",
-            "phone": "Número del cliente",
-            "saveButton": "Guardar"
+            "phone": "Número del cliente"
         }
     },
     "inventory":{
         "search": "Buscar producto",
-        "newProduct": "Nuevo producto",
+        "newProductButton": "Nuevo Producto",
+        "editProduct": "Editar Producto",
+
         "labels":{
             "name": "Producto",
             "category": "Categoría",
@@ -33,17 +46,28 @@
             "price": "Precio",
             "stock": "Stock"
         },
-        "form": {
+        "select": {
+            "categoryPlaceholder": "Categoría",
+            "subcategoryPlaceholder": "Subcategoría"
+        },
+        "newProduct":{
+            "title": "Crear Producto",
             "changeImage": "Cambiar Imagen",
+            "imageLabel": "Selecciona una imagen",
             "name": "Nombre del producto",
             "salePrice": "Precio de venta",
             "buyingPrice": "Precio de compra",
-            "quantity": "Cantidad",
-            "categoryPlaceholder": "Categoría",
-            "subcategoryPlaceholder": "Subcategoría",
-            "categoryName": "Nombre de la categoría",
-            "categoryDescription": "Descripción",
-            "saveButton": "Guardar"
+            "quantity": "Cantidad"
+        } ,
+        "newCategory": {
+            "title": "Nueva Categoría",
+            "name": "Nombre de la categoría",
+            "description": "Descripción"
+        },
+        "newSubcategory":{
+            "title": "Nueva Subcategoria",
+            "name": "Nombre de la subcategoria",
+            "description": "Descripción"
         }
     },
      "debtors": {
@@ -60,7 +84,6 @@
     "movements":{
         "startDate": "Fecha Inicial",
         "endDate": "Fecha Final",
-        "filterButton": "Buscar",
         "selectPlaceholder": "Selecciona el tipo de movimiento",
         "clientNameLabel": "Cliente",
         "clientPhoneLabel": "Teléfono",
@@ -89,8 +112,7 @@
         "form": {
             "title": "Nuevo Pago",
             "amount": "Monto",
-            "method": "Método de pago",
-            "saveButton": "Guardar"
+            "method": "Método de pago"
         },
         "select": {
             "sales": "Ventas",

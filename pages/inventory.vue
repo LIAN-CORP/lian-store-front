@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue/dist/iconify.js";
-const { data } = useProduct();
+const { data } = await useGetProduct();
 
-const showForm = ref(false);
+const showEditForm = ref(false);
+const showNewProductForm = ref(false);
 const searchValue = ref("");
 function showSearch() {
-  console.log(searchValue.value);
-  console.log(data.value?.content);
+  console.log(data.value);
 }
 function onEditProduct() {
-  showForm.value = true;
+  showEditForm.value = true;
 }
 function onDelete() {}
 </script>
@@ -33,8 +33,7 @@ function onDelete() {}
       <Button
         severity="success"
         :label="$t('inventory.newProduct')"
-        raised
-        rounded
+        @click="showNewProductForm = true"
       >
         <template #icon>
           <Icon icon="grommet-icons:add" width="1.5em" height="1.5em" />
@@ -44,11 +43,11 @@ function onDelete() {}
     <article class="inventory-products">
       <InventoryCardProduct
         v-for="product in data?.content"
-        :id="1"
+        :id="product.id"
         :name="product.name"
-        :image="product.image"
-        :category="product.subcategory.category.name"
-        :subcategory="product.subcategory.name"
+        :image="product.imagePath || ''"
+        :category="product.category"
+        :subcategory="product.subcategory"
         :price="product.priceSell"
         :quantity="product.stock"
         @delete-product="onDelete"
@@ -59,16 +58,26 @@ function onDelete() {}
       <Paginator :rows="10" :totalRecords="data!.totalElements" />
     </div>
   </section>
+  <Dialog
+    modal
+    v-model:visible="showNewProductForm"
+    maximizable
+    :header="$t('inventory.newProduct')"
+  >
+    <InventoryNewProduct />
+  </Dialog>
   <ConfirmDialog />
-  <Dialog v-model:visible="showForm" modal maximizable header="Editar Producto">
-    <template #default>
-      <InventoryUpdateProduct />
-    </template>
+  <Dialog
+    v-model:visible="showEditForm"
+    modal
+    maximizable
+    :header="$t('inventory.editProduct')"
+  >
+    <InventoryUpdateProduct />
   </Dialog>
 </template>
 
 <style scoped lang="scss">
-@use "../../assets/styles/colors.scss";
 .inventory {
   .p-inputgroup {
     width: 40%;

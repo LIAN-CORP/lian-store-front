@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-const model = defineModel({
-  type: Number,
-});
-
 const emit = defineEmits(["update:modelValue"]);
 
 const props = withDefaults(
@@ -10,7 +6,6 @@ const props = withDefaults(
     id: string;
     name: string;
     label: string;
-    error?: string;
     fluid?: boolean;
     showButtons?: boolean;
     size?: string;
@@ -30,6 +25,7 @@ const props = withDefaults(
     inputColor: "#eef2ff",
   }
 );
+const { value, errorMessage } = useField<number>(() => props.name);
 </script>
 
 <template>
@@ -55,17 +51,16 @@ const props = withDefaults(
         :max="props.max"
         :step="props.step"
         buttonLayout="vertical"
-        v-model="model"
-        @update:modelValue="emit('update:modelValue', $event)"
+        v-model:modelValue="value"
       />
       <label :for="props.id">{{ props.label }}</label>
     </FloatLabel>
     <Message
-      v-if="props.error"
+      v-if="errorMessage"
       variant="simple"
       size="small"
       severity="error"
-      >{{ props.error }}</Message
+      >{{ errorMessage }}</Message
     >
   </div>
 </template>

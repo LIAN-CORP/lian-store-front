@@ -18,40 +18,27 @@ const props = withDefaults(
     inputColor: "#eef2ff",
   }
 );
-
 const { value, errorMessage } = useField<string>(() => props.name);
 </script>
 
 <template>
   <div class="formField">
-    <FloatLabel
-      variant="on"
-      :style="{
-        '--p-floatlabel-on-active-background': inputColor,
-      }"
-    >
-      <InputText
+    <FloatLabel variant="on">
+      <Textarea
         :style="{ backgroundColor: inputColor }"
         :id="id"
         :name="name"
-        :placeholder="placeholder"
         :fluid="fluid"
+        :placeholder="placeholder"
         :size="size"
         :disabled="disabled"
-        :maxlength="maxlength"
-        :minlength="minlength"
-        :pattern="pattern"
         v-model:model-value="value"
       />
       <label :for="id">{{ label }}</label>
     </FloatLabel>
-    <Message
-      v-if="errorMessage"
-      variant="simple"
-      size="small"
-      severity="error"
-      >{{ errorMessage }}</Message
-    >
+    <Message v-if="errorMessage" variant="simple" size="small" severity="error"
+      >{{ errorMessage }}
+    </Message>
   </div>
 </template>
 

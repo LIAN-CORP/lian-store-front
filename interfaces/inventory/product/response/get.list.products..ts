@@ -1,13 +1,10 @@
 export interface GetListProducts {
+  id: string;
   name: string;
-  image: string;
+  imagePath: string;
   description: string;
   priceSell: number;
   stock: number;
-  subcategory: {
-    name: string;
-    category: {
-      name: string;
-    };
-  };
+  category: string;
+  subcategory: string;
 }

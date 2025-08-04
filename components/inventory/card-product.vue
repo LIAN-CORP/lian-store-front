@@ -9,7 +9,7 @@ function onEditProduct() {
   emit("editProduct");
 }
 defineProps<{
-  id: number;
+  id: string;
   name: string;
   image: string;
   category: string;

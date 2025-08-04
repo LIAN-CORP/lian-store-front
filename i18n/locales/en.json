@@ -1,4 +1,15 @@
 {
+    "button":{
+        "save": "Save",
+        "delete": "Delete",
+        "edit": "Edit",
+        "cancel": "Cancel"
+    },
+    "toast": {
+        "success": "Success",
+        "error": "Error",
+        "info": "Info"
+    },
     "menuOptions": {
         "transaction": "Transaction",
         "inventory": "Inventory",
@@ -19,13 +30,13 @@
         },
         "formDebtor": {
             "name": "Client name",
-            "phone": "Phone number",
-            "saveButton": "Save"
+            "phone": "Phone number"
         }
     },
     "inventory":{
         "search": "Search product",
-        "newProduct": "New product",
+        "newProductButton": "New Product",
+        "editProduct": "Edit Product",
         "labels":{
             "name": "Product",
             "category": "Category",
@@ -33,17 +44,28 @@
             "price": "Price",
             "stock": "Stock"
         },
-        "form": {
+        "select": {
+            "categoryPlaceholder": "Category",
+            "subcategoryPlaceholder": "Subcategory"
+        },
+        "newProduct":{
+            "title": "Create Product",
             "changeImage": "Change Image",
+            "imageLabel": "Select an image",
             "name": "Product name",
             "salePrice": "Sale price",
             "buyingPrice": "Buying price",
-            "quantity": "Quantity",
-            "categoryPlaceholder": "Category",
-            "subcategoryPlaceholder": "Subcategory",
-            "categoryName": "Category name",
-            "categoryDescription": "Description",
-            "saveButton": "Save"
+            "quantity": "Quantity"
+        } ,
+        "newCategory": {
+            "title": "New Category",
+            "name": "Category name",
+            "description": "Description"
+        },
+        "newSubcategory":{
+            "title": "New Subcategory",
+            "name": "Subcategory name",
+            "description": "Description"
         }
     },
      "debtors": {
@@ -60,7 +82,6 @@
     "movements":{
         "startDate": "Start Date",
         "endDate": "End Date",
-        "filterButton": "Search",
         "selectPlaceholder": "Select type of movement",
         "clientNameLabel": "Client",
         "clientPhoneLabel": "Phone",
@@ -89,8 +110,7 @@
         "form": {
             "title": "New Payment",
             "amount": "Amount",
-            "method": "Payment Method",
-            "saveButton": "Save"
+            "method": "Payment Method"
         },
         "select": {
             "sales": "Sales",

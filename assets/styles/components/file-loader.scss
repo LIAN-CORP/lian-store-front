@@ -1,16 +1,25 @@
 @use "../colors" as custom-colors;
 .p-fileupload {
-  background-color: custom-colors.$blue-100;
   border-color: rgb(170, 170, 170);
-  &-header {
-    justify-content: center;
-  }
-  &-file {
-    &-info {
-      width: 150px;
+  &-basic {
+    flex-direction: column;
+    width: 100%;
+    span {
+      text-align: center;
+      width: 250px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .p-fileupload {
+    &-basic {
+      span {
+        width: 150px;
+      }
     }
   }
 }

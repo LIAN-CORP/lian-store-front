@@ -42,7 +42,7 @@ function showDetails() {
         <DatePicker fluid input-id="end_date" show-icon />
         <label for="end_date">{{ $t("movements.endDate") }}</label>
       </IftaLabel>
-      <Button :label="$t('movements.filterButton')" severity="warn" />
+      <Button :label="$t('button.save')" severity="warn" />
     </article>
     <Select
       :options="options"

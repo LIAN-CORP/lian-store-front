@@ -1,28 +1,45 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import type { NewCategoryRequest } from "~/interfaces/inventory/category/request/new.category.request";
+import {
+  NewCategoryScheme,
+  type NewCategory,
+} from "~/schemas/new.category.scheme";
+const emit = defineEmits(["created"]);
+const { successToast, errorToast } = useCreateToast();
+const { handleSubmit } = useForm({
+  name: "newCategory",
+  validationSchema: toTypedSchema(NewCategoryScheme),
+});
+
+const onSubmit = handleSubmit(async (values: NewCategory) => {
+  const category: NewCategoryRequest = {
+    name: values.category,
+    description: values.description,
+  };
+  const response = await useNewCategory(category);
+  if (response.ok) {
+    successToast("la categoría se creo exitosamente");
+    emit("created");
+  } else {
+    errorToast("la categoría no se pudo crear");
+  }
+});
+</script>
 
 <template>
-  <Form class="new-category">
+  <form @submit="onSubmit" class="new-category">
     <CustomTextField
       id="categoryNameID"
-      name="Category"
-      :label="$t('inventory.form.categoryName')"
+      name="category"
+      :label="$t('inventory.newCategory.name')"
     />
-    <div class="formField">
-      <FloatLabel variant="on">
-        <Textarea inputId="description" name="description" fluid />
-        <label for="description">{{
-          $t("inventory.form.categoryDescription")
-        }}</label>
-      </FloatLabel>
-      <!-- <Message
-        v-if="$form.stock?.invalid"
-        variant="simple"
-        size="small"
-        severity="error"
-        >{{ $form.stock.error?.message }}</Message
-      > -->
-    </div>
-  </Form>
+    <CustomTextAreaField
+      id="description"
+      name="description"
+      :label="$t('inventory.newCategory.description')"
+    />
+    <Button :label="$t('button.save')" type="submit" severity="success" />
+  </form>
 </template>
 
 <style lang="scss" scoped>
