@@ -2,15 +2,23 @@
 definePageMeta({
   layout: "blank",
 });
+const activeForm = ref("login");
+
+function onChangeForm(name: string) {
+  activeForm.value = name;
+}
 </script>
 
 <template>
   <section class="background">
     <div class="auth">
       <h2>Lian Corp</h2>
-      <div class="auth-content"></div>
-      <div class="auth-actions">
-        <Button label="registrate aqui" variant="text" />
+      <div class="auth-content">
+        <AuthLogin v-if="activeForm === 'login'" @showRegister="onChangeForm" />
+        <AuthRegister
+          v-if="activeForm === 'register'"
+          @showLogin="onChangeForm"
+        />
       </div>
     </div>
   </section>
@@ -32,19 +40,14 @@ definePageMeta({
     align-items: center;
     gap: 1rem;
     padding: 1rem;
-    min-height: 70vh;
     border-radius: 0.5rem;
-    min-width: 25vw;
+    min-width: 400px;
     background-color: white;
-    -webkit-box-shadow: 0px 0px 10px -3px rgba(66, 68, 90, 1);
-    -moz-box-shadow: 0px 0px 10px -3px rgba(66, 68, 90, 1);
     box-shadow: 0px 0px 10px -3px rgba(66, 68, 90, 1);
     h2 {
       font-family: "LibreBarCode128";
-      font-size: 4em;
+      font-size: 5em;
       text-align: center;
-    }
-    &-content {
     }
   }
 }
