@@ -7,6 +7,7 @@ const props = withDefaults(
     size?: string;
     placeholder?: string;
     pattern?: string;
+    autocomplete?: string;
     inputColor?: string;
     fluid?: boolean;
     disabled?: boolean;
@@ -41,6 +42,7 @@ const { value, errorMessage } = useField<string>(() => props.name);
         :maxlength="maxlength"
         :minlength="minlength"
         :pattern="pattern"
+        :autocomplete="autocomplete"
         v-model:model-value="value"
       />
       <label :for="id">{{ label }}</label>
