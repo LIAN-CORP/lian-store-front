@@ -2,12 +2,25 @@
 <script lang="ts" setup>
 import defaultImage from "@/assets/images/missing_product.webp";
 
+const props = defineProps<{
+  name: string;
+}>();
+
 const previewImage = ref();
 const previewImageName = ref("");
+const { value, errorMessage, setValue } = useField<File | null>(
+  () => props.name
+);
 
 function onFileSelect(event: any) {
   const file = event.files[0];
   const reader = new FileReader();
+  if (!file) {
+    setValue(null);
+    previewImageName.value = "";
+    previewImage.value = null;
+  }
+  setValue(file);
   previewImageName.value = file.name;
   reader.onload = async (e) => {
     previewImage.value = e.target?.result;
@@ -34,6 +47,9 @@ function onFileSelect(event: any) {
       </template>
     </FileUpload>
     <img class="fileUploader-preview" :src="previewImage ?? defaultImage" />
+    <Message v-if="errorMessage" severity="error" size="small">
+      {{ errorMessage }}
+    </Message>
   </article>
 </template>
 

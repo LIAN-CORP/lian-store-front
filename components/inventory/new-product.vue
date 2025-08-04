@@ -1,15 +1,18 @@
 <script lang="ts" setup>
+import type { NewProductRequest } from "~/interfaces/inventory/product/request/new.product.request";
 import {
-  ProductEditScheme,
-  type ProductEditData,
-} from "~/schemas/product.edit.scheme";
+  NewProductScheme,
+  type NewProduct,
+} from "~/schemas/new.product.scheme";
 const { t } = useI18n();
+const { errorToast, successToast } = useCreateToast();
 const { subcategories, refresh } = useGetSubcategory();
 const { categories, categoryRefresh } = useGetCategory();
 const { handleSubmit, resetField } = useForm({
   name: "newProduct",
-  validationSchema: toTypedSchema(ProductEditScheme),
+  validationSchema: toTypedSchema(NewProductScheme),
 });
+const { createNewProduct } = useNewProduct();
 const selectedCategory = ref("");
 
 const showForm = ref(false);
@@ -37,8 +40,21 @@ function updateSubcategories(id: string) {
   refresh(id);
 }
 
-const onSubmit = handleSubmit((values: ProductEditData) => {
-  console.log("data", values);
+const onSubmit = handleSubmit(async (values: NewProduct) => {
+  const product: NewProductRequest = {
+    name: values.product,
+    description: values.description,
+    stock: values.stock,
+    priceSell: values.priceSale,
+    priceBuy: values.priceBuying,
+    subcategoryId: values.subcategoryId,
+  };
+  const result = await createNewProduct(values.image, product);
+  if (result.ok) {
+    successToast("se creo el producto correctamente");
+  } else {
+    errorToast("no se pudo crear el producto");
+  }
 });
 </script>
 
@@ -46,12 +62,18 @@ const onSubmit = handleSubmit((values: ProductEditData) => {
   <section class="newProduct">
     <h3 class="newProduct-title">{{ $t("inventory.newProduct.title") }}</h3>
     <form class="newProduct-form" @submit="onSubmit">
-      <CustomFileUpload />
+      <CustomFileUpload name="image" />
       <div class="fields">
         <CustomTextField
           :label="$t('inventory.newProduct.name')"
           id="idNameProduct"
           name="product"
+          input-color="white"
+        />
+        <CustomTextAreaField
+          label="descripcion"
+          id="idDescripcionProduct"
+          name="description"
           input-color="white"
         />
         <CustomNumberField
