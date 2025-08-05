@@ -1,18 +1,35 @@
 <script lang="ts" setup>
+import type { GetProduct } from "~/interfaces/inventory/product/response/get.product";
 import { EditProductScheme } from "~/schemas/edit.product.scheme";
-
-const { t } = useI18n();
-const { errorToast, successToast } = useCreateToast();
+const props = defineProps<{
+  product: GetProduct;
+}>();
 const { subcategories, refresh } = useGetSubcategory();
 const { categories, categoryRefresh } = useGetCategory();
-const { handleSubmit, resetField } = useForm({
+const { handleSubmit, resetField, values } = useForm({
   name: "newProduct",
   validationSchema: toTypedSchema(EditProductScheme),
+  initialValues: {
+    product: props.product.name,
+    description: props.product.description,
+    priceBuying: props.product.priceBuy,
+    priceSale: props.product.priceSell,
+    stock: props.product.priceSell,
+    category: props.product.categoryId,
+    subcategoryId: props.product.subcategoryId,
+  },
 });
 const selectedCategory = ref("");
-
 const showForm = ref(false);
 const activeForm = ref("");
+
+watch(
+  () => values.category,
+  (id) => {
+    updateSubcategories(id!);
+  }
+);
+
 function updateSubcategories(id: string) {
   selectedCategory.value = id;
   if (!id) {
@@ -32,14 +49,20 @@ function onShowSubcategoryForm(name: string) {
   activeForm.value = name;
   showForm.value = !showForm.value;
 }
-const onSubmit = handleSubmit(async () => {});
+const onSubmit = handleSubmit(async (values) => {
+  console.log("sata", values);
+});
+
+onMounted(() => {
+  updateSubcategories(values.category!);
+});
 </script>
 
 <template>
   <section class="editProduct">
-    <h3 class="editProduct-title">{{ $t("inventory.newProduct.title") }}</h3>
+    <h3 class="editProduct-title">{{ $t("inventory.editProduct") }}</h3>
     <form class="editProduct-form" @submit="onSubmit">
-      <CustomFileUpload name="image" />
+      <CustomFileUpload name="image" :image="product.imagePath" />
       <div class="fields">
         <CustomTextField
           :label="$t('inventory.newProduct.name')"
@@ -81,14 +104,12 @@ const onSubmit = handleSubmit(async () => {});
           :label="$t('inventory.select.categoryPlaceholder')"
           :prop-options="categories"
           @on-click="onShowCategoryForm"
-          @model-value="updateSubcategories"
         />
         <CustomSelectInput
           name="subcategoryId"
           :title="$t('inventory.newSubcategory.title')"
           :prop-options="subcategories"
           @on-click="onShowSubcategoryForm"
-          :disabled="!selectedCategory"
           :label="$t('inventory.select.subcategoryPlaceholder')"
         />
         <Button

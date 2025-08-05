@@ -1,12 +1,11 @@
 import { string, z } from "zod";
 export const EditProductScheme = z.object({
-  product: z
-    .string()
-    .min(10, {
-      message: "el nombre debe contener al menos 10 letras",
-    })
-    .optional(),
-
+  product: z.string().min(3, {
+    message: "el nombre debe contener al menos 3 letras",
+  }),
+  description: z.string().min(10, {
+    message: "la descripción debe contener al menos 10 letras",
+  }),
   priceSale: z
     .number()
     .positive({
@@ -32,6 +31,9 @@ export const EditProductScheme = z.object({
       message: "El stock no puede ser menor a 0",
     })
     .optional(),
+  category: string().min(1, {
+    message: "debe seleccionar uno",
+  }),
   subcategoryId: string().min(1, {
     message: "debe seleccionar uno",
   }),

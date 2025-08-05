@@ -4,13 +4,12 @@ import defaultImage from "@/assets/images/missing_product.webp";
 
 const props = defineProps<{
   name: string;
+  image?: string;
 }>();
 
 const previewImage = ref();
 const previewImageName = ref("");
-const { value, errorMessage, setValue } = useField<File | null>(
-  () => props.name
-);
+const { errorMessage, setValue } = useField<File | null>(() => props.name);
 
 function onFileSelect(event: any) {
   const file = event.files[0];
@@ -46,7 +45,10 @@ function onFileSelect(event: any) {
         }}</span>
       </template>
     </FileUpload>
-    <img class="fileUploader-preview" :src="previewImage ?? defaultImage" />
+    <img
+      class="fileUploader-preview"
+      :src="(previewImage || image) ?? defaultImage"
+    />
     <Message v-if="errorMessage" severity="error" size="small">
       {{ errorMessage }}
     </Message>
