@@ -1,133 +1,168 @@
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue/dist/iconify.js";
-import type { FormSubmitEvent } from "@primevue/forms";
-import { zodResolver } from "@primevue/forms/resolvers/zod";
-import { ProductEditScheme } from "~/schemas/product.edit.scheme";
+import { EditProductScheme } from "~/schemas/edit.product.scheme";
 
-const resolver = ref(zodResolver(ProductEditScheme));
+const { t } = useI18n();
+const { errorToast, successToast } = useCreateToast();
+const { subcategories, refresh } = useGetSubcategory();
+const { categories, categoryRefresh } = useGetCategory();
+const { handleSubmit, resetField } = useForm({
+  name: "newProduct",
+  validationSchema: toTypedSchema(EditProductScheme),
+});
+const selectedCategory = ref("");
 
-const selected = ref(null);
-const categories = ref([
-  { name: "Categoria 1", id: 1 },
-  { name: "Categoria 2", id: 2 },
-  { name: "Categoria 3", id: 3 },
-]);
-const showSubcategory = ref(false);
-const showCategory = ref(false);
-function onShowCategoryForm() {
-  showCategory.value = !showCategory.value;
-}
-function onShowSubcategoryForm() {
-  showSubcategory.value = !showSubcategory.value;
-}
-
-function onUpload() {
-  console.log("File uploaded successfully!");
-}
-
-const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
-  if (valid) {
-    console.log("Form submitted successfully!", values);
-  } else {
-    console.log("Form submission failed!");
+const showForm = ref(false);
+const activeForm = ref("");
+function updateSubcategories(id: string) {
+  selectedCategory.value = id;
+  if (!id) {
+    subcategories.value = [];
+    return;
   }
-};
+  refresh(id);
+}
+function onShowCategoryForm(name: string) {
+  subcategories.value = null;
+  selectedCategory.value = "";
+  resetField("subcategoryId");
+  showForm.value = !showForm.value;
+  activeForm.value = name;
+}
+function onShowSubcategoryForm(name: string) {
+  activeForm.value = name;
+  showForm.value = !showForm.value;
+}
+const onSubmit = handleSubmit(async () => {});
 </script>
 
 <template>
-  <Form class="product-edit" :resolver="resolver" @submit="onFormSubmit">
-    <FileUpload
-      url="/api/upload"
-      accept="image/*"
-      :maxFileSize="10000000"
-      @upload="onUpload"
-      :chooseLabel="$t('inventory.form.changeImage')"
-      :fileLimit="1"
-      :showUploadButton="false"
-      :showCancelButton="false"
-      :chooseButtonProps="{
-        severity: 'contrast',
-      }"
-      chooseIcon="none"
-    />
-    <CustomTextField
-      :label="$t('inventory.form.name')"
-      id="idNameProduct"
-      name="product"
-    />
-    <CustomNumberField
-      :label="$t('inventory.form.salePrice')"
-      id="idPriceSale"
-      name="priceSale"
-      :options="{ prefix: '$', min: 0 }"
-    />
-    <CustomNumberField
-      :label="$t('inventory.form.buyingPrice')"
-      id="idPriceBuying"
-      name="priceBuying"
-      :options="{ prefix: '$', min: 0 }"
-    />
-    <CustomNumberField
-      :label="$t('inventory.form.quantity')"
-      id="idStock"
-      name="stock"
-      :showButtons="true"
-      :options="{ min: 0, suffix: ' u/c' }"
-    />
-    <article class="category-form">
-      <InputGroup>
-        <InputGroupAddon>
-          <Button severity="secondary" @click="onShowCategoryForm">
-            <template #icon>
-              <Icon icon="mingcute:add-fill" width="20" height="20" />
-            </template>
-          </Button>
-        </InputGroupAddon>
-        <Select
-          optionLabel="name"
-          :placeholder="$t('inventory.form.categoryPlaceholder')"
-          v-model="selected"
-          :options="categories"
-          :disabled="showCategory"
+  <section class="editProduct">
+    <h3 class="editProduct-title">{{ $t("inventory.newProduct.title") }}</h3>
+    <form class="editProduct-form" @submit="onSubmit">
+      <CustomFileUpload name="image" />
+      <div class="fields">
+        <CustomTextField
+          :label="$t('inventory.newProduct.name')"
+          id="idNameProduct"
+          name="product"
+          input-color="white"
         />
-      </InputGroup>
-      <InventoryNewCategory v-if="showCategory" />
-    </article>
-
-    <article v-if="selected != null || showCategory" class="subcategory-form">
-      <InputGroup>
-        <InputGroupAddon>
-          <Button severity="secondary" @click="onShowSubcategoryForm">
-            <template #icon>
-              <Icon icon="mingcute:add-fill" width="20" height="20" />
-            </template>
-          </Button>
-        </InputGroupAddon>
-        <Select
-          optionLabel="name"
-          :placeholder="$t('inventory.form.subcategoryPlaceholder')"
-          :disabled="showSubcategory || showCategory"
+        <CustomTextAreaField
+          label="descripcion"
+          id="idDescripcionProduct"
+          name="description"
+          input-color="white"
         />
-      </InputGroup>
-      <InventoryNewCategory v-if="showSubcategory || showCategory" />
-    </article>
-
-    <Button
-      type="submit"
-      severity="success"
-      rounded
-      raised
-      :label="$t('inventory.form.saveButton')"
-    >
-    </Button>
-  </Form>
+        <CustomNumberField
+          :label="$t('inventory.newProduct.salePrice')"
+          id="idPriceSale"
+          name="priceSale"
+          :options="{ prefix: '$', min: 0 }"
+          input-color="white"
+        />
+        <CustomNumberField
+          :label="$t('inventory.newProduct.buyingPrice')"
+          id="idPriceBuying"
+          name="priceBuying"
+          :options="{ prefix: '$', min: 0 }"
+          input-color="white"
+        />
+        <CustomNumberField
+          :label="$t('inventory.newProduct.quantity')"
+          id="idStock"
+          name="stock"
+          :showButtons="true"
+          :options="{ min: 0, suffix: ' u/c' }"
+          input-color="white"
+        />
+        <CustomSelectInput
+          name="category"
+          :title="$t('inventory.newCategory.title')"
+          :label="$t('inventory.select.categoryPlaceholder')"
+          :prop-options="categories"
+          @on-click="onShowCategoryForm"
+          @model-value="updateSubcategories"
+        />
+        <CustomSelectInput
+          name="subcategoryId"
+          :title="$t('inventory.newSubcategory.title')"
+          :prop-options="subcategories"
+          @on-click="onShowSubcategoryForm"
+          :disabled="!selectedCategory"
+          :label="$t('inventory.select.subcategoryPlaceholder')"
+        />
+        <Button
+          type="submit"
+          severity="success"
+          rounded
+          raised
+          :label="$t('button.save')"
+        >
+        </Button>
+      </div>
+    </form>
+    <Dialog v-model:visible="showForm" :header="activeForm" modal>
+      <template #default>
+        <InventoryNewCategory
+          v-if="activeForm === $t('inventory.newCategory.title')"
+          @created="categoryRefresh"
+        />
+        <InventoryNewSubcategory
+          :category-id="selectedCategory"
+          v-if="activeForm === $t('inventory.newSubcategory.title')"
+          @created="refresh(selectedCategory)"
+        />
+      </template>
+    </Dialog>
+  </section>
 </template>
 
 <style lang="scss" scoped>
-.product-edit {
+.editProduct {
+  background-color: white;
   display: flex;
   flex-direction: column;
-  padding: 1rem 0;
-  gap: 1rem;
+  border-radius: 1rem;
+  box-shadow: inset 0px 0px 17px 0px rgba(0, 0, 0, 0.12);
+  &-title {
+    text-align: center;
+    padding: 0.5rem 1rem;
+    background-color: #172455;
+    border-radius: 1rem 1rem 0 0;
+    font-size: 1.5rem;
+    color: white;
+  }
+  &-form {
+    display: flex;
+    padding: 1rem;
+    gap: 1rem;
+    .fields {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+}
+@media (max-width: 750px) {
+  .newProduct {
+    &-form {
+      flex-direction: column;
+      .fields {
+        gap: 1rem;
+        width: auto;
+      }
+    }
+  }
+}
+@media (max-width: 500px) {
+  .newProduct {
+    &-form {
+      padding: 0.5rem;
+      .fields {
+        gap: 1rem;
+        width: auto;
+      }
+    }
+  }
 }
 </style>

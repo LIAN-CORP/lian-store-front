@@ -1,5 +1,5 @@
 import { string, z } from "zod";
-export const ProductEditScheme = z.object({
+export const EditProductScheme = z.object({
   product: z
     .string()
     .min(10, {
@@ -36,4 +36,4 @@ export const ProductEditScheme = z.object({
     message: "debe seleccionar uno",
   }),
 });
-export type ProductEditData = z.infer<typeof ProductEditScheme>;
+export type editProduct = z.infer<typeof EditProductScheme>;
