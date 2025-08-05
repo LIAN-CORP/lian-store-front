@@ -1,9 +1,14 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const route = useRoute();
+const product = route.params.id;
+onMounted(() => {});
+</script>
 
 <template>
   <section class="product">
     <article class="product-body">
-      <inventory-new-product />
+      <inventory-new-product v-if="!product" />
+      <inventory-update-product v-if="product" />
     </article>
   </section>
 </template>
@@ -17,12 +22,6 @@
   width: auto;
   align-items: center;
   border-radius: 1em;
-
-  &-head {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
   &-body {
     padding: 3em;
   }

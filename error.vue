@@ -13,6 +13,7 @@ function onClick() {
     <h2>:(</h2>
     <h2>error {{ error?.statusCode }}</h2>
     <p>{{ error?.message }}</p>
+    <p>{{ error?.data }}</p>
     <Button label="home" @click="onClick" raised />
   </div>
 </template>
