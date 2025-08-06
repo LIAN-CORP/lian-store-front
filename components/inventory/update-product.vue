@@ -1,20 +1,26 @@
 <script lang="ts" setup>
+import type { UpdateProductRequest } from "~/interfaces/inventory/product/request/update.product.request";
 import type { GetProduct } from "~/interfaces/inventory/product/response/get.product";
-import { EditProductScheme } from "~/schemas/edit.product.scheme";
+import {
+  updateProductScheme,
+  type updatedProduct,
+} from "~/schemas/update.product.scheme";
 const props = defineProps<{
   product: GetProduct;
 }>();
+const send = ref(true);
+const { update } = useUpdateProduct();
 const { subcategories, refresh } = useGetSubcategory();
 const { categories, categoryRefresh } = useGetCategory();
-const { handleSubmit, resetField, values } = useForm({
-  name: "newProduct",
-  validationSchema: toTypedSchema(EditProductScheme),
+const { handleSubmit, resetField, values, meta } = useForm({
+  name: "editProduct",
+  validationSchema: toTypedSchema(updateProductScheme),
   initialValues: {
     product: props.product.name,
     description: props.product.description,
     priceBuying: props.product.priceBuy,
     priceSale: props.product.priceSell,
-    stock: props.product.priceSell,
+    stock: props.product.stock,
     category: props.product.categoryId,
     subcategoryId: props.product.subcategoryId,
   },
@@ -26,7 +32,16 @@ const activeForm = ref("");
 watch(
   () => values.category,
   (id) => {
+    resetField("subcategoryId", { value: "" });
     updateSubcategories(id!);
+  }
+);
+watch(
+  () => meta.value.dirty,
+  (isDirty) => {
+    if (isDirty) {
+      send.value = false;
+    }
   }
 );
 
@@ -41,7 +56,6 @@ function updateSubcategories(id: string) {
 function onShowCategoryForm(name: string) {
   subcategories.value = null;
   selectedCategory.value = "";
-  resetField("subcategoryId");
   showForm.value = !showForm.value;
   activeForm.value = name;
 }
@@ -49,8 +63,20 @@ function onShowSubcategoryForm(name: string) {
   activeForm.value = name;
   showForm.value = !showForm.value;
 }
-const onSubmit = handleSubmit(async (values) => {
-  console.log("sata", values);
+const onSubmit = handleSubmit(async (values: updatedProduct) => {
+  if (!meta.value.dirty) {
+    console.log("se cambio algo");
+  }
+  const productUpdated: UpdateProductRequest = {
+    id: props.product.id,
+    name: values.product,
+    description: values.description,
+    priceBuy: values.priceBuying,
+    priceSell: values.priceSale,
+    stock: values.stock,
+    subcategoryId: values.subcategoryId,
+  };
+  update(productUpdated);
 });
 
 onMounted(() => {
@@ -62,7 +88,11 @@ onMounted(() => {
   <section class="editProduct">
     <h3 class="editProduct-title">{{ $t("inventory.editProduct") }}</h3>
     <form class="editProduct-form" @submit="onSubmit">
-      <CustomFileUpload name="image" :image="product.imagePath" />
+      <CustomFileUpload
+        name="image"
+        :image="product.imagePath"
+        :disabled="true"
+      />
       <div class="fields">
         <CustomTextField
           :label="$t('inventory.newProduct.name')"
@@ -116,7 +146,7 @@ onMounted(() => {
           type="submit"
           severity="success"
           rounded
-          raised
+          :disabled="send"
           :label="$t('button.save')"
         >
         </Button>

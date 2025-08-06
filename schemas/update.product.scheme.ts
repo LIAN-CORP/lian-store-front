@@ -1,5 +1,5 @@
 import { string, z } from "zod";
-export const EditProductScheme = z.object({
+export const updateProductScheme = z.object({
   product: z.string().min(3, {
     message: "el nombre debe contener al menos 3 letras",
   }),
@@ -13,8 +13,7 @@ export const EditProductScheme = z.object({
     })
     .min(50, {
       message: "El precio debe ser mayor a 50 pesos",
-    })
-    .optional(),
+    }),
   priceBuying: z
     .number()
     .positive({
@@ -22,15 +21,10 @@ export const EditProductScheme = z.object({
     })
     .min(50, {
       message: "El precio debe ser mayor a 50 pesos",
-    })
-    .optional(),
-  stock: z
-    .number()
-    .positive()
-    .min(0, {
-      message: "El stock no puede ser menor a 0",
-    })
-    .optional(),
+    }),
+  stock: z.number().positive().min(0, {
+    message: "El stock no puede ser menor a 0",
+  }),
   category: string().min(1, {
     message: "debe seleccionar uno",
   }),
@@ -38,4 +32,4 @@ export const EditProductScheme = z.object({
     message: "debe seleccionar uno",
   }),
 });
-export type editProduct = z.infer<typeof EditProductScheme>;
+export type updatedProduct = z.infer<typeof updateProductScheme>;

@@ -1,15 +1,10 @@
 <script lang="ts" setup>
 const route = useRoute();
 const productId = route.params.id as string;
-const { errorToast } = useCreateToast();
 const { result, refreshProduct } = useGetProduct();
 onMounted(async () => {
   if (!productId) return;
   await refreshProduct(productId);
-  console.log(result);
-  if (result.error) {
-    errorToast("this is a error");
-  }
 });
 </script>
 

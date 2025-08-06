@@ -5,6 +5,7 @@ import defaultImage from "@/assets/images/missing_product.webp";
 const props = defineProps<{
   name: string;
   image?: string;
+  disabled?: boolean;
 }>();
 
 const previewImage = ref();
@@ -38,6 +39,7 @@ function onFileSelect(event: any) {
       :chooseLabel="$t('inventory.newProduct.changeImage')"
       :fileLimit="1"
       @select="onFileSelect"
+      :disabled="disabled"
     >
       <template #filelabel>
         <span>{{
