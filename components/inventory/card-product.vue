@@ -2,13 +2,7 @@
 import { Icon } from "@iconify/vue";
 const emit = defineEmits(["deleteProduct", "editProduct"]);
 import defaultImage from "@/assets/images/missing_product.webp";
-function onDeleteProduct() {
-  emit("deleteProduct");
-}
-function onEditProduct() {
-  emit("editProduct");
-}
-defineProps<{
+const props = defineProps<{
   id: string;
   name: string;
   image: string;
@@ -17,6 +11,12 @@ defineProps<{
   price: number;
   quantity: number;
 }>();
+function onDeleteProduct() {
+  emit("deleteProduct", props.id);
+}
+function onEditProduct() {
+  emit("editProduct", props.id);
+}
 </script>
 
 <template>

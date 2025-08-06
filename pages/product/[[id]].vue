@@ -1,9 +1,21 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const route = useRoute();
+const productId = route.params.id as string;
+const { result, refreshProduct } = useGetProduct();
+onMounted(async () => {
+  if (!productId) return;
+  await refreshProduct(productId);
+});
+</script>
 
 <template>
   <section class="product">
     <article class="product-body">
-      <inventory-new-product />
+      <inventory-new-product v-if="!result.product" />
+      <inventory-update-product
+        v-if="result.product"
+        :product="result.product"
+      />
     </article>
   </section>
 </template>
@@ -17,12 +29,6 @@
   width: auto;
   align-items: center;
   border-radius: 1em;
-
-  &-head {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
   &-body {
     padding: 3em;
   }

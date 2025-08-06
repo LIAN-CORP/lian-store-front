@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue/dist/iconify.js";
-const { data } = await useGetProduct();
-
-const showEditForm = ref(false);
-const showNewProductForm = ref(false);
+const { data } = await useGetProduct().fetchAllProducts();
 const searchValue = ref("");
+async function onRedirectNewProduct() {
+  await navigateTo("product");
+}
 function showSearch() {
   console.log(data.value);
 }
-function onEditProduct() {
-  showEditForm.value = true;
+async function onEditProduct(productId: string) {
+  await navigateTo(`product/${productId}`);
 }
 function onDelete() {}
 </script>
@@ -32,8 +32,8 @@ function onDelete() {}
       </InputGroup>
       <Button
         severity="success"
-        :label="$t('inventory.newProduct')"
-        @click="showNewProductForm = true"
+        :label="$t('inventory.newProductButton')"
+        @click="onRedirectNewProduct"
       >
         <template #icon>
           <Icon icon="grommet-icons:add" width="1.5em" height="1.5em" />
@@ -58,23 +58,6 @@ function onDelete() {}
       <Paginator :rows="10" :totalRecords="data!.totalElements" />
     </div>
   </section>
-  <Dialog
-    modal
-    v-model:visible="showNewProductForm"
-    maximizable
-    :header="$t('inventory.newProduct')"
-  >
-    <InventoryNewProduct />
-  </Dialog>
-  <ConfirmDialog />
-  <Dialog
-    v-model:visible="showEditForm"
-    modal
-    maximizable
-    :header="$t('inventory.editProduct')"
-  >
-    <InventoryUpdateProduct />
-  </Dialog>
 </template>
 
 <style scoped lang="scss">
