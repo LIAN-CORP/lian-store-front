@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue/dist/iconify.js";
-const { data } = await useGetProduct().fetchAllProducts();
+import { label } from "@primeuix/themes/aura/metergroup";
+const { fetchAllProducts } = useGetProduct();
+const { deleteProduct } = useDeleteProduct();
+const { data, refresh } = await fetchAllProducts();
+const confirm = useConfirm();
+
 const searchValue = ref("");
 async function onRedirectNewProduct() {
   await navigateTo("product");
@@ -11,10 +16,34 @@ function showSearch() {
 async function onEditProduct(productId: string) {
   await navigateTo(`product/${productId}`);
 }
-function onDelete() {}
+
+function onDelete(id: string) {
+  if (!id) return;
+  confirm.require({
+    message: "¿Estás seguro de eliminar esto?",
+    header: "Confirmar eliminación",
+    rejectProps: {
+      label: "cancel",
+      severity: "secondary",
+      raised: true,
+      variant: "outlined",
+    },
+    acceptProps: {
+      label: "eliminar",
+      severity: "danger",
+      raised: true,
+    },
+    accept: async () => {
+      await deleteProduct(id);
+      refresh();
+    },
+    reject: () => {},
+  });
+}
 </script>
 
 <template>
+  <ConfirmDialog />
   <section class="inventory">
     <div class="inventory-header">
       <InputGroup>
