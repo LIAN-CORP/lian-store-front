@@ -7,12 +7,24 @@ const props = defineProps<{
   propOptions?: T[];
   label: string;
   disabled?: boolean;
+  disableButton1?: boolean;
+  disableButton2?: boolean;
+  button1Icon?: boolean;
+  button2Icon?: boolean;
+  button1Severity?: string;
+  button2Severity?: string;
 }>();
-const emit = defineEmits(["onClick", "modelValue"]);
+const emit = defineEmits(["onClick1", "onClick2", "clickNew", "modelValue"]);
 const { value, errorMessage, resetField } = useField<string>(() => props.name);
-function onClickButton() {
+function onClickButton1() {
+  emit("onClick1", props.title);
+}
+function onClickButton2() {
+  emit("onClick2", props.title);
+}
+function onClickNew() {
   resetField();
-  emit("onClick", props.title);
+  emit("clickNew", props.title);
 }
 </script>
 
@@ -20,7 +32,7 @@ function onClickButton() {
   <div class="select-input">
     <InputGroup>
       <InputGroupAddon>
-        <Button @click="onClickButton" :disabled="disabled">
+        <Button @click="onClickButton1" :disabled="disabled">
           <template #icon>
             <Icon icon="mingcute:add-fill" width="20" height="20" />
           </template>
@@ -36,7 +48,25 @@ function onClickButton() {
         :options="propOptions"
         :disabled="disabled"
         @update:modelValue="$emit('modelValue', value)"
-      />
+      >
+        <template #footer>
+          <Button
+            @click="onClickNew"
+            label="Nuevo"
+            fluid
+            severity="success"
+            variant="text"
+            size="small"
+          />
+        </template>
+      </Select>
+      <InputGroupAddon v-if="button2Icon">
+        <Button @click="onClickButton2" :disabled="disabled">
+          <template #icon>
+            <Icon icon="mingcute:add-fill" width="20" height="20" />
+          </template>
+        </Button>
+      </InputGroupAddon>
     </InputGroup>
     <Message
       v-if="errorMessage"
