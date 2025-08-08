@@ -88,11 +88,7 @@ onMounted(() => {
   <section class="editProduct">
     <h3 class="editProduct-title">{{ $t("inventory.editProduct") }}</h3>
     <form class="editProduct-form" @submit="onSubmit">
-      <CustomFileUpload
-        name="image"
-        :image="product.imagePath"
-        :disabled="true"
-      />
+      <CustomFileUpload name="image" :image="product.imagePath" :show="false" />
       <div class="fields">
         <CustomTextField
           :label="$t('inventory.newProduct.name')"

@@ -62,7 +62,7 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
   <section class="newProduct">
     <h3 class="newProduct-title">{{ $t("inventory.newProduct.title") }}</h3>
     <form class="newProduct-form" @submit="onSubmit">
-      <CustomFileUpload name="image" />
+      <CustomFileUpload name="image" :show="true" />
       <div class="fields">
         <CustomTextField
           :label="$t('inventory.newProduct.name')"

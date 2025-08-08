@@ -6,6 +6,7 @@ const props = defineProps<{
   name: string;
   image?: string;
   disabled?: boolean;
+  show?: boolean;
 }>();
 
 const previewImage = ref();
@@ -30,8 +31,9 @@ function onFileSelect(event: any) {
 </script>
 
 <template>
-  <article class="fileUploader">
+  <div class="fileUploader">
     <FileUpload
+      v-if="show"
       mode="basic"
       url="/api/upload"
       accept="image/*"
@@ -54,7 +56,7 @@ function onFileSelect(event: any) {
     <Message v-if="errorMessage" severity="error" size="small">
       {{ errorMessage }}
     </Message>
-  </article>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -62,9 +64,10 @@ function onFileSelect(event: any) {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   max-width: 400px;
-  height: 100%;
+
   &-preview {
     height: 350px;
     width: 350px;
