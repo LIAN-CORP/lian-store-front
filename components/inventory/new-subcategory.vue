@@ -40,13 +40,11 @@ const onSubmit = handleSubmit(async (values: NewSubcategory) => {
       id="subcategoryID"
       name="subcategory"
       :label="$t('inventory.newSubcategory.name')"
-      input-color="white"
     />
     <CustomTextAreaField
       id="subcategoryDescriptionID"
       name="description"
       :label="$t('inventory.newSubcategory.description')"
-      input-color="white"
     />
     <Button :label="$t('button.save')" type="submit" severity="success" />
   </form>
