@@ -25,7 +25,6 @@ const { handleSubmit, resetField, values, meta } = useForm({
     subcategoryId: props.product.subcategoryId,
   },
 });
-const selectedCategory = ref("");
 const showForm = ref(false);
 const activeForm = ref("");
 
@@ -33,7 +32,7 @@ watch(
   () => values.category,
   (id) => {
     resetField("subcategoryId", { value: "" });
-    updateSubcategories(id!);
+    refresh(id!);
   }
 );
 watch(
@@ -44,18 +43,8 @@ watch(
     }
   }
 );
-
-function updateSubcategories(id: string) {
-  selectedCategory.value = id;
-  if (!id) {
-    subcategories.value = [];
-    return;
-  }
-  refresh(id);
-}
 function onShowCategoryForm(name: string) {
   subcategories.value = null;
-  selectedCategory.value = "";
   showForm.value = !showForm.value;
   activeForm.value = name;
 }
@@ -80,7 +69,7 @@ const onSubmit = handleSubmit(async (values: updatedProduct) => {
 });
 
 onMounted(() => {
-  updateSubcategories(values.category!);
+  refresh(values.category!);
 });
 </script>
 
@@ -97,8 +86,8 @@ onMounted(() => {
           input-color="white"
         />
         <CustomTextAreaField
-          label="descripcion"
-          id="idDescripcionProduct"
+          :label="$t('inventory.newProduct.description')"
+          id="idDescriptionProduct"
           name="description"
           input-color="white"
         />
@@ -129,13 +118,13 @@ onMounted(() => {
           :title="$t('inventory.newCategory.title')"
           :label="$t('inventory.select.categoryPlaceholder')"
           :prop-options="categories"
-          @on-click="onShowCategoryForm"
+          @click-new="onShowCategoryForm"
         />
         <CustomSelectInput
           name="subcategoryId"
           :title="$t('inventory.newSubcategory.title')"
           :prop-options="subcategories"
-          @on-click="onShowSubcategoryForm"
+          @click-new="onShowSubcategoryForm"
           :label="$t('inventory.select.subcategoryPlaceholder')"
         />
         <Button
@@ -155,9 +144,9 @@ onMounted(() => {
           @created="categoryRefresh"
         />
         <InventoryNewSubcategory
-          :category-id="selectedCategory"
+          :category-id="values.category!"
           v-if="activeForm === $t('inventory.newSubcategory.title')"
-          @created="refresh(selectedCategory)"
+          @created="refresh(values.category!)"
         />
       </template>
     </Dialog>

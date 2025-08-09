@@ -74,6 +74,7 @@
             "changeImage": "Change Image",
             "imageLabel": "Select an image",
             "name": "Product name",
+            "description": "Product Description",
             "salePrice": "Sale price",
             "buyingPrice": "Buying price",
             "quantity": "Quantity"

@@ -8,36 +8,33 @@ const { t } = useI18n();
 const { errorToast, successToast } = useCreateToast();
 const { subcategories, refresh } = useGetSubcategory();
 const { categories, categoryRefresh } = useGetCategory();
-const { handleSubmit, resetField } = useForm({
+const { handleSubmit, resetField, values } = useForm({
   name: "newProduct",
   validationSchema: toTypedSchema(NewProductScheme),
 });
 const { createNewProduct } = useNewProduct();
-const selectedCategory = ref("");
 
 const showForm = ref(false);
 const activeForm = ref("");
 
 function onShowCategoryForm(name: string) {
   subcategories.value = null;
-  selectedCategory.value = "";
   resetField("subcategoryId");
   showForm.value = !showForm.value;
   activeForm.value = name;
 }
 
+watch(
+  () => values.category,
+  (id) => {
+    resetField("subcategoryId");
+    refresh(id!);
+  }
+);
+
 function onShowSubcategoryForm(name: string) {
   activeForm.value = name;
   showForm.value = !showForm.value;
-}
-
-function updateSubcategories(id: string) {
-  selectedCategory.value = id;
-  if (!id) {
-    subcategories.value = [];
-    return;
-  }
-  refresh(id);
 }
 
 const onSubmit = handleSubmit(async (values: NewProduct) => {
@@ -71,8 +68,8 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
           input-color="white"
         />
         <CustomTextAreaField
-          label="descripcion"
-          id="idDescripcionProduct"
+          :label="$t('inventory.newProduct.description')"
+          id="idDescriptionProduct"
           name="description"
           input-color="white"
         />
@@ -103,15 +100,13 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
           :title="$t('inventory.newCategory.title')"
           :label="$t('inventory.select.categoryPlaceholder')"
           :prop-options="categories"
-          @on-click="onShowCategoryForm"
-          @model-value="updateSubcategories"
+          @click-new="onShowCategoryForm"
         />
         <CustomSelectInput
           name="subcategoryId"
           :title="$t('inventory.newSubcategory.title')"
           :prop-options="subcategories"
-          @on-click="onShowSubcategoryForm"
-          :disabled="!selectedCategory"
+          @click-new="onShowSubcategoryForm"
           :label="$t('inventory.select.subcategoryPlaceholder')"
         />
         <Button
@@ -131,9 +126,9 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
           @created="categoryRefresh"
         />
         <InventoryNewSubcategory
-          :category-id="selectedCategory"
+          :category-id="values.category!"
           v-if="activeForm === $t('inventory.newSubcategory.title')"
-          @created="refresh(selectedCategory)"
+          @created="refresh(values.category!)"
         />
       </template>
     </Dialog>
