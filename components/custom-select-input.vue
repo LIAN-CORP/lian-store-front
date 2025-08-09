@@ -7,14 +7,15 @@ const props = defineProps<{
   propOptions?: T[];
   label: string;
   disabled?: boolean;
-  disableButton1?: boolean;
-  disableButton2?: boolean;
-  button1Icon?: boolean;
-  button2Icon?: boolean;
+  disabledButton1?: boolean;
+  disabledButton2?: boolean;
+  button1Icon?: string;
+  button2Icon?: string;
   button1Severity?: string;
   button2Severity?: string;
+  newActionLabel?: string;
 }>();
-const emit = defineEmits(["onClick1", "onClick2", "clickNew", "modelValue"]);
+const emit = defineEmits(["onClick1", "onClick2", "clickNew"]);
 const { value, errorMessage, resetField } = useField<string>(() => props.name);
 function onClickButton1() {
   emit("onClick1", props.title);
@@ -31,10 +32,14 @@ function onClickNew() {
 <template>
   <div class="select-input">
     <InputGroup>
-      <InputGroupAddon>
-        <Button @click="onClickButton1" :disabled="disabled">
+      <InputGroupAddon v-if="button1Icon">
+        <Button
+          @click="onClickButton1"
+          :disabled="disabledButton1"
+          :severity="button1Severity"
+        >
           <template #icon>
-            <Icon icon="mingcute:add-fill" width="20" height="20" />
+            <Icon :icon="button1Icon" width="20" height="20" />
           </template>
         </Button>
       </InputGroupAddon>
@@ -47,12 +52,11 @@ function onClickNew() {
         v-model="value"
         :options="propOptions"
         :disabled="disabled"
-        @update:modelValue="$emit('modelValue', value)"
       >
-        <template #footer>
+        <template #footer v-if="newActionLabel">
           <Button
             @click="onClickNew"
-            label="Nuevo"
+            :label="newActionLabel"
             fluid
             severity="success"
             variant="text"
@@ -61,9 +65,13 @@ function onClickNew() {
         </template>
       </Select>
       <InputGroupAddon v-if="button2Icon">
-        <Button @click="onClickButton2" :disabled="disabled">
+        <Button
+          @click="onClickButton2"
+          :disabled="disabledButton2"
+          :severity="button2Severity"
+        >
           <template #icon>
-            <Icon icon="mingcute:add-fill" width="20" height="20" />
+            <Icon :icon="button2Icon" width="20" height="20" />
           </template>
         </Button>
       </InputGroupAddon>

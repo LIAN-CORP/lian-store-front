@@ -57,6 +57,8 @@
     "inventory":{
         "search": "Buscar producto",
         "newProductButton": "Nuevo Producto",
+        "newCategoryButton": "Nueva Categoría",
+        "newSubcategoryButton": "Nueva Subcategoría",
         "editProduct": "Editar Producto",
 
         "labels":{

@@ -57,7 +57,9 @@
     "inventory":{
         "search": "Search product",
         "newProductButton": "New Product",
-        "editProduct": "Edit Product",
+        "newCategoryButton": "New Category",
+        "newSubcategoryButton": "New Subcategory",
+        "editProduct": "Update Product",
         "labels":{
             "name": "Product",
             "category": "Category",
