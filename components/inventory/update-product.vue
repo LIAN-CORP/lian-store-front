@@ -8,22 +8,23 @@ import {
 const props = defineProps<{
   product: GetProduct;
 }>();
-const send = ref(true);
+
 const { update } = useUpdateProduct();
 const { subcategories, refresh } = useGetSubcategory();
 const { categories, categoryRefresh } = useGetCategory();
+const initialValues = {
+  product: props.product.name,
+  description: props.product.description,
+  priceBuying: props.product.priceBuy,
+  priceSale: props.product.priceSell,
+  stock: props.product.stock,
+  category: props.product.categoryId,
+  subcategoryId: props.product.subcategoryId,
+};
 const { handleSubmit, resetField, values, meta } = useForm({
   name: "editProduct",
   validationSchema: toTypedSchema(updateProductScheme),
-  initialValues: {
-    product: props.product.name,
-    description: props.product.description,
-    priceBuying: props.product.priceBuy,
-    priceSale: props.product.priceSell,
-    stock: props.product.stock,
-    category: props.product.categoryId,
-    subcategoryId: props.product.subcategoryId,
-  },
+  initialValues: initialValues,
 });
 const showForm = ref(false);
 const activeForm = ref("");
@@ -35,14 +36,11 @@ watch(
     refresh(id!);
   }
 );
-watch(
-  () => meta.value.dirty,
-  (isDirty) => {
-    if (isDirty) {
-      send.value = false;
-    }
-  }
-);
+const send = computed(() => {
+  return (
+    meta.value.dirty && JSON.stringify(values) !== JSON.stringify(initialValues)
+  );
+});
 function onShowCategoryForm(name: string) {
   subcategories.value = null;
   showForm.value = !showForm.value;
@@ -131,7 +129,7 @@ onMounted(() => {
           type="submit"
           severity="success"
           rounded
-          :disabled="send"
+          :disabled="!send"
           :label="$t('button.save')"
         >
         </Button>
