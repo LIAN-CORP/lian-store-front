@@ -89,7 +89,17 @@
         },
         "newSubcategory":{
             "title": "Nueva Subcategoria",
-            "name": "Nombre de la subcategoria",
+            "name": "Nombre de la subcategoría",
+            "description": "Descripción"
+        },
+        "updateCategory": {
+            "title": "Editar Categoría",
+            "name": "Nombre de la categoría",
+            "description": "Descripción"
+        },
+        "updateSubcategory": {
+            "title": "Editar Subcategoría",
+            "name": "Nombre de la subcategoría",
             "description": "Descripción"
         }
     },

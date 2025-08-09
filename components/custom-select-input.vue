@@ -18,14 +18,14 @@ const props = defineProps<{
 const emit = defineEmits(["onClick1", "onClick2", "clickNew"]);
 const { value, errorMessage, resetField } = useField<string>(() => props.name);
 function onClickButton1() {
-  emit("onClick1", props.title);
+  emit("onClick1");
 }
 function onClickButton2() {
-  emit("onClick2", props.title);
+  emit("onClick2");
 }
 function onClickNew() {
   resetField();
-  emit("clickNew", props.title);
+  emit("clickNew");
 }
 </script>
 

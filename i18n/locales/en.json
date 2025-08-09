@@ -90,6 +90,16 @@
             "title": "New Subcategory",
             "name": "Subcategory name",
             "description": "Description"
+        },
+        "updateCategory": {
+            "title": "Update Category",
+            "name": "Category name",
+            "description": "Description"
+        },
+        "updateSubcategory": {
+            "title": "New Subcategory",
+            "name": "Subcategory name",
+            "description": "Description"
         }
     },
      "debtors": {
