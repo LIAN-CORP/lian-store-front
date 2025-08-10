@@ -75,7 +75,6 @@ function onGetTranslateTitle() {
 }
 
 function handleRefresh() {
-  console.log("ejecutando------");
   if (modal.activeForm == "NewCategory" || modal.activeForm == "EditCategory") {
     categoryRefresh();
   }
@@ -161,7 +160,6 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
           :new-action-label="$t('inventory.newCategoryButton')"
           button1-icon="grommet-icons:edit"
           button2-icon="material-symbols:delete-rounded"
-          button1-severity="info"
           button2-severity="danger"
           :disabled-button1="!values.category"
           :disabled-button2="!values.category"
@@ -173,7 +171,6 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
           title="subcategory"
           button1-icon="grommet-icons:edit"
           button2-icon="material-symbols:delete-rounded"
-          button1-severity="info"
           button2-severity="danger"
           :new-action-label="$t('inventory.newSubcategoryButton')"
           :disabled-button1="!values.subcategoryId"
