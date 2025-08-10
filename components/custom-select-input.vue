@@ -7,22 +7,39 @@ const props = defineProps<{
   propOptions?: T[];
   label: string;
   disabled?: boolean;
+  disabledButton1?: boolean;
+  disabledButton2?: boolean;
+  button1Icon?: string;
+  button2Icon?: string;
+  button1Severity?: string;
+  button2Severity?: string;
+  newActionLabel?: string;
 }>();
-const emit = defineEmits(["onClick", "modelValue"]);
+const emit = defineEmits(["onClick1", "onClick2", "clickNew"]);
 const { value, errorMessage, resetField } = useField<string>(() => props.name);
-function onClickButton() {
+function onClickButton1() {
+  emit("onClick1");
+}
+function onClickButton2() {
+  emit("onClick2");
+}
+function onClickNew() {
   resetField();
-  emit("onClick", props.title);
+  emit("clickNew");
 }
 </script>
 
 <template>
   <div class="select-input">
     <InputGroup>
-      <InputGroupAddon>
-        <Button @click="onClickButton" :disabled="disabled">
+      <InputGroupAddon v-if="button1Icon">
+        <Button
+          @click="onClickButton1"
+          :disabled="disabledButton1"
+          :severity="button1Severity"
+        >
           <template #icon>
-            <Icon icon="mingcute:add-fill" width="20" height="20" />
+            <Icon :icon="button1Icon" width="20" height="20" />
           </template>
         </Button>
       </InputGroupAddon>
@@ -35,8 +52,29 @@ function onClickButton() {
         v-model="value"
         :options="propOptions"
         :disabled="disabled"
-        @update:modelValue="$emit('modelValue', value)"
-      />
+      >
+        <template #footer v-if="newActionLabel">
+          <Button
+            @click="onClickNew"
+            :label="newActionLabel"
+            fluid
+            severity="success"
+            variant="text"
+            size="small"
+          />
+        </template>
+      </Select>
+      <InputGroupAddon v-if="button2Icon">
+        <Button
+          @click="onClickButton2"
+          :disabled="disabledButton2"
+          :severity="button2Severity"
+        >
+          <template #icon>
+            <Icon :icon="button2Icon" width="20" height="20" />
+          </template>
+        </Button>
+      </InputGroupAddon>
     </InputGroup>
     <Message
       v-if="errorMessage"

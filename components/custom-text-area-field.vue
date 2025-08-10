@@ -23,7 +23,12 @@ const { value, errorMessage } = useField<string>(() => props.name);
 
 <template>
   <div class="formField">
-    <FloatLabel variant="on">
+    <FloatLabel
+      variant="on"
+      :style="{
+        '--p-floatlabel-on-active-background': inputColor,
+      }"
+    >
       <Textarea
         :style="{ backgroundColor: inputColor }"
         :id="id"

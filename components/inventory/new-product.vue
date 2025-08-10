@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+import {
+  InventoryNewCategory,
+  InventoryNewSubcategory,
+  InventoryUpdateCategory,
+} from "#components";
 import type { NewProductRequest } from "~/interfaces/inventory/product/request/new.product.request";
 import {
   NewProductScheme,
@@ -8,37 +13,86 @@ const { t } = useI18n();
 const { errorToast, successToast } = useCreateToast();
 const { subcategories, refresh } = useGetSubcategory();
 const { categories, categoryRefresh } = useGetCategory();
-const { handleSubmit, resetField } = useForm({
+const { handleSubmit, resetField, values } = useForm({
   name: "newProduct",
   validationSchema: toTypedSchema(NewProductScheme),
 });
 const { createNewProduct } = useNewProduct();
-const selectedCategory = ref("");
 
-const showForm = ref(false);
-const activeForm = ref("");
-
-function onShowCategoryForm(name: string) {
+const modal = reactive<{
+  state: boolean;
+  activeForm: string;
+  activeFormTranslate: string;
+}>({
+  state: false,
+  activeForm: "",
+  activeFormTranslate: "",
+});
+function onNewCategory() {
   subcategories.value = null;
-  selectedCategory.value = "";
   resetField("subcategoryId");
-  showForm.value = !showForm.value;
-  activeForm.value = name;
+  modal.state = true;
+  modal.activeForm = "NewCategory";
+  onGetTranslateTitle();
 }
-
-function onShowSubcategoryForm(name: string) {
-  activeForm.value = name;
-  showForm.value = !showForm.value;
+function onNewSubcategory() {
+  modal.activeForm = "NewSubcategory";
+  modal.state = true;
+  onGetTranslateTitle();
 }
-
-function updateSubcategories(id: string) {
-  selectedCategory.value = id;
-  if (!id) {
-    subcategories.value = [];
-    return;
+function onUpdateCategory() {
+  modal.state = true;
+  modal.activeForm = "EditCategory";
+  onGetTranslateTitle();
+}
+function onUpdateSubcategory() {
+  modal.state = true;
+  modal.activeForm = "EditSubcategory";
+  onGetTranslateTitle();
+}
+function getComponent() {
+  switch (modal.activeForm) {
+    case "NewCategory":
+      return InventoryNewCategory;
+    case "EditCategory":
+      return InventoryUpdateCategory;
+    case "NewSubcategory":
+      return InventoryNewSubcategory;
+    case "EditSubcategory":
+      return null;
+    default:
+      return null;
   }
-  refresh(id);
 }
+function onGetTranslateTitle() {
+  const translations: Record<string, string> = {
+    NewCategory: t("inventory.newCategory.title"),
+    NewSubcategory: t("inventory.newSubcategory.title"),
+    EditCategory: t("inventory.updateCategory.title"),
+    EditSubcategory: t("inventory.updateSubcategory.title"),
+  };
+  modal.activeFormTranslate = translations[modal.activeForm] || "";
+}
+
+function handleRefresh() {
+  if (modal.activeForm == "NewCategory" || modal.activeForm == "EditCategory") {
+    categoryRefresh();
+  }
+  if (
+    modal.activeForm == "NewSubcategory" ||
+    modal.activeForm == "EditSubcategory"
+  ) {
+    refresh(values.category!);
+  }
+}
+
+watch(
+  () => values.category,
+  (id) => {
+    resetField("subcategoryId");
+    refresh(id!);
+  }
+);
 
 const onSubmit = handleSubmit(async (values: NewProduct) => {
   const product: NewProductRequest = {
@@ -71,8 +125,8 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
           input-color="white"
         />
         <CustomTextAreaField
-          label="descripcion"
-          id="idDescripcionProduct"
+          :label="$t('inventory.newProduct.description')"
+          id="idDescriptionProduct"
           name="description"
           input-color="white"
         />
@@ -100,18 +154,30 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
         />
         <CustomSelectInput
           name="category"
-          :title="$t('inventory.newCategory.title')"
+          title="category"
           :label="$t('inventory.select.categoryPlaceholder')"
           :prop-options="categories"
-          @on-click="onShowCategoryForm"
-          @model-value="updateSubcategories"
+          :new-action-label="$t('inventory.newCategoryButton')"
+          button1-icon="grommet-icons:edit"
+          button2-icon="material-symbols:delete-rounded"
+          button2-severity="danger"
+          :disabled-button1="!values.category"
+          :disabled-button2="!values.category"
+          @click-new="onNewCategory"
+          @on-click1="onUpdateCategory"
         />
         <CustomSelectInput
           name="subcategoryId"
-          :title="$t('inventory.newSubcategory.title')"
+          title="subcategory"
+          button1-icon="grommet-icons:edit"
+          button2-icon="material-symbols:delete-rounded"
+          button2-severity="danger"
+          :new-action-label="$t('inventory.newSubcategoryButton')"
+          :disabled-button1="!values.subcategoryId"
+          :disabled-button2="!values.subcategoryId"
+          :disabled="!values.category"
           :prop-options="subcategories"
-          @on-click="onShowSubcategoryForm"
-          :disabled="!selectedCategory"
+          @click-new="onNewSubcategory"
           :label="$t('inventory.select.subcategoryPlaceholder')"
         />
         <Button
@@ -124,16 +190,16 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
         </Button>
       </div>
     </form>
-    <Dialog v-model:visible="showForm" :header="activeForm" modal>
+    <Dialog
+      v-model:visible="modal.state"
+      :header="modal.activeFormTranslate"
+      modal
+    >
       <template #default>
-        <InventoryNewCategory
-          v-if="activeForm === $t('inventory.newCategory.title')"
-          @created="categoryRefresh"
-        />
-        <InventoryNewSubcategory
-          :category-id="selectedCategory"
-          v-if="activeForm === $t('inventory.newSubcategory.title')"
-          @created="refresh(selectedCategory)"
+        <component
+          :is="getComponent()"
+          :category-id="values.category!"
+          @created="handleRefresh"
         />
       </template>
     </Dialog>

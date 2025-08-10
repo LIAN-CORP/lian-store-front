@@ -23,6 +23,9 @@ export const NewProductScheme = z.object({
     .min(50, {
       message: "El precio debe ser mayor a 50 pesos",
     }),
+  category: string().min(1, {
+    message: "debe seleccionar uno",
+  }),
   stock: z.number().positive().min(0, {
     message: "El stock no puede ser menor a 0",
   }),

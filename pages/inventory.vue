@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue/dist/iconify.js";
-import { label } from "@primeuix/themes/aura/metergroup";
 const { fetchAllProducts } = useGetProduct();
 const { deleteProduct } = useDeleteProduct();
-const { data, refresh } = await fetchAllProducts();
+const { data: product, refresh } = await fetchAllProducts();
 const confirm = useConfirm();
 
 const searchValue = ref("");
@@ -11,7 +10,7 @@ async function onRedirectNewProduct() {
   await navigateTo("product");
 }
 function showSearch() {
-  console.log(data.value);
+  console.log(product.value);
 }
 async function onEditProduct(productId: string) {
   await navigateTo(`product/${productId}`);
@@ -71,7 +70,7 @@ function onDelete(id: string) {
     </div>
     <article class="inventory-products">
       <InventoryCardProduct
-        v-for="product in data?.content"
+        v-for="product in product?.content || []"
         :id="product.id"
         :name="product.name"
         :image="product.imagePath || ''"
@@ -82,9 +81,16 @@ function onDelete(id: string) {
         @delete-product="onDelete"
         @edit-product="onEditProduct"
       />
+      <p v-if="(product?.content || []).length === 0">
+        No se encontraron productos.
+      </p>
     </article>
     <div class="inventory-footer">
-      <Paginator :rows="10" :totalRecords="data!.totalElements" />
+      <Paginator
+        v-if="product?.totalElements"
+        :rows="10"
+        :totalRecords="product!.totalElements"
+      />
     </div>
   </section>
 </template>
