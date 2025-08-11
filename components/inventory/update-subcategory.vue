@@ -1,24 +1,25 @@
 <script lang="ts" setup>
 import type { UpdateCategory } from "~/interfaces/inventory/category/request/update.category.request";
+import type { UpdateSubcategoryRequest } from "~/interfaces/inventory/subcategory/resquest/update.subcategory.resquest";
 import {
-  UpdateCategoryScheme,
-  type UpdatedCategory,
-} from "~/schemas/update.category.scheme";
+  UpdateSubcategoryScheme,
+  type updateSubcategoryInferType,
+} from "~/schemas/update.subcategory.scheme";
 
 const props = defineProps<{
   subcategoryId: string;
 }>();
 const emit = defineEmits(["created"]);
 const { getSubcategoryById } = useGetSubcategory();
-const { update } = useUpdateCategory();
+const { update } = useUpdateSubcategory();
 const { data } = await getSubcategoryById(props.subcategoryId);
 const initialValues = {
-  category: data.value?.name,
+  subcategory: data.value?.name,
   description: data.value?.description,
 };
 const { handleSubmit, meta, values } = useForm({
-  name: "updateCategory",
-  validationSchema: toTypedSchema(UpdateCategoryScheme),
+  name: "updateSubcategory",
+  validationSchema: toTypedSchema(UpdateSubcategoryScheme),
   initialValues: initialValues,
 });
 const send = computed(() => {
@@ -27,20 +28,21 @@ const send = computed(() => {
   );
 });
 
-const onSubmit = handleSubmit((values: UpdatedCategory) => {
-  const updatedCategory: UpdateCategory = {
+const onSubmit = handleSubmit((values: updateSubcategoryInferType) => {
+  const updatedSubcategory: UpdateSubcategoryRequest = {
     id: data.value?.id!,
-    name: values.category,
+    name: values.subcategory,
     description: values.description,
+    categoryId: data?.value?.category.id!,
   };
-  update(updatedCategory);
+  update(updatedSubcategory);
 });
 </script>
 
 <template>
   <form class="edit-category" @submit="onSubmit">
     <CustomTextField
-      name="category"
+      name="subcategory"
       id="categoryEditId"
       :label="$t('inventory.updateCategory.name')"
     />
