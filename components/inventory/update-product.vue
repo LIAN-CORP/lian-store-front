@@ -1,9 +1,4 @@
 <script lang="ts" setup>
-import {
-  InventoryNewCategory,
-  InventoryNewSubcategory,
-  InventoryUpdateCategory,
-} from "#components";
 import type { UpdateProductRequest } from "~/interfaces/inventory/product/request/update.product.request";
 import type { GetProduct } from "~/interfaces/inventory/product/response/get.product";
 import {
@@ -14,6 +9,8 @@ const props = defineProps<{
   product: GetProduct;
 }>();
 const { t } = useI18n();
+const { modalData, modalState, open, close, getComponent } =
+  useInventoryModalHandler();
 const { update } = useUpdateProduct();
 const { subcategories, refresh } = useGetSubcategory();
 const { categories, categoryRefresh } = useGetCategory();
@@ -32,68 +29,31 @@ const { handleSubmit, resetField, values, meta } = useForm({
   initialValues: initialValues,
 });
 const originalValues = reactive({ ...values });
-const modal = reactive<{
-  state: boolean;
-  activeForm: string;
-  activeFormTranslate: string;
-}>({
-  state: false,
-  activeForm: "",
-  activeFormTranslate: "",
-});
 function onNewCategory() {
   subcategories.value = null;
   resetField("subcategoryId");
-  modal.state = true;
-  modal.activeForm = "NewCategory";
-  onGetTranslateTitle();
+  open("NewCategory");
 }
 function onNewSubcategory() {
-  modal.activeForm = "NewSubcategory";
-  modal.state = true;
-  onGetTranslateTitle();
+  open("NewSubcategory");
 }
 function onUpdateCategory() {
-  modal.state = true;
-  modal.activeForm = "EditCategory";
-  onGetTranslateTitle();
+  open("EditCategory");
 }
 function onUpdateSubcategory() {
-  modal.state = true;
-  modal.activeForm = "EditSubcategory";
-  onGetTranslateTitle();
-}
-function getComponent() {
-  switch (modal.activeForm) {
-    case "NewCategory":
-      return InventoryNewCategory;
-    case "EditCategory":
-      return InventoryUpdateCategory;
-    case "NewSubcategory":
-      return InventoryNewSubcategory;
-    case "EditSubcategory":
-      return null;
-    default:
-      return null;
-  }
-}
-function onGetTranslateTitle() {
-  const translations: Record<string, string> = {
-    NewCategory: t("inventory.newCategory.title"),
-    NewSubcategory: t("inventory.newSubcategory.title"),
-    EditCategory: t("inventory.updateCategory.title"),
-    EditSubcategory: t("inventory.updateSubcategory.title"),
-  };
-  modal.activeFormTranslate = translations[modal.activeForm] || "";
+  open("EditSubcategory");
 }
 
 function handleRefresh() {
-  if (modal.activeForm == "NewCategory" || modal.activeForm == "EditCategory") {
+  if (
+    modalData.activeForm == "NewCategory" ||
+    modalData.activeForm == "EditCategory"
+  ) {
     categoryRefresh();
   }
   if (
-    modal.activeForm == "NewSubcategory" ||
-    modal.activeForm == "EditSubcategory"
+    modalData.activeForm == "NewSubcategory" ||
+    modalData.activeForm == "EditSubcategory"
   ) {
     refresh(values.category!);
   }
@@ -201,14 +161,15 @@ onMounted(() => {
       </div>
     </form>
     <Dialog
-      v-model:visible="modal.state"
-      :header="modal.activeFormTranslate"
+      v-model:visible="modalState"
+      :header="modalData.activeFormTranslate"
       modal
     >
       <template #default>
         <component
           :is="getComponent()"
           :category-id="values.category!"
+          :subcategory-id="values.subcategoryId!"
           @created="handleRefresh"
         />
       </template>

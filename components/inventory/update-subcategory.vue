@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { UpdateCategory } from "~/interfaces/inventory/category/request/update.category.request";
 import type { UpdateSubcategoryRequest } from "~/interfaces/inventory/subcategory/resquest/update.subcategory.resquest";
 import {
   UpdateSubcategoryScheme,
