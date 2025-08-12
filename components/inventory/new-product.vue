@@ -40,6 +40,9 @@ function onDeleteCategory() {
     onAccept: async () => {
       if (!values.category) return;
       await deleteCategory(values.category);
+      await categoryRefresh();
+      resetField("subcategoryId");
+      resetField("category");
     },
   });
 }
