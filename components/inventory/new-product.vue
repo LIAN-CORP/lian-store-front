@@ -6,6 +6,10 @@ import {
 } from "~/schemas/new.product.scheme";
 const { modalState, modalData, open, close, getComponent } =
   useInventoryModalHandler();
+const { t } = useI18n();
+const confirm = useConfirm();
+const { deleteCategory } = useDeleteCategory();
+const { onConfirmDelete } = useConfirmDialog();
 const { errorToast, successToast } = useCreateToast();
 const { subcategories, refresh } = useGetSubcategory();
 const { categories, categoryRefresh } = useGetCategory();
@@ -28,6 +32,16 @@ function onUpdateCategory() {
 }
 function onUpdateSubcategory() {
   open("EditSubcategory");
+}
+
+function onDeleteCategory() {
+  onConfirmDelete({
+    message: t("confirm.delete.category.message"),
+    onAccept: async () => {
+      if (!values.category) return;
+      await deleteCategory(values.category);
+    },
+  });
 }
 
 function handleRefresh() {
@@ -72,6 +86,7 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
 </script>
 
 <template>
+  <ConfirmDialog />
   <section class="newProduct">
     <h3 class="newProduct-title">{{ $t("inventory.newProduct.title") }}</h3>
     <form class="newProduct-form" @submit="onSubmit">
@@ -124,6 +139,7 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
           :disabled-button2="!values.category"
           @click-new="onNewCategory"
           @on-click1="onUpdateCategory"
+          @on-click2="onDeleteCategory"
         />
         <CustomSelectInput
           name="subcategoryId"
