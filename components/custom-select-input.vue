@@ -52,6 +52,7 @@ function onClickNew() {
         v-model="value"
         :options="propOptions"
         :disabled="disabled"
+        fluid
       >
         <template #footer v-if="newActionLabel">
           <Button
@@ -90,5 +91,6 @@ function onClickNew() {
 .select-input {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 </style>

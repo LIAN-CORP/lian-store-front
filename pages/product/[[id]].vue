@@ -23,28 +23,19 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .product {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  gap: 1rem;
-  width: auto;
-  align-items: center;
-  border-radius: 1em;
-  &-body {
-    padding: 3em;
+  padding: 2rem;
+}
+@media (max-width: 800px) {
+  .product {
+    display: block;
+    padding: 1rem;
   }
 }
-@media (max-width: 1000px) {
+@media (max-width: 400px) {
   .product {
-    &-body {
-      padding: 1em;
-    }
-  }
-}
-@media (max-width: 500px) {
-  .product {
-    &-body {
-      padding: 1em;
-    }
+    display: block;
+    padding: 0.5rem;
   }
 }
 </style>

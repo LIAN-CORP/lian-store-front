@@ -66,7 +66,6 @@ function onFileSelect(event: any) {
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  max-width: 400px;
 
   &-preview {
     height: 350px;

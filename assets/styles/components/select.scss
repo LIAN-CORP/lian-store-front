@@ -1,3 +1,12 @@
+.p-select-overlay {
+  min-width: 0;
+  max-width: 200px;
+}
+.p-select-option-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 @media (max-width: 800px) {
   .p-select {
     font-size: 0.7rem;
