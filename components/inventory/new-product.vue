@@ -7,7 +7,7 @@ import {
 const { modalState, modalData, open, close, getComponent } =
   useInventoryModalHandler();
 const { t } = useI18n();
-const confirm = useConfirm();
+const { deleteSubcategory } = useDeleteSubcategory();
 const { deleteCategory } = useDeleteCategory();
 const { onConfirmDelete } = useConfirmDialog();
 const { errorToast, successToast } = useCreateToast();
@@ -43,6 +43,17 @@ function onDeleteCategory() {
       await categoryRefresh();
       resetField("subcategoryId");
       resetField("category");
+    },
+  });
+}
+function onDeleteSubcategory() {
+  onConfirmDelete({
+    message: t("confirm.delete.subcategory.message"),
+    onAccept: async () => {
+      if (!values.subcategoryId) return;
+      await deleteSubcategory(values.subcategoryId);
+      refresh(values.category!);
+      resetField("subcategoryId");
     },
   });
 }
@@ -161,6 +172,7 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
             :prop-options="subcategories"
             @click-new="onNewSubcategory"
             @on-click1="onUpdateSubcategory"
+            @on-click2="onDeleteSubcategory"
             :label="$t('inventory.select.subcategoryPlaceholder')"
           />
           <Button

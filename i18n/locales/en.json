@@ -18,6 +18,9 @@
     },
     "category": {
       "message": "Are you sure you want to delete this category?. \n This will permanently remove all associated products and subcategories."
+    },
+    "subcategory": {
+      "message": "Are you sure you want to delete this subcategory?. \n This will permanently remove all associated products."
     }
   }
 },

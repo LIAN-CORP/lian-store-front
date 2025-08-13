@@ -19,7 +19,10 @@
       },
       "category": {
         "message": "¿Desea eliminar esta categoría?.\n Esta acción eliminara los productos y subcategorias relacionados."
-      }
+      },
+    "subcategory": {
+      "message": "¿Desea eliminar esta subcategoría?.\n Esta acción eliminara los productos relacionados."
+    }
     }
   },
   "auth": {
