@@ -38,6 +38,7 @@ const { value, errorMessage } = useField<string>(() => props.name);
         :size="size"
         :disabled="disabled"
         v-model:model-value="value"
+        rise
       />
       <label :for="id">{{ label }}</label>
     </FloatLabel>
@@ -47,4 +48,8 @@ const { value, errorMessage } = useField<string>(() => props.name);
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.p-textarea {
+  resize: none;
+}
+</style>
