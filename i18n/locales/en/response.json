@@ -5,6 +5,10 @@
         "SUBCATEGORY_EXISTS" : "this subcategory already exist",
         "ILLEGAL_ARGUMENT": "The submitted data is invalid",
         "UNKNOWN_ERROR": "An unexpected error occurred"
+    },
+    "success": {
+      "new_category": "Category created successfully!",
+      "new_subcategory": "Subcategory created successfully!"
     }
   }
 }

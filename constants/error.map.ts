@@ -1,1 +1,6 @@
-export const ErrorMap: Record<string, string> = {};
+export const ErrorMap: Record<string, string> = {
+  UNKNOWN_ERROR: "response.error.UNKNOWN_ERROR",
+  CATEGORY_ALREADY_EXISTS_EXCEPTION: "response.error.CATEGORY_EXISTS",
+  SUBCATEGORY_ALREADY_EXISTS_EXCEPTION: "response.error.SUBCATEGORY_EXISTS",
+  ILLEGAL_ARGUMENT_EXCEPTION: "response.error.ILLEGAL_ARGUMENT",
+};
