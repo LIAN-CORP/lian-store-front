@@ -1,0 +1,10 @@
+{
+  "response": {
+    "error": {
+        "CATEGORY_EXISTS": "La categoría ya existe",
+        "SUBCATEGORY_EXISTS" : "La subcategoría ya existe",
+        "ILLEGAL_ARGUMENT": "Los datos enviados no son válidos",
+        "UNKNOWN_ERROR": "Ha ocurrido un error inesperado"
+    }
+  }
+}

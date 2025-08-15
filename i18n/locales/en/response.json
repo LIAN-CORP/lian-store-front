@@ -1,0 +1,10 @@
+{
+  "response": {
+    "error": {
+        "CATEGORY_EXISTS": "this category already exist",
+        "SUBCATEGORY_EXISTS" : "this subcategory already exist",
+        "ILLEGAL_ARGUMENT": "The submitted data is invalid",
+        "UNKNOWN_ERROR": "An unexpected error occurred"
+    }
+  }
+}

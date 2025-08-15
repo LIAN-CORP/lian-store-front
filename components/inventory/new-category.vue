@@ -6,9 +6,11 @@ import {
 } from "~/schemas/new.category.scheme";
 const emit = defineEmits(["created"]);
 const { successToast, errorToast } = useCreateToast();
+const { t } = useI18n();
+const scheme = NewCategoryScheme(t);
 const { handleSubmit } = useForm({
   name: "newCategory",
-  validationSchema: toTypedSchema(NewCategoryScheme),
+  validationSchema: toTypedSchema(scheme),
 });
 
 const onSubmit = handleSubmit(async (values: NewCategory) => {

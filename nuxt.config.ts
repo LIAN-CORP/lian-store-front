@@ -37,6 +37,8 @@ export default defineNuxtConfig({
           "es/inventory.json",
           "es/movements.json",
           "es/transaction.json",
+          "es/formError.json",
+          "es/response.json",
         ],
       },
       {
@@ -49,6 +51,8 @@ export default defineNuxtConfig({
           "en/inventory.json",
           "en/movements.json",
           "en/transaction.json",
+          "en/formError.json",
+          "en/response.json",
         ],
       },
     ],

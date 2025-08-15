@@ -1,0 +1,9 @@
+{
+    "formError":{
+        "not_null": "This field is required",
+        "min_length": "The minimum length is {size} characters",
+        "max_length": "The maximum length is {size} characters",
+        "min_value": "The minimum value is {min}",
+        "max_value": "The maximum value is {max}"
+    }
+}
