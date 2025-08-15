@@ -1,0 +1,18 @@
+{
+  "transaction": {
+    "addProduct": "Añadir producto",
+    "typeMovementPlaceholder": "Tipo de movimiento",
+    "debtorSelectPlaceholder": "Deudor",
+    "paymentTypePlaceholder": "Tipo de pago",
+    "table": {
+      "product": "Producto",
+      "quantity": "Cantidad",
+      "price": "Precio",
+      "total": "Total"
+    },
+    "formDebtor": {
+      "name": "Nombre del cliente",
+      "phone": "Número del cliente"
+    }
+  }
+}

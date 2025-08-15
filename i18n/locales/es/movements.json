@@ -1,0 +1,41 @@
+{
+  "movements": {
+    "startDate": "Fecha Inicial",
+    "endDate": "Fecha Final",
+    "selectPlaceholder": "Selecciona el tipo de movimiento",
+    "clientNameLabel": "Cliente",
+    "clientPhoneLabel": "Teléfono",
+    "typeMovement": "Movimiento",
+    "debtBadge": "Saldo Pendiente",
+    "modalTitle": "Detalles",
+    "table": {
+      "resume": {
+        "date": "Fecha",
+        "invoice": "Factura",
+        "total": "Total",
+        "actions": "Acciones"
+      },
+      "payment": {
+        "receipt": "Factura",
+        "method": "Método",
+        "amount": "Monto"
+      },
+      "product": {
+        "product": "Producto",
+        "quantity": "Cantidad",
+        "unitPrice": "Precio Unitario",
+        "total": "Total"
+      }
+    },
+    "form": {
+      "title": "Nuevo Pago",
+      "amount": "Monto",
+      "method": "Método de pago"
+    },
+    "select": {
+      "sales": "Ventas",
+      "purchases": "Compras",
+      "debts": "Deudas a cobrar"
+    }
+  }
+}

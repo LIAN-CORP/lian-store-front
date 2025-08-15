@@ -1,0 +1,13 @@
+{
+  "debtors": {
+    "search": "Buscar deudor",
+    "details": "resumen",
+    "modalTitle": "Deudas",
+    "detailsTable": {
+      "date": "Fecha",
+      "invoice": "Factura",
+      "total": "Total",
+      "actions": "Acciones"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "inventory": {
+    "search": "Search product",
+    "newProductButton": "New Product",
+    "newCategoryButton": "New Category",
+    "newSubcategoryButton": "New Subcategory",
+    "editProduct": "Update Product",
+    "labels": {
+      "name": "Product",
+      "category": "Category",
+      "subcategory": "Subcategory",
+      "price": "Price",
+      "stock": "Stock"
+    },
+    "select": {
+      "categoryPlaceholder": "Category",
+      "subcategoryPlaceholder": "Subcategory"
+    },
+    "newProduct": {
+      "title": "Create Product",
+      "changeImage": "Change Image",
+      "imageLabel": "Select an image",
+      "name": "Product name",
+      "description": "Product Description",
+      "salePrice": "Sale price",
+      "buyingPrice": "Buying price",
+      "quantity": "Quantity"
+    },
+    "newCategory": {
+      "title": "New Category",
+      "name": "Category name",
+      "description": "Description"
+    },
+    "newSubcategory": {
+      "title": "New Subcategory",
+      "name": "Subcategory name",
+      "description": "Description"
+    },
+    "updateCategory": {
+      "title": "Update Category",
+      "name": "Category name",
+      "description": "Description"
+    },
+    "updateSubcategory": {
+      "title": "New Subcategory",
+      "name": "Subcategory name",
+      "description": "Description"
+    }
+  }
+}

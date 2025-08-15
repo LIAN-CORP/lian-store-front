@@ -1,0 +1,13 @@
+{
+  "debtors": {
+    "search": "Search debtor",
+    "details": "resume",
+    "modalTitle": "Debts",
+    "detailsTable": {
+      "date": "Date",
+      "invoice": "Invoice",
+      "total": "Total",
+      "actions": "Actions"
+    }
+  }
+}
