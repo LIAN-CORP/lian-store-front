@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { UpdateSubcategoryRequest } from "~/interfaces/inventory/subcategory/resquest/update.subcategory.resquest";
+import type { UpdateSubcategoryRequest } from "~/interfaces/inventory/subcategory/request/update.subcategory.resquest";
 import {
   UpdateSubcategoryScheme,
   type updateSubcategoryInferType,

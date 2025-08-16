@@ -1,36 +1,29 @@
 <script lang="ts" setup>
-import type { NewSubcategoryRequest } from "~/interfaces/inventory/subcategory/resquest/new.subcategory.request";
+import type { NewSubcategoryRequest } from "~/interfaces/inventory/subcategory/request/new.subcategory.request";
 import {
   newSubcategoryScheme,
-  type NewSubcategory,
+  type NewSubcategoryInferType,
 } from "~/schemas/new.subcategory.scheme";
-
-const { successToast, errorToast } = useCreateToast();
+const { t } = useI18n();
+const { createSubcategory } = useNewSubcategory();
 const emit = defineEmits(["created"]);
 const props = defineProps<{
   categoryId: string;
 }>();
-
+const scheme = newSubcategoryScheme(t);
 const { handleSubmit } = useForm({
   name: "NewSubcategory",
-  validationSchema: toTypedSchema(newSubcategoryScheme),
+  validationSchema: toTypedSchema(scheme),
 });
 
-const onSubmit = handleSubmit(async (values: NewSubcategory) => {
+const onSubmit = handleSubmit(async (values: NewSubcategoryInferType) => {
   const subcategory: NewSubcategoryRequest = {
-    name: values.subcategory,
+    name: values.subcategory.toUpperCase(),
     description: values.description,
     categoryId: props.categoryId,
   };
-  console.log(subcategory);
-  const response = await useNewSubcategory(subcategory);
-  if (response.ok) {
-    successToast("la subcategoría se creo exitosamente");
-    emit("created");
-  } else {
-    console.log(response.data);
-    errorToast("la subcategoría no se pudo crear");
-  }
+  await createSubcategory(subcategory);
+  emit("created");
 });
 </script>
 

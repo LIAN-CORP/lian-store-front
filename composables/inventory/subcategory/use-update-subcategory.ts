@@ -1,5 +1,5 @@
 import type { ErrorResponse } from "~/interfaces/error.response";
-import type { UpdateSubcategoryRequest } from "~/interfaces/inventory/subcategory/resquest/update.subcategory.resquest";
+import type { UpdateSubcategoryRequest } from "~/interfaces/inventory/subcategory/request/update.subcategory.resquest";
 
 export default function useUpdateSubcategory() {
   const { errorToast, successToast } = useCreateToast();
