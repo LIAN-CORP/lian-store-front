@@ -2,9 +2,10 @@ import type { ErrorResponse } from "~/interfaces/error.response";
 import type { UpdateCategory } from "~/interfaces/inventory/category/request/update.category.request";
 
 export default function useUpdateCategory() {
-  const { errorToast, successToast } = useCreateToast();
-
-  async function update(category: UpdateCategory) {
+  const { errorToast, infoToast } = useCreateToast();
+  const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
+  async function updateCategory(category: UpdateCategory) {
+    let msg: string = "";
     try {
       const url = useGetApiUrl("category");
       const result = await $fetch.raw(url, {
@@ -12,14 +13,16 @@ export default function useUpdateCategory() {
         body: category,
       });
       if (result.status == 200) {
-        successToast("se edito correctamente");
+        msg = getSuccessTranslate("response.success.update_category");
+        infoToast(msg);
       }
     } catch (e: any) {
       const error = e as ErrorResponse;
-      errorToast("esto es un error");
+      msg = getErrorTranslate(error.type);
+      errorToast(msg);
     }
   }
   return {
-    update,
+    updateCategory,
   };
 }
