@@ -47,7 +47,9 @@ function onUpdateSubcategory() {
 
 function onDeleteCategory() {
   onConfirmDelete({
-    message: t("confirm.delete.category.message"),
+    message: t("confirm.delete.category.message", {
+      name: values.category?.name,
+    }),
     onAccept: async () => {
       if (!values.category) return;
       await deleteCategory(values.category.id!);
@@ -59,7 +61,9 @@ function onDeleteCategory() {
 }
 function onDeleteSubcategory() {
   onConfirmDelete({
-    message: t("confirm.delete.subcategory.message"),
+    message: t("confirm.delete.subcategory.message", {
+      name: values.subcategory?.name,
+    }),
     onAccept: async () => {
       if (!values.subcategory) return;
       await deleteSubcategory(values.subcategory.id!);
