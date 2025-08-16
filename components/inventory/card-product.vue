@@ -12,7 +12,7 @@ const props = defineProps<{
   quantity: number;
 }>();
 function onDeleteProduct() {
-  emit("deleteProduct", props.id);
+  emit("deleteProduct", props.id, props.name);
 }
 function onEditProduct() {
   emit("editProduct", props.id);
