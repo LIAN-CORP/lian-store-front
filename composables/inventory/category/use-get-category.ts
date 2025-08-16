@@ -6,6 +6,7 @@ import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface
 export default function useGetCategory() {
   const url = useGetApiUrl("category");
   const { errorToast } = useCreateToast();
+  const { getErrorTranslate } = useHandleResponse();
 
   const { data, error, refresh, status } = useFetch<
     paginatedResponse<GetListCategories>
@@ -23,7 +24,9 @@ export default function useGetCategory() {
     const url = useGetApiUrl(`category/${id}`);
     const result = await useFetch<GetCategory>(url);
     if (result.error.value) {
-      errorToast("error inesperado");
+      const error = result.error.value.data as ErrorResponse;
+      const msg = getErrorTranslate(error.type);
+      errorToast(msg);
     }
     return result;
   }
