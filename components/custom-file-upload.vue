@@ -1,7 +1,7 @@
 :
 <script lang="ts" setup>
 import defaultImage from "@/assets/images/missing_product.webp";
-
+const { t, locale } = useI18n();
 const props = defineProps<{
   name: string;
   image?: string;
@@ -13,13 +13,20 @@ const previewImage = ref();
 const previewImageName = ref("");
 const { errorMessage, setValue } = useField<File | null>(() => props.name);
 
+watch(locale, () => {
+  setValue(null);
+});
+function onClearSelect() {
+  setValue(null);
+  previewImageName.value = "";
+  previewImage.value = null;
+}
+
 function onFileSelect(event: any) {
   const file = event.files[0];
   const reader = new FileReader();
   if (!file) {
-    setValue(null);
-    previewImageName.value = "";
-    previewImage.value = null;
+    onClearSelect();
   }
   setValue(file);
   previewImageName.value = file.name;
@@ -35,9 +42,10 @@ function onFileSelect(event: any) {
     <FileUpload
       v-if="show"
       mode="basic"
-      url="/api/upload"
       accept="image/*"
-      :maxFileSize="10000000"
+      :invalidFileSizeMessage="t('formError.size_file_error')"
+      :invalidFileTypeMessage="t('formError.type_file_error')"
+      :maxFileSize="10485760"
       :chooseLabel="$t('inventory.newProduct.changeImage')"
       :fileLimit="1"
       @select="onFileSelect"
@@ -65,6 +73,7 @@ function onFileSelect(event: any) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 0.5rem;
   gap: 1rem;
 
   &-preview {

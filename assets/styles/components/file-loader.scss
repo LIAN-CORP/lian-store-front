@@ -3,7 +3,7 @@
   border-color: rgb(170, 170, 170);
   &-basic {
     flex-direction: column;
-    width: 100%;
+    max-width: 370px;
     span {
       text-align: center;
       width: 250px;
