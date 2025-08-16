@@ -3,7 +3,7 @@
         "not_null": "Este campo es obligatorio",
         "not_null_image": "Debes seleccionar una imagen",
         "type_file_error": "El archivo debe ser una imagen",
-        "size_file_error": "El tamaño de la imagen debe ser menor de 10MB",
+        "size_file_error": "El tamaño de la imagen debe ser menor a 10MB",
         "min_length": "El tamaño mínimo es de {size} letras",
         "max_length": "El tamaño máximo es de {size} letras",
         "min_value": "El valor mínimo es de {min}",
