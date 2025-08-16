@@ -4,7 +4,7 @@ export default function useHandleResponse() {
   const { t } = useI18n();
 
   function getErrorTranslate(key: string): string {
-    const translationKey = ErrorMap[key] || "UNKNOWN_ERROR";
+    const translationKey = ErrorMap[key] || "response.error.UNKNOWN_ERROR";
     const msg = t(translationKey);
     return msg;
   }

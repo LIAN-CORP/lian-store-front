@@ -3,23 +3,24 @@ import type { UpdateSubcategoryRequest } from "~/interfaces/inventory/subcategor
 
 export default function useUpdateSubcategory() {
   const { errorToast, successToast } = useCreateToast();
-
-  async function update(subcategory: UpdateSubcategoryRequest) {
+  const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
+  async function updateSubcategory(subcategory: UpdateSubcategoryRequest) {
+    let msg: string;
     try {
       const url = useGetApiUrl("subcategory");
-      const result = await $fetch.raw(url, {
+      await $fetch(url, {
         method: "PUT",
         body: subcategory,
       });
-      if (result.status == 200) {
-        successToast("se edito correctamente");
-      }
+      msg = getSuccessTranslate("response.success.update_subcategory");
+      successToast(msg);
     } catch (e: any) {
       const error = e as ErrorResponse;
-      errorToast("esto es un error");
+      msg = getErrorTranslate(error.type);
+      errorToast(msg);
     }
   }
   return {
-    update,
+    updateSubcategory,
   };
 }

@@ -10,15 +10,17 @@ const props = defineProps<{
 }>();
 const emit = defineEmits(["created"]);
 const { getSubcategoryById } = useGetSubcategory();
-const { update } = useUpdateSubcategory();
+const { updateSubcategory } = useUpdateSubcategory();
 const { data } = await getSubcategoryById(props.subcategoryId);
+const { t } = useI18n();
+const scheme = UpdateSubcategoryScheme(t);
 const initialValues = {
   subcategory: data.value?.name,
   description: data.value?.description,
 };
 const { handleSubmit, meta, values } = useForm({
   name: "updateSubcategory",
-  validationSchema: toTypedSchema(UpdateSubcategoryScheme),
+  validationSchema: toTypedSchema(scheme),
   initialValues: initialValues,
 });
 const send = computed(() => {
@@ -34,7 +36,7 @@ const onSubmit = handleSubmit((values: updateSubcategoryInferType) => {
     description: values.description,
     categoryId: data?.value?.category.id!,
   };
-  update(updatedSubcategory);
+  updateSubcategory(updatedSubcategory);
 });
 </script>
 
