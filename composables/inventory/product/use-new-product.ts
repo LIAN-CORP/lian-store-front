@@ -1,9 +1,13 @@
 import type { ErrorResponse } from "~/interfaces/error.response";
 import type { NewProductRequest } from "~/interfaces/inventory/product/request/new.product.request";
 
-export default function useNewSubcategory() {
+export default function useNewProduct() {
+  const { errorToast, successToast } = useCreateToast();
+  const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
+
   async function createNewProduct(image: File, product: NewProductRequest) {
     const url = useGetApiUrl("product");
+    let msg: string;
     const formData = new FormData();
     const jsonBlob = new Blob([JSON.stringify(product)], {
       type: "application/json",
@@ -15,16 +19,12 @@ export default function useNewSubcategory() {
         method: "POST",
         body: formData,
       });
-      return {
-        ok: true,
-        data: null,
-      };
+      msg = getSuccessTranslate("response.success.new_product");
+      successToast(msg);
     } catch (e: any) {
       const error = e.data as ErrorResponse;
-      return {
-        ok: false,
-        data: error,
-      };
+      msg = getErrorTranslate(error.type);
+      errorToast(msg);
     }
   }
   return {

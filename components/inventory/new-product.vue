@@ -10,10 +10,9 @@ const { t } = useI18n();
 const { deleteSubcategory } = useDeleteSubcategory();
 const { deleteCategory } = useDeleteCategory();
 const { onConfirmDelete } = useConfirmDialog();
-const { errorToast, successToast } = useCreateToast();
 const { subcategories, refresh } = useGetSubcategory();
 const { categories, categoryRefresh } = useGetCategory();
-const { handleSubmit, resetField, values } = useForm({
+const { handleSubmit, resetField, resetForm, values } = useForm({
   name: "newProduct",
   validationSchema: toTypedSchema(NewProductScheme),
 });
@@ -90,12 +89,8 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
     priceBuy: values.priceBuying,
     subcategoryId: values.subcategoryId,
   };
-  const result = await createNewProduct(values.image, product);
-  if (result.ok) {
-    successToast("se creo el producto correctamente");
-  } else {
-    errorToast("no se pudo crear el producto");
-  }
+  await createNewProduct(values.image, product);
+  resetForm();
 });
 </script>
 
