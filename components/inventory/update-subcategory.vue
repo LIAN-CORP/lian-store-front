@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { UpdateSubcategoryRequest } from "~/interfaces/inventory/subcategory/resquest/update.subcategory.resquest";
+import type { UpdateSubcategoryRequest } from "~/interfaces/inventory/subcategory/request/update.subcategory.resquest";
 import {
   UpdateSubcategoryScheme,
   type updateSubcategoryInferType,
@@ -10,31 +10,31 @@ const props = defineProps<{
 }>();
 const emit = defineEmits(["created"]);
 const { getSubcategoryById } = useGetSubcategory();
-const { update } = useUpdateSubcategory();
+const { updateSubcategory } = useUpdateSubcategory();
 const { data } = await getSubcategoryById(props.subcategoryId);
+const { hasChanges } = useFormChangeHandle();
+const { t } = useI18n();
+const scheme = UpdateSubcategoryScheme(t);
 const initialValues = {
   subcategory: data.value?.name,
   description: data.value?.description,
 };
 const { handleSubmit, meta, values } = useForm({
   name: "updateSubcategory",
-  validationSchema: toTypedSchema(UpdateSubcategoryScheme),
+  validationSchema: toTypedSchema(scheme),
   initialValues: initialValues,
 });
-const send = computed(() => {
-  return (
-    meta.value.dirty && JSON.stringify(values) !== JSON.stringify(initialValues)
-  );
-});
+const canSend = hasChanges({ ...initialValues }, values, meta);
 
-const onSubmit = handleSubmit((values: updateSubcategoryInferType) => {
+const onSubmit = handleSubmit(async (values: updateSubcategoryInferType) => {
   const updatedSubcategory: UpdateSubcategoryRequest = {
     id: data.value?.id!,
     name: values.subcategory,
     description: values.description,
     categoryId: data?.value?.category.id!,
   };
-  update(updatedSubcategory);
+  await updateSubcategory(updatedSubcategory);
+  emit("created");
 });
 </script>
 
@@ -54,7 +54,7 @@ const onSubmit = handleSubmit((values: updateSubcategoryInferType) => {
       :label="$t('button.save')"
       type="submit"
       severity="success"
-      :disabled="!send"
+      :disabled="!canSend"
     />
   </form>
 </template>

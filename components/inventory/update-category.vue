@@ -2,38 +2,38 @@
 import type { UpdateCategory } from "~/interfaces/inventory/category/request/update.category.request";
 import {
   UpdateCategoryScheme,
-  type UpdatedCategory,
+  type UpdateCategoryInferType,
 } from "~/schemas/update.category.scheme";
 
 const props = defineProps<{
   categoryId: string;
 }>();
 const emit = defineEmits(["created"]);
+const { t } = useI18n();
+const { hasChanges } = useFormChangeHandle();
 const { fetchCategoryById } = useGetCategory();
-const { update } = useUpdateCategory();
+const { updateCategory } = useUpdateCategory();
 const { data } = await fetchCategoryById(props.categoryId);
+const scheme = UpdateCategoryScheme(t);
+
 const initialValues = {
   category: data.value?.name,
   description: data.value?.description,
 };
 const { handleSubmit, meta, values } = useForm({
   name: "updateCategory",
-  validationSchema: toTypedSchema(UpdateCategoryScheme),
+  validationSchema: toTypedSchema(scheme),
   initialValues: initialValues,
 });
-const send = computed(() => {
-  return (
-    meta.value.dirty && JSON.stringify(values) !== JSON.stringify(initialValues)
-  );
-});
-
-const onSubmit = handleSubmit((values: UpdatedCategory) => {
+const send = hasChanges({ ...initialValues }, values, meta);
+const onSubmit = handleSubmit(async (values: UpdateCategoryInferType) => {
   const updatedCategory: UpdateCategory = {
     id: data.value?.id!,
     name: values.category,
     description: values.description,
   };
-  update(updatedCategory);
+  await updateCategory(updatedCategory);
+  emit("created");
 });
 </script>
 

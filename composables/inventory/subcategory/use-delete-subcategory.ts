@@ -1,16 +1,21 @@
+import type { ErrorResponse } from "~/interfaces/error.response";
+
 export default function useDeleteSubcategory() {
-  const { errorToast, successToast } = useCreateToast();
+  const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
+  const { errorToast, infoToast } = useCreateToast();
   async function deleteSubcategory(subcategoryId: string) {
     const url = useGetApiUrl(`subcategory/${subcategoryId}`);
+    let msg: string;
     try {
-      const result = await $fetch.raw(url, {
+      await $fetch(url, {
         method: "DELETE",
       });
-      if (result.status === 200) {
-        successToast("la categoría se eliminó correctamente");
-      }
+      msg = getSuccessTranslate("response.success.delete_subcategory");
+      infoToast(msg);
     } catch (e: any) {
-      errorToast("error al eliminar");
+      const error = e as ErrorResponse;
+      msg = getErrorTranslate(error.type);
+      errorToast(msg);
     }
   }
   return {

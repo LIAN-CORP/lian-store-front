@@ -5,14 +5,12 @@ import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface
 
 export default function useGetProduct() {
   const { errorToast } = useCreateToast();
-
+  const { getErrorTranslate } = useHandleResponse();
   const result = reactive<{
     product: GetProduct | null;
-    error: ErrorResponse | null;
     loading: boolean;
   }>({
     product: null,
-    error: null,
     loading: false,
   });
   async function fetchAllProducts() {
@@ -33,8 +31,8 @@ export default function useGetProduct() {
       result.product = await $fetch<GetProduct>(url);
     } catch (e: any) {
       const error = e as ErrorResponse;
-      result.error = error;
-      errorToast("algo");
+      const msg = getErrorTranslate(error.type);
+      errorToast(msg);
     } finally {
       result.loading = false;
     }

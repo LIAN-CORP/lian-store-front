@@ -1,18 +1,26 @@
 import { z } from "zod";
-export const NewCategoryScheme = z.object({
-  category: z
-    .string({
-      message: "no esta el nombre",
-    })
-    .min(3, {
-      message: "necesita 10 letras",
-    }),
-  description: z
-    .string({
-      message: "no esta la descripción",
-    })
-    .min(5, {
-      message: "necesita 10 letras",
-    }),
-});
-export type NewCategory = z.infer<typeof NewCategoryScheme>;
+export const NewCategoryScheme = (t: any) => {
+  return z.object({
+    category: z
+      .string({
+        message: t("formError.not_null"),
+      })
+      .min(3, {
+        message: t("formError.min_length", { size: 3 }),
+      })
+      .max(50, {
+        message: t("formError.max_length", { size: 50 }),
+      }),
+    description: z
+      .string({
+        message: t("formError.not_null"),
+      })
+      .min(5, {
+        message: t("formError.min_length", { size: 5 }),
+      })
+      .max(150, {
+        message: t("formError.max_length", { size: 150 }),
+      }),
+  });
+};
+export type NewCategory = z.infer<ReturnType<typeof NewCategoryScheme>>;

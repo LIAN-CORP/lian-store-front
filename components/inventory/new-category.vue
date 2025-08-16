@@ -5,24 +5,22 @@ import {
   type NewCategory,
 } from "~/schemas/new.category.scheme";
 const emit = defineEmits(["created"]);
-const { successToast, errorToast } = useCreateToast();
-const { handleSubmit } = useForm({
+const { t } = useI18n();
+const { createCategory } = useNewCategory();
+const scheme = NewCategoryScheme(t);
+const { handleSubmit, resetForm } = useForm({
   name: "newCategory",
-  validationSchema: toTypedSchema(NewCategoryScheme),
+  validationSchema: toTypedSchema(scheme),
 });
 
 const onSubmit = handleSubmit(async (values: NewCategory) => {
   const category: NewCategoryRequest = {
-    name: values.category,
+    name: values.category.toUpperCase(),
     description: values.description,
   };
-  const response = await useNewCategory(category);
-  if (response.ok) {
-    successToast("la categoría se creo exitosamente");
-    emit("created");
-  } else {
-    errorToast("la categoría no se pudo crear");
-  }
+  await createCategory(category);
+  resetForm();
+  emit("created");
 });
 </script>
 

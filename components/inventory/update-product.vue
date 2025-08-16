@@ -3,17 +3,19 @@ import type { UpdateProductRequest } from "~/interfaces/inventory/product/reques
 import type { GetProduct } from "~/interfaces/inventory/product/response/get.product";
 import {
   updateProductScheme,
-  type updatedProduct,
+  type updatedProductInferScheme,
 } from "~/schemas/update.product.scheme";
 const props = defineProps<{
   product: GetProduct;
 }>();
 const { t } = useI18n();
+const { hasChanges } = useFormChangeHandle();
 const { modalData, modalState, open, close, getComponent } =
   useInventoryModalHandler();
 const { update } = useUpdateProduct();
 const { subcategories, refresh } = useGetSubcategory();
 const { categories, categoryRefresh } = useGetCategory();
+const scheme = updateProductScheme(t);
 const initialValues = {
   product: props.product.name,
   description: props.product.description,
@@ -25,10 +27,26 @@ const initialValues = {
 };
 const { handleSubmit, resetField, values, meta } = useForm({
   name: "editProduct",
-  validationSchema: toTypedSchema(updateProductScheme),
+  validationSchema: toTypedSchema(scheme),
   initialValues: initialValues,
 });
-const originalValues = reactive({ ...values });
+
+const refreshActions: Record<string, () => void> = {
+  NewCategory: () => categoryRefresh(),
+  EditCategory: () => {
+    categoryRefresh();
+    close();
+  },
+  NewSubcategory: () => refresh(values.category!),
+  EditSubcategory: () => {
+    resetField("subcategoryId");
+
+    refresh(values.category!);
+    console.log(subcategories);
+    close();
+  },
+};
+const send = hasChanges({ ...hasChanges }, values, meta);
 function onNewCategory() {
   subcategories.value = null;
   resetField("subcategoryId");
@@ -45,18 +63,8 @@ function onUpdateSubcategory() {
 }
 
 function handleRefresh() {
-  if (
-    modalData.activeForm == "NewCategory" ||
-    modalData.activeForm == "EditCategory"
-  ) {
-    categoryRefresh();
-  }
-  if (
-    modalData.activeForm == "NewSubcategory" ||
-    modalData.activeForm == "EditSubcategory"
-  ) {
-    refresh(values.category!);
-  }
+  const action = refreshActions[modalData.activeForm];
+  if (action) action();
 }
 watch(
   () => values.category,
@@ -65,14 +73,8 @@ watch(
     refresh(id!);
   }
 );
-const send = computed(() => {
-  return (
-    meta.value.dirty &&
-    JSON.stringify(values) !== JSON.stringify(originalValues)
-  );
-});
 
-const onSubmit = handleSubmit(async (values: updatedProduct) => {
+const onSubmit = handleSubmit(async (values: updatedProductInferScheme) => {
   const productUpdated: UpdateProductRequest = {
     id: props.product.id,
     name: values.product,
@@ -82,7 +84,8 @@ const onSubmit = handleSubmit(async (values: updatedProduct) => {
     stock: values.stock,
     subcategoryId: values.subcategoryId,
   };
-  update(productUpdated);
+  await update(productUpdated);
+  await navigateTo("/inventory");
 });
 
 onMounted(() => {
@@ -138,6 +141,7 @@ onMounted(() => {
             input-color="white"
           />
           <CustomSelectInput
+            option-value="id"
             name="category"
             button1-icon="grommet-icons:edit"
             :label="$t('inventory.select.categoryPlaceholder')"
@@ -147,6 +151,7 @@ onMounted(() => {
             @on-click1="onUpdateCategory"
           />
           <CustomSelectInput
+            option-value="id"
             name="subcategoryId"
             button1-icon="grommet-icons:edit"
             :disabled-button1="!values.subcategoryId"

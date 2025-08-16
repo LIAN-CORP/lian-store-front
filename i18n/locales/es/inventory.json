@@ -1,0 +1,51 @@
+{
+  "inventory": {
+    "search": "Buscar producto",
+    "newProductButton": "Nuevo Producto",
+    "newCategoryButton": "Nueva Categoría",
+    "newSubcategoryButton": "Nueva Subcategoría",
+    "editProduct": "Editar Producto",
+
+    "labels": {
+      "name": "Producto",
+      "category": "Categoría",
+      "subcategory": "Subcategoría",
+      "price": "Precio",
+      "stock": "Stock"
+    },
+    "select": {
+      "categoryPlaceholder": "Categoría",
+      "subcategoryPlaceholder": "Subcategoría"
+    },
+    "newProduct": {
+      "title": "Crear Producto",
+      "changeImage": "Cambiar Imagen",
+      "imageLabel": "Selecciona una imagen",
+      "name": "Nombre del producto",
+      "description": "Descripción del producto",
+      "salePrice": "Precio de venta",
+      "buyingPrice": "Precio de compra",
+      "quantity": "Cantidad"
+    },
+    "newCategory": {
+      "title": "Nueva Categoría",
+      "name": "Nombre de la categoría",
+      "description": "Descripción"
+    },
+    "newSubcategory": {
+      "title": "Nueva Subcategoria",
+      "name": "Nombre de la subcategoría",
+      "description": "Descripción"
+    },
+    "updateCategory": {
+      "title": "Editar Categoría",
+      "name": "Nombre de la categoría",
+      "description": "Descripción"
+    },
+    "updateSubcategory": {
+      "title": "Editar Subcategoría",
+      "name": "Nombre de la subcategoría",
+      "description": "Descripción"
+    }
+  }
+}

@@ -1,17 +1,21 @@
+import type { ErrorResponse } from "~/interfaces/error.response";
+
 export default function useDeleteProduct() {
-  const { errorToast, successToast } = useCreateToast();
+  const { errorToast, infoToast } = useCreateToast();
+  const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   async function deleteProduct(id: string) {
     const url = useGetApiUrl(`product/${id}`);
+    let msg: string;
     try {
-      const result = await $fetch.raw(url, {
+      await $fetch(url, {
         method: "DELETE",
       });
-
-      if (result.status == 200) {
-        successToast("producto eliminado correctamente");
-      }
+      msg = getSuccessTranslate("response.success.delete_product");
+      infoToast(msg);
     } catch (e: any) {
-      errorToast("esto es un error");
+      const error = e as ErrorResponse;
+      msg = getErrorTranslate(error.type);
+      errorToast(msg);
     }
   }
   return {

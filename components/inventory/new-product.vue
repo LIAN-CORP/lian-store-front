@@ -2,7 +2,7 @@
 import type { NewProductRequest } from "~/interfaces/inventory/product/request/new.product.request";
 import {
   NewProductScheme,
-  type NewProduct,
+  type NewProductInferType,
 } from "~/schemas/new.product.scheme";
 const { modalState, modalData, open, close, getComponent } =
   useInventoryModalHandler();
@@ -10,18 +10,29 @@ const { t } = useI18n();
 const { deleteSubcategory } = useDeleteSubcategory();
 const { deleteCategory } = useDeleteCategory();
 const { onConfirmDelete } = useConfirmDialog();
-const { errorToast, successToast } = useCreateToast();
 const { subcategories, refresh } = useGetSubcategory();
 const { categories, categoryRefresh } = useGetCategory();
-const { handleSubmit, resetField, values } = useForm({
+const scheme = NewProductScheme(t);
+const { handleSubmit, resetField, resetForm, values } = useForm({
   name: "newProduct",
-  validationSchema: toTypedSchema(NewProductScheme),
+  validationSchema: toTypedSchema(scheme),
 });
 const { createNewProduct } = useNewProduct();
-
+const refreshActions: Record<string, () => void> = {
+  NewCategory: () => categoryRefresh(),
+  EditCategory: () => {
+    categoryRefresh();
+    close();
+  },
+  NewSubcategory: () => refresh(values.category?.id!),
+  EditSubcategory: () => {
+    refresh(values.category?.id!);
+    close();
+  },
+};
 function onNewCategory() {
   subcategories.value = null;
-  resetField("subcategoryId");
+  resetField("subcategory");
   open("NewCategory");
 }
 function onNewSubcategory() {
@@ -36,66 +47,56 @@ function onUpdateSubcategory() {
 
 function onDeleteCategory() {
   onConfirmDelete({
-    message: t("confirm.delete.category.message"),
+    message: t("confirm.delete.category.message", {
+      name: values.category?.name,
+    }),
     onAccept: async () => {
       if (!values.category) return;
-      await deleteCategory(values.category);
+      await deleteCategory(values.category.id!);
       await categoryRefresh();
-      resetField("subcategoryId");
+      resetField("subcategory");
       resetField("category");
     },
   });
 }
 function onDeleteSubcategory() {
   onConfirmDelete({
-    message: t("confirm.delete.subcategory.message"),
+    message: t("confirm.delete.subcategory.message", {
+      name: values.subcategory?.name,
+    }),
     onAccept: async () => {
-      if (!values.subcategoryId) return;
-      await deleteSubcategory(values.subcategoryId);
-      refresh(values.category!);
-      resetField("subcategoryId");
+      if (!values.subcategory) return;
+      await deleteSubcategory(values.subcategory.id!);
+      refresh(values.category?.id!);
+      resetField("subcategory");
     },
   });
 }
 
 function handleRefresh() {
-  if (
-    modalData.activeForm == "NewCategory" ||
-    modalData.activeForm == "EditCategory"
-  ) {
-    categoryRefresh();
-  }
-  if (
-    modalData.activeForm == "NewSubcategory" ||
-    modalData.activeForm == "EditSubcategory"
-  ) {
-    refresh(values.category!);
-  }
+  const action = refreshActions[modalData.activeForm];
+  if (action) action();
 }
 
 watch(
-  () => values.category,
+  () => values.category?.id,
   (id) => {
-    resetField("subcategoryId");
+    resetField("subcategory");
     refresh(id!);
   }
 );
 
-const onSubmit = handleSubmit(async (values: NewProduct) => {
+const onSubmit = handleSubmit(async (values: NewProductInferType) => {
   const product: NewProductRequest = {
     name: values.product,
     description: values.description,
     stock: values.stock,
     priceSell: values.priceSale,
     priceBuy: values.priceBuying,
-    subcategoryId: values.subcategoryId,
+    subcategoryId: values.subcategory?.id,
   };
-  const result = await createNewProduct(values.image, product);
-  if (result.ok) {
-    successToast("se creo el producto correctamente");
-  } else {
-    errorToast("no se pudo crear el producto");
-  }
+  await createNewProduct(values.image, product);
+  resetForm();
 });
 </script>
 
@@ -160,14 +161,14 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
             @on-click2="onDeleteCategory"
           />
           <CustomSelectInput
-            name="subcategoryId"
+            name="subcategory"
             title="subcategory"
             button1-icon="grommet-icons:edit"
             button2-icon="material-symbols:delete-rounded"
             button2-severity="danger"
             :new-action-label="$t('inventory.newSubcategoryButton')"
-            :disabled-button1="!values.subcategoryId"
-            :disabled-button2="!values.subcategoryId"
+            :disabled-button1="!values.subcategory"
+            :disabled-button2="!values.subcategory"
             :disabled="!values.category"
             :prop-options="subcategories"
             @click-new="onNewSubcategory"
@@ -195,8 +196,8 @@ const onSubmit = handleSubmit(async (values: NewProduct) => {
     <template #default>
       <component
         :is="getComponent()"
-        :category-id="values.category!"
-        :subcategory-id="values.subcategoryId!"
+        :category-id="values.category?.id!"
+        :subcategory-id="values.subcategory?.id!"
         @created="handleRefresh"
       />
     </template>

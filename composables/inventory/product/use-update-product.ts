@@ -2,20 +2,23 @@ import type { ErrorResponse } from "~/interfaces/error.response";
 import type { UpdateProductRequest } from "~/interfaces/inventory/product/request/update.product.request";
 
 export default function useUpdateProduct() {
-  const { errorToast, successToast } = useCreateToast();
+  const { errorToast, infoToast } = useCreateToast();
+  const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
+
   async function update(updatedProduct: UpdateProductRequest) {
+    const url = useGetApiUrl("product");
+    let msg: string;
     try {
-      const url = useGetApiUrl("product");
-      const result = await $fetch.raw(url, {
+      $fetch.raw(url, {
         method: "PUT",
         body: updatedProduct,
       });
-      if (result.status == 200) {
-        successToast("se edito correctamente");
-      }
+      msg = getSuccessTranslate("response.success.update_product");
+      infoToast(msg);
     } catch (e: any) {
       const error = e as ErrorResponse;
-      errorToast("esto es un error");
+      msg = getErrorTranslate(error.type);
+      errorToast(msg);
     }
   }
   return {

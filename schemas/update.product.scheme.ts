@@ -1,35 +1,55 @@
 import { string, z } from "zod";
-export const updateProductScheme = z.object({
-  product: z.string().min(3, {
-    message: "el nombre debe contener al menos 3 letras",
-  }),
-  description: z.string().min(10, {
-    message: "la descripción debe contener al menos 10 letras",
-  }),
-  priceSale: z
-    .number()
-    .positive({
-      message: "El precio no puede ser igual a 0",
-    })
-    .min(50, {
-      message: "El precio debe ser mayor a 50 pesos",
+export const updateProductScheme = (t: any) => {
+  return z.object({
+    product: z
+      .string({
+        message: t("formError.not_null"),
+      })
+      .min(3, {
+        message: t("formError.min_length", { size: 3 }),
+      })
+      .max(100, {
+        message: t("formError.max_length", { size: 100 }),
+      }),
+    description: z
+      .string({
+        message: t("formError.not_null"),
+      })
+      .min(10, {
+        message: "la descripción debe contener al menos 10 letras",
+      })
+      .max(200, {
+        message: t("formError.max_length", { size: 200 }),
+      }),
+    priceSale: z
+      .number({
+        message: t("formError.not_null"),
+      })
+      .min(50, {
+        message: t("formError.min_value", { min: 50 }),
+      }),
+    priceBuying: z
+      .number({
+        message: t("formError.not_null"),
+      })
+      .min(50, {
+        message: t("formError.min_value", { min: 50 }),
+      }),
+    stock: z
+      .number({
+        message: t("formError.not_null"),
+      })
+      .min(0, {
+        message: t("formError.min_value", { min: 0 }),
+      }),
+    category: string().min(1, {
+      message: t("formError.not_null"),
     }),
-  priceBuying: z
-    .number()
-    .positive({
-      message: "El precio no puede ser igual a 0",
-    })
-    .min(50, {
-      message: "El precio debe ser mayor a 50 pesos",
+    subcategoryId: string().min(1, {
+      message: t("formError.not_null"),
     }),
-  stock: z.number().positive().min(0, {
-    message: "El stock no puede ser menor a 0",
-  }),
-  category: string().min(1, {
-    message: "debe seleccionar uno",
-  }),
-  subcategoryId: string().min(1, {
-    message: "debe seleccionar uno",
-  }),
-});
-export type updatedProduct = z.infer<typeof updateProductScheme>;
+  });
+};
+export type updatedProductInferScheme = z.infer<
+  ReturnType<typeof updateProductScheme>
+>;

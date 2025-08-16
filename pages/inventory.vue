@@ -3,7 +3,8 @@ import { Icon } from "@iconify/vue/dist/iconify.js";
 const { fetchAllProducts } = useGetProduct();
 const { deleteProduct } = useDeleteProduct();
 const { data: product, refresh } = await fetchAllProducts();
-const confirm = useConfirm();
+const { onConfirmDelete } = useConfirmDialog();
+const { t } = useI18n();
 
 const searchValue = ref("");
 async function onRedirectNewProduct() {
@@ -16,27 +17,14 @@ async function onEditProduct(productId: string) {
   await navigateTo(`product/${productId}`);
 }
 
-function onDelete(id: string) {
-  if (!id) return;
-  confirm.require({
-    message: "¿Estás seguro de eliminar esto?",
-    header: "Confirmar eliminación",
-    rejectProps: {
-      label: "cancel",
-      severity: "secondary",
-      raised: true,
-      variant: "outlined",
-    },
-    acceptProps: {
-      label: "eliminar",
-      severity: "danger",
-      raised: true,
-    },
-    accept: async () => {
+function onDelete(id: string, name: string) {
+  if (!id || !name) return;
+  onConfirmDelete({
+    message: t("confirm.delete.product.message", { name: name }),
+    onAccept: async () => {
       await deleteProduct(id);
       refresh();
     },
-    reject: () => {},
   });
 }
 </script>

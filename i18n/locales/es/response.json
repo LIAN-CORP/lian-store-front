@@ -1,0 +1,21 @@
+{
+  "response": {
+    "error": {
+      "CATEGORY_EXISTS": "La categoría ya existe",
+      "SUBCATEGORY_EXISTS": "La subcategoría ya existe",
+      "ILLEGAL_ARGUMENT": "Los datos enviados no son válidos",
+      "UNKNOWN_ERROR": "Ha ocurrido un error inesperado"
+    },
+    "success": {
+      "new_category": "Categoría creada exitosamente",
+      "new_subcategory": "Subcategoría creada exitosamente",
+      "new_product": "Producto creado exitosamente",
+      "update_category": "Categoría actualizada exitosamente",
+      "update_subcategory": "Subcategoría actualizada exitosamente",
+      "update_product": "Producto actualizado exitosamente",
+      "delete_category": "Categoría eliminada",
+      "delete_subcategory": "Subcategoría eliminada",
+      "delete_product": "Producto eliminado"
+    }
+  }
+}

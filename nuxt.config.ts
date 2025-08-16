@@ -24,9 +24,37 @@ export default defineNuxtConfig({
 
   i18n: {
     defaultLocale: "es",
+    lazy: true,
+    langDir: "locales",
     locales: [
-      { code: "es", name: "Spanish", file: "es.json" },
-      { code: "en", name: "English", file: "en.json" },
+      {
+        code: "es",
+        name: "Spanish",
+        files: [
+          "es/auth.json",
+          "es/common.json",
+          "es/debtors.json",
+          "es/inventory.json",
+          "es/movements.json",
+          "es/transaction.json",
+          "es/formError.json",
+          "es/response.json",
+        ],
+      },
+      {
+        code: "en",
+        name: "English",
+        files: [
+          "en/auth.json",
+          "en/common.json",
+          "en/debtors.json",
+          "en/inventory.json",
+          "en/movements.json",
+          "en/transaction.json",
+          "en/formError.json",
+          "en/response.json",
+        ],
+      },
     ],
     bundle: {
       optimizeTranslationDirective: false,
