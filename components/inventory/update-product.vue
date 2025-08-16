@@ -23,6 +23,21 @@ const initialValues = {
   category: props.product.categoryId,
   subcategoryId: props.product.subcategoryId,
 };
+const refreshActions: Record<string, () => void> = {
+  NewCategory: () => categoryRefresh(),
+  EditCategory: () => {
+    categoryRefresh();
+    close();
+  },
+  NewSubcategory: () => refresh(values.category!),
+  EditSubcategory: () => {
+    resetField("subcategoryId");
+
+    refresh(values.category!);
+    console.log(subcategories);
+    close();
+  },
+};
 const { handleSubmit, resetField, values, meta } = useForm({
   name: "editProduct",
   validationSchema: toTypedSchema(updateProductScheme),
@@ -45,18 +60,8 @@ function onUpdateSubcategory() {
 }
 
 function handleRefresh() {
-  if (
-    modalData.activeForm == "NewCategory" ||
-    modalData.activeForm == "EditCategory"
-  ) {
-    categoryRefresh();
-  }
-  if (
-    modalData.activeForm == "NewSubcategory" ||
-    modalData.activeForm == "EditSubcategory"
-  ) {
-    refresh(values.category!);
-  }
+  const action = refreshActions[modalData.activeForm];
+  if (action) action();
 }
 watch(
   () => values.category,

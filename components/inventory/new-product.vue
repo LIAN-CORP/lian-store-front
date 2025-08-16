@@ -17,7 +17,19 @@ const { handleSubmit, resetField, resetForm, values } = useForm({
   validationSchema: toTypedSchema(NewProductScheme),
 });
 const { createNewProduct } = useNewProduct();
-
+const refreshActions: Record<string, () => void> = {
+  NewCategory: () => categoryRefresh(),
+  EditCategory: () => {
+    categoryRefresh();
+    close();
+  },
+  NewSubcategory: () => refresh(values.category!),
+  EditSubcategory: () => {
+    refresh(values.category!);
+    console.log(subcategories);
+    close();
+  },
+};
 function onNewCategory() {
   subcategories.value = null;
   resetField("subcategoryId");
@@ -58,18 +70,8 @@ function onDeleteSubcategory() {
 }
 
 function handleRefresh() {
-  if (
-    modalData.activeForm == "NewCategory" ||
-    modalData.activeForm == "EditCategory"
-  ) {
-    categoryRefresh();
-  }
-  if (
-    modalData.activeForm == "NewSubcategory" ||
-    modalData.activeForm == "EditSubcategory"
-  ) {
-    refresh(values.category!);
-  }
+  const action = refreshActions[modalData.activeForm];
+  if (action) action();
 }
 
 watch(

@@ -29,14 +29,15 @@ const send = computed(() => {
   );
 });
 
-const onSubmit = handleSubmit((values: updateSubcategoryInferType) => {
+const onSubmit = handleSubmit(async (values: updateSubcategoryInferType) => {
   const updatedSubcategory: UpdateSubcategoryRequest = {
     id: data.value?.id!,
     name: values.subcategory,
     description: values.description,
     categoryId: data?.value?.category.id!,
   };
-  updateSubcategory(updatedSubcategory);
+  await updateSubcategory(updatedSubcategory);
+  emit("created");
 });
 </script>
 

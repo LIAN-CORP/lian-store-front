@@ -8,7 +8,7 @@ const emit = defineEmits(["created"]);
 const { t } = useI18n();
 const { createCategory } = useNewCategory();
 const scheme = NewCategoryScheme(t);
-const { handleSubmit } = useForm({
+const { handleSubmit, resetForm } = useForm({
   name: "newCategory",
   validationSchema: toTypedSchema(scheme),
 });
@@ -19,6 +19,7 @@ const onSubmit = handleSubmit(async (values: NewCategory) => {
     description: values.description,
   };
   await createCategory(category);
+  resetForm();
   emit("created");
 });
 </script>

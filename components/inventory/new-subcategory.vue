@@ -11,7 +11,7 @@ const props = defineProps<{
   categoryId: string;
 }>();
 const scheme = newSubcategoryScheme(t);
-const { handleSubmit } = useForm({
+const { handleSubmit, resetForm } = useForm({
   name: "NewSubcategory",
   validationSchema: toTypedSchema(scheme),
 });
@@ -23,6 +23,7 @@ const onSubmit = handleSubmit(async (values: NewSubcategoryInferType) => {
     categoryId: props.categoryId,
   };
   await createSubcategory(subcategory);
+  resetForm();
   emit("created");
 });
 </script>
