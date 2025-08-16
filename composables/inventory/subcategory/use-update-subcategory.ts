@@ -2,7 +2,7 @@ import type { ErrorResponse } from "~/interfaces/error.response";
 import type { UpdateSubcategoryRequest } from "~/interfaces/inventory/subcategory/request/update.subcategory.resquest";
 
 export default function useUpdateSubcategory() {
-  const { errorToast, successToast } = useCreateToast();
+  const { errorToast, infoToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   async function updateSubcategory(subcategory: UpdateSubcategoryRequest) {
     let msg: string;
@@ -13,7 +13,7 @@ export default function useUpdateSubcategory() {
         body: subcategory,
       });
       msg = getSuccessTranslate("response.success.update_subcategory");
-      successToast(msg);
+      infoToast(msg);
     } catch (e: any) {
       const error = e as ErrorResponse;
       msg = getErrorTranslate(error.type);
