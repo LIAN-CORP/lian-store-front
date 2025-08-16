@@ -10,6 +10,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits(["created"]);
 const { t } = useI18n();
+const { hasChanges } = useFormChangeHandle();
 const { fetchCategoryById } = useGetCategory();
 const { updateCategory } = useUpdateCategory();
 const { data } = await fetchCategoryById(props.categoryId);
@@ -24,19 +25,14 @@ const { handleSubmit, meta, values } = useForm({
   validationSchema: toTypedSchema(scheme),
   initialValues: initialValues,
 });
-const send = computed(() => {
-  return (
-    meta.value.dirty && JSON.stringify(values) !== JSON.stringify(initialValues)
-  );
-});
-
-const onSubmit = handleSubmit((values: UpdateCategoryInferType) => {
+const send = hasChanges(values, { ...initialValues }, meta);
+const onSubmit = handleSubmit(async (values: UpdateCategoryInferType) => {
   const updatedCategory: UpdateCategory = {
     id: data.value?.id!,
     name: values.category,
     description: values.description,
   };
-  updateCategory(updatedCategory);
+  await updateCategory(updatedCategory);
   emit("created");
 });
 </script>

@@ -12,6 +12,7 @@ const emit = defineEmits(["created"]);
 const { getSubcategoryById } = useGetSubcategory();
 const { updateSubcategory } = useUpdateSubcategory();
 const { data } = await getSubcategoryById(props.subcategoryId);
+const { hasChanges } = useFormChangeHandle();
 const { t } = useI18n();
 const scheme = UpdateSubcategoryScheme(t);
 const initialValues = {
@@ -23,11 +24,7 @@ const { handleSubmit, meta, values } = useForm({
   validationSchema: toTypedSchema(scheme),
   initialValues: initialValues,
 });
-const send = computed(() => {
-  return (
-    meta.value.dirty && JSON.stringify(values) !== JSON.stringify(initialValues)
-  );
-});
+const canSend = hasChanges(values, { ...values }, meta);
 
 const onSubmit = handleSubmit(async (values: updateSubcategoryInferType) => {
   const updatedSubcategory: UpdateSubcategoryRequest = {
@@ -57,7 +54,7 @@ const onSubmit = handleSubmit(async (values: updateSubcategoryInferType) => {
       :label="$t('button.save')"
       type="submit"
       severity="success"
-      :disabled="!send"
+      :disabled="!canSend"
     />
   </form>
 </template>
