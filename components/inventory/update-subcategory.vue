@@ -24,7 +24,7 @@ const { handleSubmit, meta, values } = useForm({
   validationSchema: toTypedSchema(scheme),
   initialValues: initialValues,
 });
-const canSend = hasChanges(values, { ...values }, meta);
+const canSend = hasChanges({ ...initialValues }, values, meta);
 
 const onSubmit = handleSubmit(async (values: updateSubcategoryInferType) => {
   const updatedSubcategory: UpdateSubcategoryRequest = {
