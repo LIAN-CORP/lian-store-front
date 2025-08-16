@@ -46,7 +46,6 @@ function onClickNew() {
 
       <Select
         :name="name"
-        optionValue="id"
         optionLabel="name"
         :placeholder="label"
         v-model="value"

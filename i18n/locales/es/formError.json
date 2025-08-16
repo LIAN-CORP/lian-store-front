@@ -1,6 +1,7 @@
 {
     "formError":{
         "not_null": "Este campo es obligatorio",
+        "not_null_image": "Debes seleccionar una imagen",
         "min_length": "El tamaño mínimo es de {size} letras",
         "max_length": "El tamaño máximo es de {size} letras",
         "min_value": "El valor mínimo es de {min}",
