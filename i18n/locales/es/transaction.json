@@ -13,6 +13,16 @@
     "formDebtor": {
       "name": "Nombre del cliente",
       "phone": "Número del cliente"
-    }
+    },
+    "type":{
+      "buy": "Compra",
+      "sell": "Venta",
+      "credit": "Fiado"
+    },
+    "payment":{
+      "cash": "Efectivo",
+      "transfer": "Transferencia"
+    },
+    "submit": "Guardar"
   }
 }

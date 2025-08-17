@@ -13,6 +13,16 @@
     "formDebtor": {
       "name": "Client name",
       "phone": "Phone number"
-    }
+    },
+    "type":{
+      "buy": "Buy",
+      "sell": "Sell",
+      "credit": "Credit"
+    },
+    "payment":{
+      "cash": "Cash",
+      "transfer": "Transfer"
+    },
+    "submit": "Submit"
   }
 }
