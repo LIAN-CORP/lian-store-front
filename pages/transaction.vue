@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { label } from '@primeuix/themes/aura/metergroup';
 import { useTransactionTypes, useTransactionPaymentTypes } from '~/constants/transaction.constant';
 
 const {typeTransaction} = useTransactionTypes();
@@ -8,19 +7,29 @@ const {typePayment} = useTransactionPaymentTypes();
 const selectComponent = ref(false);
 const selectAddDebtor = ref(false);
 
-const selectedProducts = ref([
-  {
-    id: 1,
-    product: "producto1",
-    price: 100,
-    quantity: 0,
-  },
-]);
+
+const selectedProducts = ref([]);
+
 
 function onCellEditComplete(event: any) {
   const { data, field, newValue } = event;
   data[field] = newValue;
 }
+
+function onSelectedProducts(productos: any[]) {
+  selectedProducts.value = productos.map(p => ({
+    id: p.id,
+    product: p.name,
+    price: p.priceSell,
+    quantity: 1,
+  }));
+}
+
+const totalSum = computed(() => {
+  return selectedProducts.value.reduce((sum, product) => {
+    return sum + (product.price * product.quantity)
+  }, 0)
+})
 
 </script>
 
@@ -30,7 +39,7 @@ function onCellEditComplete(event: any) {
       <div class="actions">
         <Button
           :label="$t('transaction.addProduct')"
-          @click="() => selectComponent = true"
+          @click="selectComponent = true"
           severity="success"
         />
         <Select editable :options="typeTransaction" optionLabel="name" optionValue="code" :placeholder="$t('transaction.typeMovementPlaceholder')" />
@@ -64,7 +73,11 @@ function onCellEditComplete(event: any) {
           </template>
         </Column>
         <Column field="price" :header="$t('transaction.table.price')" />
-        <Column field="total" :header="$t('transaction.table.total')" />
+        <Column field="total" :header="$t('transaction.table.total')" >
+          <template #body="{ data }">
+            {{ data.price * data.quantity }}
+          </template>
+        </Column>
       </DataTable>
     </article>
     <div class="separator">
@@ -72,7 +85,7 @@ function onCellEditComplete(event: any) {
       <BadgeDisplay
         class="separator-badge"
         label="Total:"
-        value="$390"
+        :value="`$${totalSum}`"
         color="#000000"
         withContainer
         radius="10px"
@@ -82,7 +95,7 @@ function onCellEditComplete(event: any) {
       <Select :placeholder="$t('transaction.debtorSelectPlaceholder')" fluid />
       <Button 
         label="+"
-        @click="() => selectAddDebtor = !selectAddDebtor"
+        @click="selectAddDebtor = !selectAddDebtor"
       />
     </div>
     <Transition name="slide-fade">
@@ -91,7 +104,7 @@ function onCellEditComplete(event: any) {
   </section>
   <Dialog v-model:visible="selectComponent" modal>
     <template #default>
-      <TransactionSelectProduct />
+      <TransactionSelectProduct @update:selectedProduct="onSelectedProducts" />
     </template>
   </Dialog>
 </template>

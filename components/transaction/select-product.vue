@@ -1,58 +1,17 @@
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue/dist/iconify.js";
+const { fetchAllProducts } = useGetProduct();
+const { data: product, refresh } = await fetchAllProducts();
 
-const products = ref([
-  {
-    id: 1,
-    name: "Producto 1 esto es un texto de prueba para ver el comportamiendo del componente",
-    image:
-      "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
-    category: "Categoria 1",
-    price: 100,
-  },
-  {
-    id: 2,
-    name: "Producto 2 con una descripción algo larga para probar el truncamiento de texto",
-    image:
-      "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
-    category: "Categoria 2",
-    price: 150,
-  },
-  {
-    id: 3,
-    name: "Producto 3 una prueba adicional para verificar comportamiento visual",
-    image:
-      "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
-    category: "Categoria 3",
-    price: 120,
-  },
-  {
-    id: 4,
-    name: "Producto 4 ",
-    image:
-      "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
-    category: "Categoria 4",
-    price: 200,
-  },
-  {
-    id: 5,
-    name: "Producto 5 ejemplo de un nombre largo para el componente de tarjeta de producto",
-    image:
-      "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
-    category: "Categoria 5",
-    price: 90,
-  },
-  {
-    id: 6,
-    name: "Producto 6",
-    image:
-      "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
-    category: "Categoria 6",
-    price: 110,
-  },
-]);
 const selectedProduct = ref([]);
 const searchValue = ref();
+
+const emit = defineEmits(['update:selectedProduct']);
+
+watch(selectedProduct, (newVal) => {
+  emit('update:selectedProduct', newVal);
+});
+
 function showSearch() {}
 function onProductChange() {
   console.log(selectedProduct.value);
@@ -77,11 +36,11 @@ function onProductChange() {
       </InputGroup>
     </div>
     <div class="select-content">
-      <DataView :value="products" data-key="id" class="algo">
+      <DataView :value="product?.content || []" data-key="id" class="algo">
         <template #list="data">
           <section class="cards-container">
             <article
-              v-for="product in products"
+              v-for="product in product?.content || []"
               class="product-card"
               :key="product.id"
               @change="onProductChange"
@@ -95,9 +54,9 @@ function onProductChange() {
               </label>
               <TransactionItemProduct
                 :name="product.name"
-                :image="product.image"
+                :image="product.imagePath"
                 :category="product.category"
-                :price="product.price"
+                :price="product.priceSell"
               />
             </article>
           </section>
