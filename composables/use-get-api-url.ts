@@ -7,6 +7,4 @@ export default function useGetApiUrl(path: string, service: ApiService): string 
         transactionApi: config.transactionApi,
     }
     return `${apis[service]}/${path}`;
-    //const url = useRuntimeConfig().public.stockApi;
-  //return `${url}/${path}`;
 }
