@@ -1,7 +1,7 @@
-import type { ErrorResponse } from "~/interfaces/error.response";
-import type { GetListProducts } from "~/interfaces/inventory/product/response/get.list.products.";
-import type { GetProduct } from "~/interfaces/inventory/product/response/get.product";
-import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface";
+import type {ErrorResponse} from "~/interfaces/error.response";
+import type {GetListProducts} from "~/interfaces/inventory/product/response/get.list.products.";
+import type {GetProduct} from "~/interfaces/inventory/product/response/get.product";
+import type {paginatedResponse} from "~/interfaces/paginatedResponse.interface";
 
 export default function useGetProduct() {
   const { errorToast } = useCreateToast();
@@ -13,12 +13,13 @@ export default function useGetProduct() {
     product: null,
     loading: false,
   });
-  async function fetchAllProducts() {
+
+  async function fetchAllProducts(page: number, size: number) {
     const url = useGetApiUrl("product", "stockApi");
     return useFetch<paginatedResponse<GetListProducts>>(url, {
         query: {
-            page: 0,
-            size: 10,
+            page: page,
+            size: size,
             isAsc: true,
             sortBy: "name",
         },
@@ -43,5 +44,19 @@ export default function useGetProduct() {
     result,
     refreshProduct: fetchProductById,
     fetchAllProducts,
+    fetchAllProductsByName
   };
+
+  async function fetchAllProductsByName(page: number, size: number, name: string) {
+    const url = useGetApiUrl("product/name", "stockApi");
+    return await $fetch<paginatedResponse<GetListProducts>>(url, {
+      query: {
+        page: page,
+        size: size,
+        isAsc: true,
+        sortBy: "name",
+        name: name
+      }
+    });
+  }
 }

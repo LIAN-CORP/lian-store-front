@@ -23,6 +23,8 @@
       "cash": "Efectivo",
       "transfer": "Transferencia"
     },
-    "submit": "Guardar"
+    "submit": "Guardar",
+    "searchProduct": "Buscar producto",
+    "noResults": "No hay resultados"
   }
 }

@@ -2,7 +2,7 @@
 import { Icon } from "@iconify/vue/dist/iconify.js";
 const { fetchAllProducts } = useGetProduct();
 const { deleteProduct } = useDeleteProduct();
-const { data: product, refresh } = await fetchAllProducts();
+const { data: product, refresh } = await fetchAllProducts(0, 10);
 const { onConfirmDelete } = useConfirmDialog();
 const { t } = useI18n();
 

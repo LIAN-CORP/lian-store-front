@@ -23,6 +23,8 @@
       "cash": "Cash",
       "transfer": "Transfer"
     },
-    "submit": "Submit"
+    "submit": "Submit",
+    "searchProduct": "Search product",
+    "noResults": "No results"
   }
 }

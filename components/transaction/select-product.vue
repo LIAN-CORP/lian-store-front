@@ -1,9 +1,12 @@
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue/dist/iconify.js";
-const { fetchAllProducts } = useGetProduct();
-const { data: product, refresh } = await fetchAllProducts();
+import {Icon} from "@iconify/vue/dist/iconify.js";
+
+const { fetchAllProducts, fetchAllProductsByName } = useGetProduct();
+const { data: product, refresh } = await fetchAllProducts(0, 2);
+const { t } = useI18n();
 
 const selectedProduct = ref([]);
+const searchResults = ref(product);
 const searchValue = ref();
 
 const emit = defineEmits(['update:selectedProduct']);
@@ -12,10 +15,31 @@ watch(selectedProduct, (newVal) => {
   emit('update:selectedProduct', newVal);
 });
 
-function showSearch() {}
+console.log(searchResults);
+
+async function handleSearch() {
+  try{
+    searchResults.value = await fetchAllProductsByName(0, 2, searchValue.value);
+  } catch (e: any) {
+    searchResults.value = null;
+  }
+}
+
+function showSearch() {
+  handleSearch();
+}
 function onProductChange() {
   console.log(selectedProduct.value);
 }
+
+watch(searchValue, async (newVal) => {
+  if (newVal) {
+    await handleSearch();
+  } else {
+    const {data, refresh} = await fetchAllProducts(0, 2);
+    searchResults.value = data.value;
+  }
+});
 </script>
 
 <template>
@@ -26,7 +50,7 @@ function onProductChange() {
           id="in_label"
           v-model="searchValue"
           variant="filled"
-          placeholder="Buscar producto"
+          :placeholder="$t('transaction.searchProduct')"
         />
         <Button severity="info" @click="showSearch">
           <template #icon>
@@ -36,11 +60,14 @@ function onProductChange() {
       </InputGroup>
     </div>
     <div class="select-content">
-      <DataView :value="product?.content || []" data-key="id" class="algo">
+      <p v-if="!searchResults?.content || searchResults?.content.length === 0">
+        {{t('transaction.noResults')}}
+      </p>
+      <DataView :value="searchResults?.content || []" data-key="id" class="algo" v-if="searchResults?.content && searchResults?.content.length > 0">
         <template #list="data">
           <section class="cards-container">
             <article
-              v-for="product in product?.content || []"
+              v-for="product in searchResults?.content || []"
               class="product-card"
               :key="product.id"
               @change="onProductChange"
