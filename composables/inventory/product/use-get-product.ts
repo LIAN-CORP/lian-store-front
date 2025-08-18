@@ -14,18 +14,18 @@ export default function useGetProduct() {
     loading: false,
   });
   async function fetchAllProducts() {
-    const url = useGetApiUrl("product");
-    return await useFetch<paginatedResponse<GetListProducts>>(url, {
-      query: {
-        page: 0,
-        size: 10,
-        isAsc: true,
-        sortBy: "name",
-      },
+    const url = useGetApiUrl("product", "stockApi");
+    return useFetch<paginatedResponse<GetListProducts>>(url, {
+        query: {
+            page: 0,
+            size: 10,
+            isAsc: true,
+            sortBy: "name",
+        },
     });
   }
   async function fetchProductById(id: string) {
-    const url = useGetApiUrl(`product/${id}`);
+    const url = useGetApiUrl(`product/${id}`, "stockApi");
     try {
       result.loading = true;
       result.product = await $fetch<GetProduct>(url);
