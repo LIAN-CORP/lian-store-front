@@ -4,7 +4,7 @@ export default function useDeleteSubcategory() {
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   const { errorToast, infoToast } = useCreateToast();
   async function deleteSubcategory(subcategoryId: string) {
-    const url = useGetApiUrl(`subcategory/${subcategoryId}`);
+    const url = useGetApiUrl(`subcategory/${subcategoryId}`, "stockApi");
     let msg: string;
     try {
       await $fetch(url, {

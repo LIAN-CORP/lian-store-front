@@ -7,7 +7,7 @@ export default function useUpdateCategory() {
   async function updateCategory(category: UpdateCategory) {
     let msg: string = "";
     try {
-      const url = useGetApiUrl("category");
+      const url = useGetApiUrl("category", "stockApi");
       const result = await $fetch.raw(url, {
         method: "PUT",
         body: category,
