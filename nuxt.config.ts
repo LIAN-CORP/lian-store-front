@@ -6,7 +6,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      apiBase: "",
+      stockApi: process.env.PRODUCT_MICROSERVICE_URL,
+      transactionApi: process.env.PRODUCT_MICROSERVICE_URL
     },
   },
   modules: ["@primevue/nuxt-module", "@nuxtjs/i18n", "@vee-validate/nuxt"],
