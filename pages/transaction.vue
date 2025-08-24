@@ -6,9 +6,11 @@ const {typePayment} = useTransactionPaymentTypes();
 
 const selectComponent = ref(false);
 const selectAddDebtor = ref(false);
-
-
 const selectedProducts = ref([]);
+
+const selectedTransactionType = ref('');
+const selectedPaymentType = ref('');
+const selectedDebtor = ref('');
 
 
 function onCellEditComplete(event: any) {
@@ -31,6 +33,23 @@ const totalSum = computed(() => {
   }, 0)
 })
 
+function submitTransaction() {
+  console.log('Submitting transaction...');
+  console.log('Transaction type:', selectedTransactionType.value);
+  console.log('Payment type:', selectedPaymentType.value);
+  console.log('Selected products:', selectedProducts.value);
+  const transaction: TransactionRequest = {
+    transaction: {
+      typeMovement: selectedTransactionType.value,
+      userId: "18d8af95-7ee5-41d4-bc76-b37ff4c11579"
+    },
+    products: selectedProducts.value.map(product => ({
+      productId: product.id,
+      quantity: product.quantity
+    }))
+  }
+}
+
 </script>
 
 <template>
@@ -42,12 +61,18 @@ const totalSum = computed(() => {
           @click="selectComponent = true"
           severity="success"
         />
-        <Select editable :options="typeTransaction" optionLabel="name" optionValue="code" :placeholder="$t('transaction.typeMovementPlaceholder')" />
+        <Select
+            v-model="selectedTransactionType"
+            :options="typeTransaction"
+            optionLabel="name"
+            optionValue="code"
+            :placeholder="$t('transaction.typeMovementPlaceholder')"
+        />
       </div>
       <div>
         <Button 
           :label="$t('transaction.submit')"
-          @click=""
+          @click="submitTransaction"
           severity="success"
           />
       </div>
@@ -81,7 +106,7 @@ const totalSum = computed(() => {
       </DataTable>
     </article>
     <div class="separator">
-      <Select editable :options="typePayment" optionLabel="name" optionValue="code" :placeholder="$t('transaction.paymentTypePlaceholder')" fluid />
+      <Select v-model="selectedPaymentType" :options="typePayment" optionLabel="name" optionValue="code" :placeholder="$t('transaction.paymentTypePlaceholder')" fluid />
       <BadgeDisplay
         class="separator-badge"
         label="Total:"

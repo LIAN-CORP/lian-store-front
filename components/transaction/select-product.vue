@@ -15,8 +15,6 @@ watch(selectedProduct, (newVal) => {
   emit('update:selectedProduct', newVal);
 });
 
-console.log(searchResults);
-
 async function handleSearch() {
   try{
     searchResults.value = await fetchAllProductsByName(0, 2, searchValue.value);
@@ -29,7 +27,7 @@ function showSearch() {
   handleSearch();
 }
 function onProductChange() {
-  console.log(selectedProduct.value);
+  //console.log(selectedProduct.value);
 }
 
 watch(searchValue, async (newVal) => {
