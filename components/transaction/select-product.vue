@@ -1,131 +1,113 @@
 <script lang="ts" setup>
-import {Icon} from "@iconify/vue/dist/iconify.js";
+import type { PageState } from "primevue";
 
 const { fetchAllProducts, fetchAllProductsByName } = useGetProduct();
-const { data: product, refresh } = await fetchAllProducts(0, 2);
+
 const { t } = useI18n();
 
 const selectedProduct = ref([]);
-const searchResults = ref(product);
-const searchValue = ref();
-
-const emit = defineEmits(['update:selectedProduct']);
+const searchResults = ref<any>();
+const searchValue = ref("");
+const page = ref<number>(0);
+const sizePage = 3;
+const emit = defineEmits(["update:selectedProduct"]);
 
 watch(selectedProduct, (newVal) => {
-  emit('update:selectedProduct', newVal);
+  emit("update:selectedProduct", newVal);
 });
 
 async function handleSearch() {
-  try{
-    searchResults.value = await fetchAllProductsByName(0, 2, searchValue.value);
-  } catch (e: any) {
-    searchResults.value = null;
-  }
+  const { products } = await fetchAllProductsByName(
+    page.value,
+    sizePage,
+    searchValue.value
+  );
+  searchResults.value = products;
 }
-
-function showSearch() {
+function onPageChange(event: PageState) {
+  page.value = event.page;
   handleSearch();
 }
-function onProductChange() {
-  //console.log(selectedProduct.value);
-}
-
 watch(searchValue, async (newVal) => {
   if (newVal) {
+    page.value = 0;
+
     await handleSearch();
   } else {
-    const {data, refresh} = await fetchAllProducts(0, 2);
-    searchResults.value = data.value;
+    const { products } = await fetchAllProducts(page.value, sizePage);
+    searchResults.value = products;
   }
+});
+onMounted(async () => {
+  const { products } = await fetchAllProducts(page.value, sizePage);
+  searchResults.value = products;
 });
 </script>
 
 <template>
   <section class="select">
     <div class="select-header">
-      <InputGroup>
-        <InputText
-          id="in_label"
-          v-model="searchValue"
-          variant="filled"
-          :placeholder="$t('transaction.searchProduct')"
-        />
-        <Button severity="info" @click="showSearch">
-          <template #icon>
-            <Icon icon="grommet-icons:search" width="1em" height="1em" />
-          </template>
-        </Button>
-      </InputGroup>
+      <InputText
+        class="input-search"
+        id="in_label"
+        v-model="searchValue"
+        variant="filled"
+        fluid
+        :placeholder="$t('transaction.searchProduct')"
+      />
     </div>
     <div class="select-content">
       <p v-if="!searchResults?.content || searchResults?.content.length === 0">
-        {{t('transaction.noResults')}}
+        {{ t("transaction.noResults") }}
       </p>
-      <DataView :value="searchResults?.content || []" data-key="id" class="algo" v-if="searchResults?.content && searchResults?.content.length > 0">
+      <DataView
+        :value="searchResults?.content || []"
+        data-key="id"
+        v-if="searchResults?.content && searchResults?.content.length > 0"
+      >
         <template #list="data">
           <section class="cards-container">
-            <article
+            <TransactionItemProduct
               v-for="product in searchResults?.content || []"
-              class="product-card"
               :key="product.id"
-              @change="onProductChange"
-            >
-              <label class="product-card-label">
-                <Checkbox
-                  v-model="selectedProduct"
-                  :input-id="product.id + '-checkbox'"
-                  :value="product"
-                />
-              </label>
-              <TransactionItemProduct
-                :name="product.name"
-                :image="product.imagePath"
-                :category="product.category"
-                :price="product.priceSell"
-              />
-            </article>
+              :id="product.id"
+              :name="product.name"
+              :image="product.imagePath"
+              :category="product.category"
+              :price="product.priceSell"
+            />
           </section>
         </template>
       </DataView>
     </div>
+    <article class="select-header">
+      <Paginator
+        v-if="searchResults"
+        :first="page * sizePage"
+        :rows="sizePage"
+        :total-records="searchResults.totalElements"
+        @page="onPageChange"
+      ></Paginator>
+    </article>
   </section>
 </template>
 
 <style lang="scss" scoped>
+.input-search {
+  text-align: center;
+}
 .select {
-  background-color: #eef2ff;
-
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   &-header {
-    padding: 1rem;
+    border-bottom: 1rem;
   }
-  &-content {
-    .cards-container {
-      display: grid;
-      padding: 1rem;
-      gap: 1rem;
-      background-color: #eef2ff;
-      height: 500px;
-      overflow-y: auto;
-      scrollbar-width: 2px;
-      box-shadow: inset 0px 0px 17px 0px rgba(0, 0, 0, 0.12);
-
-      .product-card {
-        display: flex;
-        height: 100%;
-        &-label {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 0.3rem;
-          border-radius: 5px 0 0 5px;
-          background-color: #a3a5f3;
-          cursor: pointer;
-        }
-        &-label:hover {
-          background-color: #8486e5;
-        }
-      }
-    }
+  .cards-container {
+    background-color: #eef2ff;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 }
 @media (max-width: 800px) {
