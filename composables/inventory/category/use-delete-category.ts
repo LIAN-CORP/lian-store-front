@@ -4,7 +4,7 @@ export default function useDeleteCategory() {
   const { errorToast, infoToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   async function deleteCategory(categoryId: string) {
-    const url = useGetApiUrl(`category/${categoryId}`);
+    const url = useGetApiUrl(`category/${categoryId}`, "stockApi");
     let msg: string;
     try {
       await $fetch(url, {

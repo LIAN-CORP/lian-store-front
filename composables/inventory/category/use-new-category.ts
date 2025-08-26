@@ -6,7 +6,7 @@ export default function useNewCategory() {
   const { errorToast, successToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   async function createCategory(category: NewCategoryRequest) {
-    const url = useGetApiUrl("category");
+    const url = useGetApiUrl("category", "stockApi");
     try {
       await $fetch<NewCategoryResponse>(url, {
         method: "POST",

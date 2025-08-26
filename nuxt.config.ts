@@ -1,12 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { customPreset } from "./theme/theme.preset";
+import {process} from "std-env";
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      apiBase: "",
+      stockApi: process.env.PRODUCT_MICROSERVICE_URL,
+      transactionApi: process.env.TRANSACTION_MICROSERVICE_URL,
+      paymentApi: process.env.PAYMENT_MICROSERVICE_URL,
+      userApi: process.env.USER_MICROSERVICE_URL,
     },
   },
   modules: ["@primevue/nuxt-module", "@nuxtjs/i18n", "@vee-validate/nuxt"],

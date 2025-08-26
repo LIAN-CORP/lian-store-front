@@ -6,7 +6,7 @@ export default function useUpdateProduct() {
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
 
   async function update(updatedProduct: UpdateProductRequest) {
-    const url = useGetApiUrl("product");
+    const url = useGetApiUrl("product", "stockApi");
     let msg: string;
     try {
       $fetch.raw(url, {

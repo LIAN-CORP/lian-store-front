@@ -4,7 +4,7 @@ export default function useDeleteProduct() {
   const { errorToast, infoToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   async function deleteProduct(id: string) {
-    const url = useGetApiUrl(`product/${id}`);
+    const url = useGetApiUrl(`product/${id}`, "stockApi");
     let msg: string;
     try {
       await $fetch(url, {

@@ -1,5 +1,8 @@
 <script lang="ts" setup>
+const { cart } = useCartState();
+
 defineProps<{
+  id: string;
   image: string;
   name: string;
   category: string;
@@ -9,13 +12,25 @@ defineProps<{
 
 <template>
   <article class="item">
+    <label class="item-checkbox-label">
+      <Checkbox
+        v-model="cart"
+        :input-id="id"
+        :value="{
+          id: id,
+          product: name,
+          price: price,
+          quantity: 1,
+        }"
+      />
+    </label>
     <div class="item-container">
-      <img class="item-container-image" :src="image" alt="product-image" />
-    </div>
-    <div class="item-content">
-      <p class="item-content-strong">{{ name }}</p>
-      <p class="item-content-muted">{{ category }}</p>
-      <p class="item-content-strong">${{ price }}</p>
+      <img class="item-image" :src="image" alt="product-image" />
+      <div class="item-content">
+        <p class="item-content-strong">{{ name }}</p>
+        <p class="item-content-muted">{{ category }}</p>
+        <p class="item-content-strong">${{ price }}</p>
+      </div>
     </div>
   </article>
 </template>
@@ -23,49 +38,74 @@ defineProps<{
 <style lang="scss" scoped>
 .item {
   display: flex;
-  justify-content: space-evenly;
-  width: 100%;
-  height: 100%;
-  gap: 1rem;
+  max-width: 500px;
+  height: 200px;
   border-radius: 0 5px 5px 0;
   border: 1px solid #c5c4c4;
   border-left: none;
-  padding: 0.5rem;
-  &-container {
-    display: grid;
-    padding: 0.5rem;
-    place-items: center;
+  border-radius: 5px 0 0 5px;
+  background-color: white;
+  &-checkbox-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.3rem;
+    background-color: #a3a5f3;
+    border-radius: 5px 0 0 5px;
+    cursor: pointer;
+  }
 
-    &-image {
+  &-container {
+    padding: 0.5rem;
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    width: 100%;
+    place-items: center;
+    gap: 0.5rem;
+    .item-image {
       width: 150px;
       aspect-ratio: 1/1;
       object-fit: contain;
     }
-  }
-  &-content {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    max-width: 170px;
-    &-muted {
-      color: #474747;
-    }
-    &-strong {
-      font-weight: 600;
+    .item-content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      justify-content: center;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      text-align: center;
+      gap: 0.2rem;
+      &-muted {
+        color: #474747;
+      }
+      &-strong {
+        font-weight: 600;
+      }
     }
   }
 }
 @media (max-width: 800px) {
   .item {
     &-container {
-      &-image {
-        width: 80px;
+      grid-template-columns: 100px 1fr;
+      .item-image {
+        width: 100px;
       }
     }
     &-content {
       font-size: 0.7rem;
+    }
+  }
+}
+@media (max-width: 400px) {
+  .item {
+    &-container {
+      grid-template-columns: 80px 1fr;
+      .item-image {
+        width: 80px;
+      }
     }
   }
 }

@@ -6,7 +6,7 @@ export default function useNewProduct() {
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
 
   async function createNewProduct(image: File, product: NewProductRequest) {
-    const url = useGetApiUrl("product");
+    const url = useGetApiUrl("product", "stockApi");
     let msg: string;
     const formData = new FormData();
     const jsonBlob = new Blob([JSON.stringify(product)], {

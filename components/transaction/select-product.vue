@@ -1,147 +1,115 @@
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue/dist/iconify.js";
+import type { PageState } from "primevue";
 
-const products = ref([
-  {
-    id: 1,
-    name: "Producto 1 esto es un texto de prueba para ver el comportamiendo del componente",
-    image:
-      "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
-    category: "Categoria 1",
-    price: 100,
-  },
-  {
-    id: 2,
-    name: "Producto 2 con una descripción algo larga para probar el truncamiento de texto",
-    image:
-      "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
-    category: "Categoria 2",
-    price: 150,
-  },
-  {
-    id: 3,
-    name: "Producto 3 una prueba adicional para verificar comportamiento visual",
-    image:
-      "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
-    category: "Categoria 3",
-    price: 120,
-  },
-  {
-    id: 4,
-    name: "Producto 4 ",
-    image:
-      "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
-    category: "Categoria 4",
-    price: 200,
-  },
-  {
-    id: 5,
-    name: "Producto 5 ejemplo de un nombre largo para el componente de tarjeta de producto",
-    image:
-      "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
-    category: "Categoria 5",
-    price: 90,
-  },
-  {
-    id: 6,
-    name: "Producto 6",
-    image:
-      "https://supermercadolaestacion.com/50709-large_default/arroz-diana-x-500-gramos.jpg",
-    category: "Categoria 6",
-    price: 110,
-  },
-]);
-const selectedProduct = ref([]);
-const searchValue = ref();
-function showSearch() {}
-function onProductChange() {
-  console.log(selectedProduct.value);
+const { fetchAllProducts, fetchAllProductsByName } = useGetProduct();
+
+const { t } = useI18n();
+let debounceTimeOut: number | undefined;
+const searchResults = ref<any>();
+const searchValue = ref("");
+const page = ref<number>(0);
+const sizePage = 6;
+async function handleSearch() {
+  const { products } = await fetchAllProductsByName(
+    page.value,
+    sizePage,
+    searchValue.value
+  );
+  searchResults.value = products;
 }
+function onPageChange(event: PageState) {
+  page.value = event.page;
+  handleSearch();
+}
+watch(searchValue, async (newVal) => {
+  if (debounceTimeOut) clearTimeout(debounceTimeOut);
+
+  debounceTimeOut = setTimeout(async () => {
+    if (newVal) {
+      page.value = 0;
+      await handleSearch();
+    } else {
+      const { products } = await fetchAllProducts(page.value, sizePage);
+      searchResults.value = products;
+    }
+  }, 500);
+});
+onMounted(async () => {
+  const { products } = await fetchAllProducts(page.value, sizePage);
+  searchResults.value = products;
+});
 </script>
 
 <template>
   <section class="select">
     <div class="select-header">
-      <InputGroup>
-        <InputText
-          id="in_label"
-          v-model="searchValue"
-          variant="filled"
-          placeholder="Buscar producto"
-        />
-        <Button severity="info" @click="showSearch">
-          <template #icon>
-            <Icon icon="grommet-icons:search" width="1em" height="1em" />
-          </template>
-        </Button>
-      </InputGroup>
+      <InputText
+        class="input-search"
+        id="in_label"
+        v-model="searchValue"
+        variant="filled"
+        fluid
+        :placeholder="$t('transaction.searchProduct')"
+      />
     </div>
     <div class="select-content">
-      <DataView :value="products" data-key="id" class="algo">
+      <p v-if="!searchResults?.content || searchResults?.content.length === 0">
+        {{ t("transaction.noResults") }}
+      </p>
+      <DataView
+        :value="searchResults?.content || []"
+        data-key="id"
+        v-if="searchResults?.content && searchResults?.content.length > 0"
+      >
         <template #list="data">
           <section class="cards-container">
-            <article
-              v-for="product in products"
-              class="product-card"
+            <TransactionItemProduct
+              v-for="product in searchResults?.content || []"
               :key="product.id"
-              @change="onProductChange"
-            >
-              <label class="product-card-label">
-                <Checkbox
-                  v-model="selectedProduct"
-                  :input-id="product.id + '-checkbox'"
-                  :value="product"
-                />
-              </label>
-              <TransactionItemProduct
-                :name="product.name"
-                :image="product.image"
-                :category="product.category"
-                :price="product.price"
-              />
-            </article>
+              :id="product.id"
+              :name="product.name"
+              :image="product.imagePath"
+              :category="product.category"
+              :price="product.priceSell"
+            />
           </section>
         </template>
       </DataView>
     </div>
+    <article class="select-footer">
+      <Paginator
+        v-if="searchResults"
+        :first="page * sizePage"
+        :rows="sizePage"
+        :total-records="searchResults.totalElements"
+        @page="onPageChange"
+      ></Paginator>
+    </article>
   </section>
 </template>
 
 <style lang="scss" scoped>
+.input-search {
+  text-align: center;
+}
 .select {
-  background-color: #eef2ff;
-
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
   &-header {
-    padding: 1rem;
+    border-bottom: 1rem;
   }
-  &-content {
-    .cards-container {
-      display: grid;
-      padding: 1rem;
-      gap: 1rem;
-      background-color: #eef2ff;
-      height: 500px;
-      overflow-y: auto;
-      scrollbar-width: 2px;
-      box-shadow: inset 0px 0px 17px 0px rgba(0, 0, 0, 0.12);
-
-      .product-card {
-        display: flex;
-        height: 100%;
-        &-label {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 0.3rem;
-          border-radius: 5px 0 0 5px;
-          background-color: #a3a5f3;
-          cursor: pointer;
-        }
-        &-label:hover {
-          background-color: #8486e5;
-        }
-      }
-    }
+  .cards-container {
+    background-color: #eef2ff;
+    display: grid;
+    height: auto;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    flex: 1;
+  }
+  &-footer {
+    margin-top: auto;
   }
 }
 @media (max-width: 800px) {
@@ -153,7 +121,18 @@ function onProductChange() {
       .cards-container {
         padding: 0.2rem;
         gap: 1rem;
-        height: 300px;
+      }
+    }
+  }
+}
+@media (max-width: 600px) {
+  .select {
+    &-header {
+      padding: 0.5rem;
+    }
+    &-content {
+      .cards-container {
+        grid-template-columns: auto;
       }
     }
   }

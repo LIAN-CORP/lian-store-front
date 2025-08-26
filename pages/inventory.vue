@@ -2,7 +2,7 @@
 import { Icon } from "@iconify/vue/dist/iconify.js";
 const { fetchAllProducts } = useGetProduct();
 const { deleteProduct } = useDeleteProduct();
-const { data: product, refresh } = await fetchAllProducts();
+const { products } = await fetchAllProducts(0, 10);
 const { onConfirmDelete } = useConfirmDialog();
 const { t } = useI18n();
 
@@ -11,7 +11,7 @@ async function onRedirectNewProduct() {
   await navigateTo("product");
 }
 function showSearch() {
-  console.log(product.value);
+  console.log(products);
 }
 async function onEditProduct(productId: string) {
   await navigateTo(`product/${productId}`);
@@ -23,7 +23,7 @@ function onDelete(id: string, name: string) {
     message: t("confirm.delete.product.message", { name: name }),
     onAccept: async () => {
       await deleteProduct(id);
-      refresh();
+      fetchAllProducts(0, 10);
     },
   });
 }
@@ -58,26 +58,26 @@ function onDelete(id: string, name: string) {
     </div>
     <article class="inventory-products">
       <InventoryCardProduct
-        v-for="product in product?.content || []"
-        :id="product.id"
-        :name="product.name"
-        :image="product.imagePath || ''"
-        :category="product.category"
-        :subcategory="product.subcategory"
-        :price="product.priceSell"
-        :quantity="product.stock"
+        v-for="p in products?.content || []"
+        :id="p.id"
+        :name="p.name"
+        :image="p.imagePath || ''"
+        :category="p.category"
+        :subcategory="p.subcategory"
+        :price="p.priceSell"
+        :quantity="p.stock"
         @delete-product="onDelete"
         @edit-product="onEditProduct"
       />
-      <p v-if="(product?.content || []).length === 0">
+      <p v-if="(products?.content || []).length === 0">
         No se encontraron productos.
       </p>
     </article>
     <div class="inventory-footer">
       <Paginator
-        v-if="product?.totalElements"
+        v-if="products?.totalElements"
         :rows="10"
-        :totalRecords="product!.totalElements"
+        :totalRecords="products!.totalElements"
       />
     </div>
   </section>

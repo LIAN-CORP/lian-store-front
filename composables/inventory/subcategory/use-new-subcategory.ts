@@ -7,7 +7,7 @@ export default function useNewSubcategory() {
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
 
   async function createSubcategory(subcategory: NewSubcategoryRequest) {
-    const url = useGetApiUrl("subcategory");
+    const url = useGetApiUrl("subcategory", "stockApi");
     let msg = "";
     try {
       await $fetch<NewSubcategoryResponse>(url, {
