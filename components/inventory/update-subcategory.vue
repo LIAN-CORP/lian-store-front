@@ -29,7 +29,7 @@ const canSend = hasChanges({ ...initialValues }, values, meta);
 const onSubmit = handleSubmit(async (values: updateSubcategoryInferType) => {
   const updatedSubcategory: UpdateSubcategoryRequest = {
     id: data.value?.id!,
-    name: values.subcategory,
+    name: values.subcategory.toUpperCase(),
     description: values.description,
     categoryId: data?.value?.category.id!,
   };

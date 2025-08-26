@@ -29,7 +29,7 @@ const send = hasChanges({ ...initialValues }, values, meta);
 const onSubmit = handleSubmit(async (values: UpdateCategoryInferType) => {
   const updatedCategory: UpdateCategory = {
     id: data.value?.id!,
-    name: values.category,
+    name: values.category.toUpperCase(),
     description: values.description,
   };
   await updateCategory(updatedCategory);
