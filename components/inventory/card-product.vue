@@ -20,83 +20,96 @@ function onEditProduct() {
 </script>
 
 <template>
-  <article class="card">
+  <section class="card">
     <div class="card-body">
-      <div class="card-image">
+      <div class="card-buttons">
+        <Button severity="info" raised @click="onEditProduct">
+          <template #icon>
+            <Icon icon="grommet-icons:edit" width="1.5em" height="1.5em" />
+          </template>
+        </Button>
+        <Button severity="danger" raised @click="onDeleteProduct">
+          <template #icon>
+            <Icon
+              icon="material-symbols:delete-rounded"
+              width="1.5em"
+              height="1.5em"
+            />
+          </template>
+        </Button>
+      </div>
+      <article class="card-image">
         <img
           class="product-image"
           :src="image || defaultImage"
           alt="product-image"
         />
-      </div>
+      </article>
       <div class="card-content">
-        <dl>
-          <dt>{{ $t("inventory.labels.name") }}:</dt>
-          <dd>{{ name }}</dd>
-          <dt>{{ $t("inventory.labels.category") }}:</dt>
-          <dd>{{ category }}</dd>
-          <dt>{{ $t("inventory.labels.subcategory") }}:</dt>
-          <dd>{{ subcategory }}</dd>
-          <dt>{{ $t("inventory.labels.price") }}:</dt>
-          <dd>${{ price }}</dd>
-          <dt>{{ $t("inventory.labels.stock") }}:</dt>
-          <dd>{{ quantity }} u/c</dd>
-        </dl>
+        <div class="card-content-inventory">
+          <span>${{ price }}</span>
+          <span>{{ quantity }} u/c</span>
+        </div>
+        <p>
+          <b>{{ $t("inventory.labels.name") }}:</b>
+          {{ name }}
+        </p>
+        <p>
+          <b>{{ $t("inventory.labels.category") }}:</b>
+          {{ category }}
+        </p>
+        <p>
+          <b>{{ $t("inventory.labels.subcategory") }}:</b>
+          {{ subcategory }}
+        </p>
       </div>
     </div>
-    <div class="card-footer">
-      <Button severity="info" raised rounded @click="onEditProduct">
-        <template #icon>
-          <Icon icon="grommet-icons:edit" width="1.5em" height="1.5em" />
-        </template>
-      </Button>
-      <Button severity="danger" raised rounded @click="onDeleteProduct">
-        <template #icon>
-          <Icon
-            icon="material-symbols:delete-rounded"
-            width="1.5em"
-            height="1.5em"
-          />
-        </template>
-      </Button>
-    </div>
-  </article>
+  </section>
 </template>
 
 <style lang="scss" scoped>
 .card {
   background-color: #ffffff;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
   box-shadow: 0px 5px 14px 1px rgba(0, 0, 0, 0.25);
+  position: relative;
+  height: 350px;
   &-body {
+    height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+    flex-direction: column;
     .card-image {
-      display: grid;
-      padding: 0.5rem;
-      place-items: center;
+      display: flex;
+      justify-content: center;
       .product-image {
-        max-height: 200px;
-        width: 100%;
+        width: 170px;
         object-fit: contain;
+        aspect-ratio: 1/1;
       }
     }
+    .card-buttons {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      gap: 0.2em;
+      right: 5px;
+      top: 5px;
+    }
     .card-content {
-      padding: 1rem 0.5rem;
-      dl {
-        max-width: 250px;
-        dt {
-          font-weight: 600;
+      overflow: auto;
+      scrollbar-width: none;
+      width: 100%;
+      &-inventory {
+        display: flex;
+        justify-content: space-between;
+        span {
+          color: #0284c7;
+          //color: #437bc5;
+          font-weight: bold;
         }
       }
     }
-  }
-  &-footer {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    padding: 0.5rem;
   }
 }
 </style>

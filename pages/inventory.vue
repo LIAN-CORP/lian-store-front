@@ -98,7 +98,7 @@ function onDelete(id: string, name: string) {
   &-products {
     display: grid;
     align-items: start;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     padding: 1rem;
     gap: 1rem;
   }
@@ -118,14 +118,6 @@ function onDelete(id: string, name: string) {
       flex-direction: column;
       padding: 0.5rem;
       gap: 0.5rem;
-    }
-  }
-}
-
-@media (max-width: 430px) {
-  .inventory {
-    &-products {
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
   }
 }
