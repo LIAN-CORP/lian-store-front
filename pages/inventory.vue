@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue/dist/iconify.js";
-const { fetchAllProducts } = useGetProduct();
-const { deleteProduct } = useDeleteProduct();
-const { products } = await fetchAllProducts(0, 10);
-const { onConfirmDelete } = useConfirmDialog();
-const { t } = useI18n();
+import type { PageState } from "primevue";
 
+const { fetchAllProducts, fetchAllProductsByName } = useGetProduct();
+const { deleteProduct } = useDeleteProduct();
+const { onConfirmDelete } = useConfirmDialog();
+
+const { t } = useI18n();
+const productList = ref();
 const searchValue = ref("");
+const page = ref<number>(0);
+const sizePage = 14;
+let debounceTimeOut: number | undefined;
+
 async function onRedirectNewProduct() {
   await navigateTo("product");
-}
-function showSearch() {
-  console.log(products);
 }
 async function onEditProduct(productId: string) {
   await navigateTo(`product/${productId}`);
@@ -27,29 +30,56 @@ function onDelete(id: string, name: string) {
     },
   });
 }
+async function handleSearch() {
+  const { products } = await fetchAllProductsByName(
+    page.value,
+    sizePage,
+    searchValue.value
+  );
+  productList.value = products;
+}
+
+function onPageChange(event: PageState) {
+  page.value = event.page;
+  handleSearch();
+}
+watch(searchValue, async (newVal) => {
+  if (debounceTimeOut) clearTimeout(debounceTimeOut);
+
+  debounceTimeOut = setTimeout(async () => {
+    if (newVal) {
+      page.value = 0;
+      await handleSearch();
+    } else {
+      const { products } = await fetchAllProducts(page.value, sizePage);
+      productList.value = products;
+    }
+  }, 500);
+});
+
+onMounted(async () => {
+  const { products } = await fetchAllProducts(page.value, sizePage);
+  productList.value = products;
+});
 </script>
 
 <template>
   <ConfirmDialog />
   <section class="inventory">
     <div class="inventory-header">
-      <InputGroup>
-        <InputText
-          id="in_label"
-          v-model="searchValue"
-          variant="filled"
-          :placeholder="$t('inventory.search')"
-        />
-        <Button severity="info" @click="showSearch">
-          <template #icon>
-            <Icon icon="grommet-icons:search" width="1.5em" height="1.5em" />
-          </template>
-        </Button>
-      </InputGroup>
+      <InputText
+        class="input-search"
+        id="in_label"
+        v-model="searchValue"
+        variant="filled"
+        fluid
+        :placeholder="$t('inventory.search')"
+      />
       <Button
         severity="success"
         :label="$t('inventory.newProductButton')"
         @click="onRedirectNewProduct"
+        size="small"
       >
         <template #icon>
           <Icon icon="grommet-icons:add" width="1.5em" height="1.5em" />
@@ -58,7 +88,7 @@ function onDelete(id: string, name: string) {
     </div>
     <article class="inventory-products">
       <InventoryCardProduct
-        v-for="p in products?.content || []"
+        v-for="p in productList?.content || []"
         :id="p.id"
         :name="p.name"
         :image="p.imagePath || ''"
@@ -69,25 +99,27 @@ function onDelete(id: string, name: string) {
         @delete-product="onDelete"
         @edit-product="onEditProduct"
       />
-      <p v-if="(products?.content || []).length === 0">
+      <p v-if="(productList?.content || []).length === 0">
         No se encontraron productos.
       </p>
     </article>
     <div class="inventory-footer">
       <Paginator
-        v-if="products?.totalElements"
-        :rows="10"
-        :totalRecords="products!.totalElements"
+        v-if="productList"
+        :first="page * sizePage"
+        :rows="sizePage"
+        :total-records="productList.totalElements"
+        @page="onPageChange"
       />
     </div>
   </section>
 </template>
 
 <style scoped lang="scss">
+.input-search {
+  text-align: center;
+}
 .inventory {
-  .p-inputgroup {
-    width: 40%;
-  }
   &-header {
     display: flex;
     justify-content: center;
@@ -111,9 +143,6 @@ function onDelete(id: string, name: string) {
 
 @media (max-width: 800px) {
   .inventory {
-    .p-inputgroup {
-      width: 100%;
-    }
     &-header {
       flex-direction: column;
       padding: 0.5rem;
