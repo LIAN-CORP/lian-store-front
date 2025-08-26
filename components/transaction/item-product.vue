@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import type { StateProduct } from "~/interfaces/transaction/state.product";
-
-const cart = useState<StateProduct[]>("cart", () => []);
+const { cart } = useCartState();
 
 defineProps<{
   id: string;

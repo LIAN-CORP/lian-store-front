@@ -1,16 +1,18 @@
 <script lang="ts" setup>
+import { Icon } from "@iconify/vue/dist/iconify.js";
 import {
   useTransactionTypes,
   useTransactionPaymentTypes,
 } from "~/constants/transaction.constant";
-import type { StateProduct } from "~/interfaces/transaction/state.product";
+
+const { onDeleteState, onClearState, onGetState } = useCartState();
+const cart = onGetState();
 
 const { typeTransaction } = useTransactionTypes();
 const { typePayment } = useTransactionPaymentTypes();
 
 const selectComponent = ref(false);
 const selectAddDebtor = ref(false);
-const cart = useState<StateProduct[]>("cart");
 
 const selectedTransactionType = ref("");
 const selectedPaymentType = ref("");
@@ -19,6 +21,10 @@ const selectedDebtor = ref("");
 function onCellEditComplete(event: any) {
   const { data, field, newValue } = event;
   data[field] = newValue;
+}
+
+function deleteRow(data: any) {
+  onDeleteState(data);
 }
 
 const totalSum = computed(() => {
@@ -97,6 +103,20 @@ function submitTransaction() {
         <Column field="total" :header="$t('transaction.table.total')">
           <template #body="{ data }">
             {{ data.price * data.quantity }}
+          </template>
+        </Column>
+        <Column class="w-24 !text-end">
+          <template #body="{ data }">
+            <Button @click="deleteRow(data.id)" severity="danger" rounded>
+              <template #icon>
+                <Icon
+                  icon="material-symbols:close"
+                  width="1.5em"
+                  height="1.5em"
+                  style="color: #fff"
+                />
+              </template>
+            </Button>
           </template>
         </Column>
       </DataTable>
