@@ -46,7 +46,7 @@ const refreshActions: Record<string, () => void> = {
     close();
   },
 };
-const send = hasChanges({ ...hasChanges }, values, meta);
+const send = hasChanges({ ...initialValues }, values, meta);
 function onNewCategory() {
   subcategories.value = null;
   resetField("subcategoryId");
