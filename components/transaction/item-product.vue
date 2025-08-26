@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import type { StateProduct } from "~/interfaces/transaction/state.product";
+
+const cart = useState<StateProduct[]>("cart", () => []);
+
 defineProps<{
   id: string;
   image: string;
@@ -11,7 +15,16 @@ defineProps<{
 <template>
   <article class="item">
     <label class="item-checkbox-label">
-      <Checkbox :input-id="id" />
+      <Checkbox
+        v-model="cart"
+        :input-id="id"
+        :value="{
+          id: id,
+          product: name,
+          price: price,
+          quantity: 1,
+        }"
+      />
     </label>
     <div class="item-container">
       <img class="item-image" :src="image" alt="product-image" />

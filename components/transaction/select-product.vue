@@ -5,17 +5,10 @@ const { fetchAllProducts, fetchAllProductsByName } = useGetProduct();
 
 const { t } = useI18n();
 
-const selectedProduct = ref([]);
 const searchResults = ref<any>();
 const searchValue = ref("");
 const page = ref<number>(0);
 const sizePage = 6;
-const emit = defineEmits(["update:selectedProduct"]);
-
-watch(selectedProduct, (newVal) => {
-  emit("update:selectedProduct", newVal);
-});
-
 async function handleSearch() {
   const { products } = await fetchAllProductsByName(
     page.value,
@@ -31,7 +24,6 @@ function onPageChange(event: PageState) {
 watch(searchValue, async (newVal) => {
   if (newVal) {
     page.value = 0;
-
     await handleSearch();
   } else {
     const { products } = await fetchAllProducts(page.value, sizePage);

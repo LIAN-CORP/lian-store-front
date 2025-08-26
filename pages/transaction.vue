@@ -1,40 +1,37 @@
 <script lang="ts" setup>
-import { useTransactionTypes, useTransactionPaymentTypes } from '~/constants/transaction.constant';
+import {
+  useTransactionTypes,
+  useTransactionPaymentTypes,
+} from "~/constants/transaction.constant";
+import type { StateProduct } from "~/interfaces/transaction/state.product";
 
-const {typeTransaction} = useTransactionTypes();
-const {typePayment} = useTransactionPaymentTypes();
+const { typeTransaction } = useTransactionTypes();
+const { typePayment } = useTransactionPaymentTypes();
 
 const selectComponent = ref(false);
 const selectAddDebtor = ref(false);
-const selectedProducts = ref([]);
+const cart = useState<StateProduct[]>("cart");
 
-const selectedTransactionType = ref('');
-const selectedPaymentType = ref('');
-const selectedDebtor = ref('');
-
+const selectedTransactionType = ref("");
+const selectedPaymentType = ref("");
+const selectedDebtor = ref("");
 
 function onCellEditComplete(event: any) {
   const { data, field, newValue } = event;
   data[field] = newValue;
 }
 
-function onSelectedProducts(productos: any[]) {
-  selectedProducts.value = productos.map(p => ({
-    id: p.id,
-    product: p.name,
-    price: p.priceSell,
-    quantity: 1,
-  }));
-}
-
 const totalSum = computed(() => {
-  return selectedProducts.value.reduce((sum, product) => {
-    return sum + (product.price * product.quantity)
-  }, 0)
-})
+  if (cart.value == null) {
+    return 0;
+  }
+  return cart.value.reduce((sum, product) => {
+    return sum + product.price * product.quantity;
+  }, 0);
+});
 
 function submitTransaction() {
-  console.log('Submitting transaction...');
+  /*   console.log('Submitting transaction...');
   console.log('Transaction type:', selectedTransactionType.value);
   console.log('Payment type:', selectedPaymentType.value);
   console.log('Selected products:', selectedProducts.value);
@@ -47,9 +44,8 @@ function submitTransaction() {
       productId: product.id,
       quantity: product.quantity
     }))
-  }
+  } */
 }
-
 </script>
 
 <template>
@@ -62,25 +58,25 @@ function submitTransaction() {
           severity="success"
         />
         <Select
-            v-model="selectedTransactionType"
-            :options="typeTransaction"
-            optionLabel="name"
-            optionValue="code"
-            :placeholder="$t('transaction.typeMovementPlaceholder')"
+          v-model="selectedTransactionType"
+          :options="typeTransaction"
+          optionLabel="name"
+          optionValue="code"
+          :placeholder="$t('transaction.typeMovementPlaceholder')"
         />
       </div>
       <div>
-        <Button 
+        <Button
           :label="$t('transaction.submit')"
           @click="submitTransaction"
           severity="success"
-          />
+        />
       </div>
     </article>
 
     <article class="transaction-body">
       <DataTable
-        :value="selectedProducts"
+        :value="cart"
         data-key="id"
         edit-mode="cell"
         @cell-edit-complete="onCellEditComplete"
@@ -98,7 +94,7 @@ function submitTransaction() {
           </template>
         </Column>
         <Column field="price" :header="$t('transaction.table.price')" />
-        <Column field="total" :header="$t('transaction.table.total')" >
+        <Column field="total" :header="$t('transaction.table.total')">
           <template #body="{ data }">
             {{ data.price * data.quantity }}
           </template>
@@ -106,7 +102,14 @@ function submitTransaction() {
       </DataTable>
     </article>
     <div class="separator">
-      <Select v-model="selectedPaymentType" :options="typePayment" optionLabel="name" optionValue="code" :placeholder="$t('transaction.paymentTypePlaceholder')" fluid />
+      <Select
+        v-model="selectedPaymentType"
+        :options="typePayment"
+        optionLabel="name"
+        optionValue="code"
+        :placeholder="$t('transaction.paymentTypePlaceholder')"
+        fluid
+      />
       <BadgeDisplay
         class="separator-badge"
         label="Total:"
@@ -118,18 +121,15 @@ function submitTransaction() {
     </div>
     <div class="transaction-debtor">
       <Select :placeholder="$t('transaction.debtorSelectPlaceholder')" fluid />
-      <Button 
-        label="+"
-        @click="selectAddDebtor = !selectAddDebtor"
-      />
+      <Button label="+" @click="selectAddDebtor = !selectAddDebtor" />
     </div>
     <Transition name="slide-fade">
-      <DebtsNewDebtor input-color="#FFFFFF" v-if="selectAddDebtor"/>
+      <DebtsNewDebtor input-color="#FFFFFF" v-if="selectAddDebtor" />
     </Transition>
   </section>
   <Dialog v-model:visible="selectComponent" modal>
     <template #default>
-      <TransactionSelectProduct @update:selectedProduct="onSelectedProducts" />
+      <TransactionSelectProduct />
     </template>
   </Dialog>
 </template>
