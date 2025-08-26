@@ -9,7 +9,7 @@ const selectedProduct = ref([]);
 const searchResults = ref<any>();
 const searchValue = ref("");
 const page = ref<number>(0);
-const sizePage = 3;
+const sizePage = 6;
 const emit = defineEmits(["update:selectedProduct"]);
 
 watch(selectedProduct, (newVal) => {
@@ -80,7 +80,7 @@ onMounted(async () => {
         </template>
       </DataView>
     </div>
-    <article class="select-header">
+    <article class="select-footer">
       <Paginator
         v-if="searchResults"
         :first="page * sizePage"
@@ -100,14 +100,20 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  height: 100%;
   &-header {
     border-bottom: 1rem;
   }
   .cards-container {
     background-color: #eef2ff;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    height: auto;
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
+    flex: 1;
+  }
+  &-footer {
+    margin-top: auto;
   }
 }
 @media (max-width: 800px) {
@@ -119,7 +125,18 @@ onMounted(async () => {
       .cards-container {
         padding: 0.2rem;
         gap: 1rem;
-        height: 300px;
+      }
+    }
+  }
+}
+@media (max-width: 600px) {
+  .select {
+    &-header {
+      padding: 0.5rem;
+    }
+    &-content {
+      .cards-container {
+        grid-template-columns: auto;
       }
     }
   }

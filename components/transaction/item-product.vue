@@ -78,12 +78,23 @@ defineProps<{
 @media (max-width: 800px) {
   .item {
     &-container {
-      &-image {
-        width: 80px;
+      grid-template-columns: 100px 1fr;
+      .item-image {
+        width: 100px;
       }
     }
     &-content {
       font-size: 0.7rem;
+    }
+  }
+}
+@media (max-width: 400px) {
+  .item {
+    &-container {
+      grid-template-columns: 80px 1fr;
+      .item-image {
+        width: 80px;
+      }
     }
   }
 }
