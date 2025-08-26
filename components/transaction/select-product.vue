@@ -4,7 +4,7 @@ import type { PageState } from "primevue";
 const { fetchAllProducts, fetchAllProductsByName } = useGetProduct();
 
 const { t } = useI18n();
-
+let debounceTimeOut: number | undefined;
 const searchResults = ref<any>();
 const searchValue = ref("");
 const page = ref<number>(0);
@@ -22,13 +22,17 @@ function onPageChange(event: PageState) {
   handleSearch();
 }
 watch(searchValue, async (newVal) => {
-  if (newVal) {
-    page.value = 0;
-    await handleSearch();
-  } else {
-    const { products } = await fetchAllProducts(page.value, sizePage);
-    searchResults.value = products;
-  }
+  if (debounceTimeOut) clearTimeout(debounceTimeOut);
+
+  debounceTimeOut = setTimeout(async () => {
+    if (newVal) {
+      page.value = 0;
+      await handleSearch();
+    } else {
+      const { products } = await fetchAllProducts(page.value, sizePage);
+      searchResults.value = products;
+    }
+  }, 500);
 });
 onMounted(async () => {
   const { products } = await fetchAllProducts(page.value, sizePage);

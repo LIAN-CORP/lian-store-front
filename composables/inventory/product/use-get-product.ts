@@ -68,7 +68,7 @@ export default function useGetProduct() {
         },
       });
     } catch (e: any) {
-      result.product = null;
+      result.products = null;
     } finally {
       result.loading = false;
     }
