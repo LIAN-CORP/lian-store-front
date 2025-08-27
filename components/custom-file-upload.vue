@@ -11,7 +11,16 @@ const props = defineProps<{
 
 const previewImage = ref();
 const previewImageName = ref("");
-const { errorMessage, setValue } = useField<File | null>(() => props.name);
+const { errorMessage, setValue, value } = useField<File | null>(
+  () => props.name
+);
+
+watch(value, () => {
+  if (value.value == null) {
+    previewImage.value = null;
+    previewImageName.value = "";
+  }
+});
 
 watch(locale, () => {
   setValue(null);
