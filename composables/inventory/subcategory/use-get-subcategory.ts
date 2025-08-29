@@ -13,7 +13,13 @@ export default function useGetSubcategory() {
     loading.value = true;
     try {
       const url = useGetApiUrl(`subcategory/parent/${id}`, "stockApi");
-      const data = await $fetch<paginatedResponse<GetListSubcategories>>(url);
+      const data = await $fetch<paginatedResponse<GetListSubcategories>>(url, {
+        query: {
+          page: 0,
+          size: 100,
+          isAsc: true,
+        },
+      });
       subcategories.value = data?.content ?? [];
     } catch (e: any) {
       subcategories.value = [];

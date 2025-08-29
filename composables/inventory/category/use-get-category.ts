@@ -13,7 +13,7 @@ export default function useGetCategory() {
   >(url, {
     query: {
       page: 0,
-      size: 10,
+      size: 100,
       isAsc: true,
     },
     lazy: true,
