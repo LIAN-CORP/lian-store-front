@@ -9,7 +9,7 @@ export default function useUpdateProduct() {
     const url = useGetApiUrl("product", "stockApi");
     let msg: string;
     try {
-      $fetch.raw(url, {
+      await $fetch.raw(url, {
         method: "PUT",
         body: updatedProduct,
       });
