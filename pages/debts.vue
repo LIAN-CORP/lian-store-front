@@ -41,6 +41,9 @@ onMounted(() => {
         </Button>
       </InputGroup>
     </article>
+    <p v-if="dataDebts.debts?.content" class="notFound">
+      {{ $t("records.notFound") }}
+    </p>
     <article v-if="dataDebts.debts?.content" class="debt-clients">
       <DebtsUserCard
         v-for="debtor in dataDebts.debts?.content"
@@ -49,9 +52,6 @@ onMounted(() => {
         @search-debt="onShowResume"
       />
     </article>
-    <p v-if="dataDebts.debts?.content" class="notFound">
-      {{ $t("records.notFound") }}
-    </p>
     <article class="debt-footer">
       <Paginator
         v-if="dataDebts.debts?.totalElements"
