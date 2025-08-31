@@ -49,7 +49,9 @@ onMounted(() => {
         @search-debt="onShowResume"
       />
     </article>
-    <p v-if="dataDebts.debts?.content">{{ $t("records.notFound") }}</p>
+    <p v-if="dataDebts.debts?.content" class="notFound">
+      {{ $t("records.notFound") }}
+    </p>
     <article class="debt-footer">
       <Paginator
         v-if="dataDebts.debts?.totalElements"
@@ -74,6 +76,9 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .debt {
+  .notFound {
+    padding: 0 1rem;
+  }
   &-header {
     display: flex;
     justify-content: center;
