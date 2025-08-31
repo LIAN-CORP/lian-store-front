@@ -1,12 +1,15 @@
-type ApiService = 'stockApi' | 'transactionApi';
+type ApiService = "stockApi" | "transactionApi" | "paymentApi" | "userApi";
 
-export default function useGetApiUrl(path: string, service: ApiService): string {
-    const config = useRuntimeConfig().public;
-    const apis = {
-        stockApi: config.stockApi,
-        transactionApi: config.transactionApi,
-        paymentApi: config.paymentApi,
-        userApi: config.userApi,
-    }
-    return `${apis[service]}/${path}`;
+export default function useGetApiUrl(
+  path: string,
+  service: ApiService
+): string {
+  const config = useRuntimeConfig().public;
+  const apis = {
+    stockApi: config.stockApi,
+    transactionApi: config.transactionApi,
+    paymentApi: config.paymentApi,
+    userApi: config.userApi,
+  };
+  return `${apis[service]}/${path}`;
 }
