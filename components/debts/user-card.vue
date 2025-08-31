@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue/dist/iconify.js";
-import type { DebtUserProps } from "~/interfaces/debt/entity/debtusercard.inferface";
 
-defineProps<DebtUserProps>();
+defineProps<{
+  name: string;
+  amount: number;
+}>();
 const emit = defineEmits(["searchDebt"]);
 function onSearchDebt() {
   emit("searchDebt");
