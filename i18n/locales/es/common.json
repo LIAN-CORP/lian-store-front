@@ -31,5 +31,8 @@
         "message": "¿Desea eliminar la subcategoría '{name}'?.\n Esta acción eliminara los productos relacionados."
       }
     }
+  },
+  "records":{
+    "notFound": "No se encontraron registros"
   }
 }
