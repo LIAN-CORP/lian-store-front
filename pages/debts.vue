@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue/dist/iconify.js";
+import type { PageState } from "primevue";
+
+const { result: dataDebts, getDebts } = useGetDebts();
+const page = ref(0);
+const sizePage = 20;
+
 const searchValue = ref("");
 const showResume = ref(false);
 function onShowResume() {
@@ -9,7 +15,14 @@ function onSearch() {
   console.log("New debt");
 }
 
+function onPageChange(event: PageState) {
+  page.value = event.page;
+}
+
 function onSearchDebt() {}
+onMounted(() => {
+  getDebts(page.value, sizePage);
+});
 </script>
 <template>
   <section class="debt">
@@ -28,15 +41,21 @@ function onSearchDebt() {}
         </Button>
       </InputGroup>
     </article>
-    <article class="debt-clients">
-      <DebtsUserCard name="Erick" :amount="100" @search-debt="onShowResume" />
+    <article v-if="dataDebts.debts?.content" class="debt-clients">
+      <DebtsUserCard
+        v-for="debtor in dataDebts.debts?.content"
+        :name="debtor.client"
+        :amount="debtor.remainingAmount"
+        @search-debt="onShowResume"
+      />
     </article>
+    <p v-if="dataDebts.debts?.content">Not found elements</p>
     <article class="debt-footer">
       <Paginator
-        :rows="10"
-        :totalRecords="120"
-        template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-        currentPageReportTemplate="Mostrado {first} a {last} de {totalRecords}"
+        v-if="dataDebts.debts?.totalElements"
+        @page="onPageChange"
+        :rows="sizePage"
+        :totalRecords="dataDebts.debts?.totalElements"
       />
     </article>
   </section>
