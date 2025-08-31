@@ -100,7 +100,7 @@ onMounted(async () => {
         @edit-product="onEditProduct"
       />
       <p v-if="(productList?.content || []).length === 0">
-        No se encontraron productos.
+        {{ $t("records.notFound") }}
       </p>
     </article>
     <div class="inventory-footer">

@@ -30,5 +30,8 @@
         "message": "Are you sure you want to delete {name}?. \n This will permanently remove all associated products."
       }
     }
+  },
+  "records":{
+    "notFound": "No records found"
   }
 }
