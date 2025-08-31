@@ -32,19 +32,28 @@ function formatAmount(amount: number): string {
         <h2 class="user-name">{{ name }}</h2>
         <h3 class="user-amount-debt">${{ formatAmount(amount) }}</h3>
         <!-- Button Details -->
-        <Button
-          class="button"
-          :label="$t('debtors.details')"
-          @click="onSearchDebt"
-        >
-          <template #icon>
-            <Icon
-              icon="solar:card-search-linear"
-              width="1.5rem"
-              height="1.5rem"
-            />
-          </template>
-        </Button>
+
+        <div class="card-buttons">
+          <Button class="button" rounded @click="onSearchDebt">
+            <template #icon>
+              <Icon
+                icon="solar:card-search-linear"
+                width="1.5rem"
+                height="1.5rem"
+              />
+            </template>
+          </Button>
+          <Button class="button" severity="info" rounded @click="onSearchDebt">
+            <template #icon>
+              <Icon
+                icon="material-symbols:edit-square-outline"
+                width="1.5em"
+                height="1.5em"
+                style="color: #fff"
+              />
+            </template>
+          </Button>
+        </div>
       </div>
     </article>
   </div>
@@ -64,7 +73,10 @@ function formatAmount(amount: number): string {
   align-items: center;
   width: 100%;
   position: relative;
-
+  &-buttons {
+    display: flex;
+    gap: 1rem;
+  }
   &-icon {
     position: absolute;
     color: #273e91;
@@ -90,10 +102,17 @@ function formatAmount(amount: number): string {
   &-info {
     display: flex;
     flex-direction: column;
-    padding-bottom: 0.5rem;
+    padding: 0.5rem;
     justify-items: center;
     align-items: center;
     gap: 0.4rem;
+    .user-name {
+      text-align: center;
+      font-weight: 500;
+    }
+    .user-amount-debt {
+      color: #4f46e5;
+    }
   }
 }
 
