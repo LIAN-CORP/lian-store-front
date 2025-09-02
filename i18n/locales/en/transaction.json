@@ -11,6 +11,7 @@
       "total": "Total"
     },
     "formDebtor": {
+      "title": "New Client",
       "name": "Client name",
       "phone": "Phone number"
     },
