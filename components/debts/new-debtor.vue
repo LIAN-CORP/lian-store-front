@@ -17,7 +17,8 @@ defineProps<{}>();
           name="clientPhone"
           :label="$t('transaction.formDebtor.phone')"
           mask="999-9999-999"
-          placeholder="999-9999-999"
+          slot="000-0000-000"
+          placeholder="000-0000-000"
         />
         <Button type="submit" :label="$t('button.save')" severity="success" />
       </Form>

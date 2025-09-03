@@ -7,6 +7,7 @@ const props = withDefaults(
     mask: string;
     size?: string;
     placeholder?: string;
+    slot?: string;
     inputColor?: string;
     fluid?: boolean;
     disabled?: boolean;
@@ -31,6 +32,7 @@ const { value, errorMessage } = useField<string>(() => props.name);
         :placeholder="placeholder"
         :fluid="fluid"
         :size="size"
+        :slot-char="slot"
         :disabled="disabled"
         v-model:model-value="value"
       />
