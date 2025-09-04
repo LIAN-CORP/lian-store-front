@@ -144,7 +144,7 @@ function submitTransaction() {
       <Button label="+" @click="selectAddDebtor = !selectAddDebtor" />
     </div>
     <Transition name="slide-fade">
-      <DebtsNewDebtor v-if="selectAddDebtor" />
+      <DebtsNewClient v-if="selectAddDebtor" />
     </Transition>
   </section>
   <Dialog v-model:visible="selectComponent" modal>

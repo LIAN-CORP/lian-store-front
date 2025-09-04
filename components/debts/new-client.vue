@@ -1,27 +1,50 @@
 <script lang="ts" setup>
-defineProps<{}>();
+import type { NewClientRequest } from "~/interfaces/debt/request/new.client.request";
+import {
+  NewClientScheme,
+  type NewClientInferType,
+} from "~/schemas/new-client-scheme";
+
+const { saveClient, loading } = useNewClient();
+const { t } = useI18n();
+const scheme = NewClientScheme(t);
+const { handleSubmit, resetForm } = useForm({
+  name: "newClient",
+  validationSchema: toTypedSchema(scheme),
+});
+
+const onSubmit = handleSubmit(async (values: NewClientInferType) => {
+  const newClient: NewClientRequest = {
+    name: values.clientName,
+    phone: values.phone.replaceAll("-", ""),
+  };
+  await saveClient(newClient);
+});
 </script>
 
 <template>
   <section class="debtor">
+    <LoadingScreen :state="loading" />
     <div class="debtor-container">
-      <Form class="debtor-form">
+      <form @submit="onSubmit" class="debtor-form">
         <h3>{{ $t("transaction.formDebtor.title") }}</h3>
         <CustomTextField
           id="clientNameID"
           name="clientName"
           :label="$t('transaction.formDebtor.name')"
+          input-color="#fff"
         />
         <CustomMaskInput
           id="clientPhoneID"
-          name="clientPhone"
+          name="phone"
           :label="$t('transaction.formDebtor.phone')"
           mask="999-9999-999"
           slot="000-0000-000"
           placeholder="000-0000-000"
+          input-color="#fff"
         />
         <Button type="submit" :label="$t('button.save')" severity="success" />
-      </Form>
+      </form>
     </div>
   </section>
 </template>
