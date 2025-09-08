@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { customPreset } from "./theme/theme.preset";
-import {process} from "std-env";
+import { process } from "std-env";
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
@@ -95,6 +95,7 @@ export default defineNuxtConfig({
         "Checkbox",
         "FormField",
         "ProgressSpinner",
+        "InputMask",
       ],
     },
     options: {

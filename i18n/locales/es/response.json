@@ -3,13 +3,16 @@
     "error": {
       "CATEGORY_EXISTS": "La categoría ya existe",
       "SUBCATEGORY_EXISTS": "La subcategoría ya existe",
+      "CLIENT_PHONE_ALREADY_EXISTS": "El número de teléfono ya se encuentra en uso",
       "ILLEGAL_ARGUMENT": "Los datos enviados no son válidos",
+      "SERVER_WEB_INPUT_EXCEPTION": "Los datos enviados no son válidos",
       "UNKNOWN_ERROR": "Ha ocurrido un error inesperado"
     },
     "success": {
       "new_category": "Categoría creada exitosamente",
       "new_subcategory": "Subcategoría creada exitosamente",
       "new_product": "Producto creado exitosamente",
+      "new_client" :"Cliente creado exitosamente",
       "update_category": "Categoría actualizada exitosamente",
       "update_subcategory": "Subcategoría actualizada exitosamente",
       "update_product": "Producto actualizado exitosamente",

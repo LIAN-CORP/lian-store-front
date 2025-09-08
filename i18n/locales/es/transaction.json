@@ -11,6 +11,7 @@
       "total": "Total"
     },
     "formDebtor": {
+      "title": "Crear Cliente",
       "name": "Nombre del cliente",
       "phone": "Número del cliente"
     },

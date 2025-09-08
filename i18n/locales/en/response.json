@@ -3,13 +3,16 @@
     "error": {
       "CATEGORY_EXISTS": "this category already exist",
       "SUBCATEGORY_EXISTS": "this subcategory already exist",
+      "CLIENT_PHONE_ALREADY_EXISTS": "this phone number is already in use",
       "ILLEGAL_ARGUMENT": "The submitted data is invalid",
+      "SERVER_WEB_INPUT_EXCEPTION": "The submitted data is invalid",
       "UNKNOWN_ERROR": "An unexpected error occurred"
     },
     "success": {
       "new_category": "Category created successfully",
       "new_subcategory": "Subcategory created successfully",
       "new_product": "Product created successfully!",
+      "new_client" :"Client created successfully!",
       "update_category": "Category updated successfully",
       "update_subcategory": "Subcategory updated successfully",
       "update_product": "Product updated successfully!",
