@@ -29,12 +29,10 @@ const onSubmit = handleSubmit(async (values: NewClientInferType) => {
     <LoadingScreen :state="loading" />
     <div class="debtor-container">
       <form @submit="onSubmit" class="debtor-form">
-        <h3>{{ $t("transaction.newClient.title") }}</h3>
         <CustomTextField
           id="clientNameID"
           name="clientName"
           :label="$t('transaction.newClient.name')"
-          input-color="#fff"
         />
         <CustomMaskInput
           id="clientPhoneID"
@@ -43,7 +41,6 @@ const onSubmit = handleSubmit(async (values: NewClientInferType) => {
           mask="999-9999-999"
           slot="000-0000-000"
           placeholder="000-0000-000"
-          input-color="#fff"
           autocomplete="phone"
         />
         <Button type="submit" :label="$t('button.save')" severity="success" />
@@ -55,8 +52,8 @@ const onSubmit = handleSubmit(async (values: NewClientInferType) => {
 <style lang="scss" scoped>
 .debtor {
   &-container {
-    display: grid;
-    place-items: center;
+    display: flex;
+    flex-direction: column;
   }
   &-form {
     display: flex;
@@ -64,10 +61,6 @@ const onSubmit = handleSubmit(async (values: NewClientInferType) => {
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
-    border: 1px solid #a3a3a3;
-    h3 {
-      text-align: center;
-    }
   }
 }
 </style>
