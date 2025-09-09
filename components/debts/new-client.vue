@@ -8,6 +8,7 @@ import {
 const { saveClient, loading } = useNewClient();
 const { t } = useI18n();
 const scheme = NewClientScheme(t);
+const emit = defineEmits(["created"]);
 const { handleSubmit, resetForm } = useForm({
   name: "newClient",
   validationSchema: toTypedSchema(scheme),
@@ -19,6 +20,7 @@ const onSubmit = handleSubmit(async (values: NewClientInferType) => {
     phone: values.phone.replaceAll("-", ""),
   };
   await saveClient(newClient);
+  emit("created");
 });
 </script>
 
