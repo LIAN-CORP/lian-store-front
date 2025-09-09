@@ -6,8 +6,9 @@ import {
 } from "~/constants/transaction.constant";
 
 const { onDeleteState, onClearState, onGetState } = useCartState();
+const { result, getClient } = useGetClients();
 const cart = onGetState();
-
+let debounceTimeOut: number | undefined;
 const { typeTransaction } = useTransactionTypes();
 const { typePayment } = useTransactionPaymentTypes();
 
@@ -16,7 +17,18 @@ const selectAddDebtor = ref(false);
 
 const selectedTransactionType = ref("");
 const selectedPaymentType = ref("");
-const selectedDebtor = ref("");
+const selectedClient = ref();
+
+watch(selectedClient, (newVal) => {
+  console.log(newVal);
+});
+
+function onSearchClient(event: any) {
+  if (debounceTimeOut) clearTimeout(debounceTimeOut);
+  debounceTimeOut = setTimeout(async () => {
+    getClient(event.value);
+  }, 500);
+}
 
 function onCellEditComplete(event: any) {
   const { data, field, newValue } = event;
@@ -52,6 +64,9 @@ function submitTransaction() {
     }))
   } */
 }
+onMounted(async () => {
+  getClient();
+});
 </script>
 
 <template>
@@ -140,11 +155,20 @@ function submitTransaction() {
       />
     </div>
     <div class="transaction-debtor">
-      <Select :placeholder="$t('transaction.debtorSelectPlaceholder')" fluid />
+      <Select
+        name="client"
+        v-model="selectedClient"
+        option-label="name"
+        :options="result.clients!"
+        filter
+        @filter="onSearchClient"
+        fluid
+        :placeholder="$t('transaction.debtorSelectPlaceholder')"
+      />
       <Button label="+" @click="selectAddDebtor = !selectAddDebtor" />
     </div>
     <Transition name="slide-fade">
-      <DebtsNewClient v-if="selectAddDebtor" />
+      <DebtsNewClient v-if="selectAddDebtor" @created="getClient" />
     </Transition>
   </section>
   <Dialog v-model:visible="selectComponent" modal>
