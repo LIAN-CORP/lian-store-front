@@ -87,13 +87,7 @@ onMounted(async () => {
           :placeholder="$t('transaction.typeMovementPlaceholder')"
         />
       </div>
-      <div>
-        <Button
-          :label="$t('transaction.submit')"
-          @click="submitTransaction"
-          severity="success"
-        />
-      </div>
+      <div></div>
     </article>
 
     <article class="transaction-body">
@@ -156,17 +150,36 @@ onMounted(async () => {
       />
     </div>
     <div class="transaction-debtor">
-      <Select
-        name="client"
-        v-model="selectedClient"
-        option-label="name"
-        :options="result.clients!"
-        filter
-        @filter="onSearchClient"
-        fluid
-        :placeholder="$t('transaction.debtorSelectPlaceholder')"
+      <InputGroup>
+        <InputGroupAddon>
+          <IconButton icon="grommet-icons:edit" />
+        </InputGroupAddon>
+        <Select
+          name="client"
+          v-model="selectedClient"
+          option-label="name"
+          :options="result.clients!"
+          filter
+          @filter="onSearchClient"
+          fluid
+          :placeholder="$t('transaction.debtorSelectPlaceholder')"
+        >
+          <template #footer>
+            <Button
+              @click="open('NewClient')"
+              :label="$t('transaction.newClientButton')"
+              fluid
+              severity="success"
+              variant="text"
+              size="small"
+            /> </template
+        ></Select>
+      </InputGroup>
+      <Button
+        :label="$t('transaction.submit')"
+        @click="submitTransaction"
+        severity="success"
       />
-      <Button label="+" @click="open('NewClient')" />
     </div>
   </section>
   <Dialog

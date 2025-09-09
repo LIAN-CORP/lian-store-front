@@ -20,6 +20,7 @@ const onSubmit = handleSubmit(async (values: NewClientInferType) => {
     phone: values.phone.replaceAll("-", ""),
   };
   await saveClient(newClient);
+  resetForm();
   emit("created");
 });
 </script>

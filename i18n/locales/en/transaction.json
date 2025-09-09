@@ -5,6 +5,7 @@
     "debtorSelectPlaceholder": "Debtor",
     "paymentTypePlaceholder": "Payment Type",
     "selectProductTitle": "Select Customer Products",
+    "newClientButton": "Create Client",
     "table": {
       "product": "Product",
       "quantity": "Quantity",
