@@ -11,6 +11,7 @@ const props = withDefaults(
     inputColor?: string;
     fluid?: boolean;
     disabled?: boolean;
+    autocomplete?: string;
   }>(),
   {
     fluid: true,
@@ -35,6 +36,7 @@ const { value, errorMessage } = useField<string>(() => props.name);
         :slot-char="slot"
         :disabled="disabled"
         v-model:model-value="value"
+        :autocomplete="autocomplete"
       />
       <label :for="id">{{ label }}</label>
     </IftaLabel>

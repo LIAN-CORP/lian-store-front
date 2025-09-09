@@ -29,21 +29,22 @@ const onSubmit = handleSubmit(async (values: NewClientInferType) => {
     <LoadingScreen :state="loading" />
     <div class="debtor-container">
       <form @submit="onSubmit" class="debtor-form">
-        <h3>{{ $t("transaction.formDebtor.title") }}</h3>
+        <h3>{{ $t("transaction.newClient.title") }}</h3>
         <CustomTextField
           id="clientNameID"
           name="clientName"
-          :label="$t('transaction.formDebtor.name')"
+          :label="$t('transaction.newClient.name')"
           input-color="#fff"
         />
         <CustomMaskInput
           id="clientPhoneID"
           name="phone"
-          :label="$t('transaction.formDebtor.phone')"
+          :label="$t('transaction.newClient.phone')"
           mask="999-9999-999"
           slot="000-0000-000"
           placeholder="000-0000-000"
           input-color="#fff"
+          autocomplete="phone"
         />
         <Button type="submit" :label="$t('button.save')" severity="success" />
       </form>
