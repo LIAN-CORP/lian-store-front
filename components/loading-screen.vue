@@ -5,9 +5,11 @@ const props = defineProps<{
 </script>
 
 <template>
-  <section class="screen" v-if="state === true">
-    <ProgressSpinner stroke-width="5" animation-duration="0.7s" />
-  </section>
+  <Teleport to="body">
+    <section class="screen" v-if="state === true">
+      <ProgressSpinner stroke-width="5" animation-duration="0.7s" />
+    </section>
+  </Teleport>
 </template>
 
 <style lang="scss" scoped>
@@ -17,7 +19,7 @@ const props = defineProps<{
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 30;
+  z-index: 2000;
   display: grid;
   place-items: center;
   background: #0000003a;

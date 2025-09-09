@@ -5,14 +5,15 @@ import {
   useTransactionPaymentTypes,
 } from "~/constants/transaction.constant";
 
+let debounceTimeOut: number | undefined;
+const { modalData, modalState, getComponent, open, close } =
+  useTransactionModalHandler();
 const { onDeleteState, onClearState, onGetState } = useCartState();
 const { result, getClient } = useGetClients();
 const cart = onGetState();
-let debounceTimeOut: number | undefined;
 const { typeTransaction } = useTransactionTypes();
 const { typePayment } = useTransactionPaymentTypes();
 
-const selectComponent = ref(false);
 const selectAddDebtor = ref(false);
 
 const selectedTransactionType = ref("");
@@ -75,7 +76,7 @@ onMounted(async () => {
       <div class="actions">
         <Button
           :label="$t('transaction.addProduct')"
-          @click="selectComponent = true"
+          @click="open('SelectProducts')"
           severity="success"
         />
         <Select
@@ -165,15 +166,16 @@ onMounted(async () => {
         fluid
         :placeholder="$t('transaction.debtorSelectPlaceholder')"
       />
-      <Button label="+" @click="selectAddDebtor = !selectAddDebtor" />
+      <Button label="+" @click="open('NewClient')" />
     </div>
-    <Transition name="slide-fade">
-      <DebtsNewClient v-if="selectAddDebtor" @created="getClient" />
-    </Transition>
   </section>
-  <Dialog v-model:visible="selectComponent" modal>
+  <Dialog
+    v-model:visible="modalState"
+    :header="modalData.activeFormTranslate"
+    modal
+  >
     <template #default>
-      <TransactionSelectProduct />
+      <component :is="getComponent()" @created="getClient" />
     </template>
   </Dialog>
 </template>
@@ -215,28 +217,9 @@ onMounted(async () => {
     gap: 1rem;
   }
 }
-
 .actions {
   display: flex;
   gap: 2rem;
-}
-
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  max-height: 0;
-  opacity: 0;
-}
-
-.slide-fade-enter-to,
-.slide-fade-leave-from {
-  max-height: 500px;
-  opacity: 1;
 }
 
 @media (max-width: 500px) {
