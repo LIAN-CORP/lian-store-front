@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue/dist/iconify.js";
-import { GENERIC_CLIENT } from "../constants/transaction.constant";
 import {
-  useTransactionTypes,
-  useTransactionPaymentTypes,
-} from "~/constants/transaction.constant";
-const { typeTransaction } = useTransactionTypes();
-const { typePayment } = useTransactionPaymentTypes();
+  GENERIC_CLIENT,
+  TRANSACTION_TYPE,
+  PAYMENT_METHOD,
+} from "../constants/transaction.constant";
 const { modalData, modalState, getComponent, open, close } =
   useTransactionModalHandler();
 
@@ -16,21 +14,21 @@ const { onDeleteState, onClearState, onGetState } = useCartState();
 const { result, getClient } = useGetClients();
 
 const cart = onGetState();
-const selectedTransactionType = ref<string | null>(null);
-const selectedPaymentType = ref<string | null>(null);
+const transactionType = ref<string | null>(null);
+const paymentMethod = ref<string | null>(null);
 const selectedClient = ref<null | any>(null);
 
 const canSend = computed(() => {
   if (cart.value.length === 0) {
     return false;
   }
-  switch (selectedTransactionType.value) {
+  switch (transactionType.value) {
     case "COMPRA":
-      return !!selectedPaymentType.value;
+      return !!paymentMethod.value;
     case "CREDITO":
       return !!selectedClient.value;
     case "VENTA":
-      return !!selectedClient.value && !!selectedPaymentType.value;
+      return !!selectedClient.value && !!paymentMethod.value;
     default:
       return false;
   }
@@ -38,8 +36,8 @@ const canSend = computed(() => {
 
 function onClearControls() {
   onClearState();
-  selectedTransactionType.value = null;
-  selectedPaymentType.value = null;
+  transactionType.value = null;
+  paymentMethod.value = null;
   selectedClient.value = null;
 }
 
@@ -70,18 +68,18 @@ const totalSum = computed(() => {
 
 async function submitTransaction() {
   let request = null;
-  if (selectedTransactionType.value != "CREDITO") {
+  if (transactionType.value != "CREDITO") {
     request = formatData(
       cart.value,
-      selectedTransactionType.value!,
+      transactionType.value!,
       selectedClient.value!
     );
   }
   request = formatData(
     cart.value,
-    selectedTransactionType.value!,
+    transactionType.value!,
     selectedClient.value!,
-    selectedPaymentType.value!
+    paymentMethod.value!
   );
   console.log(request);
   await saveTransaction(request);
@@ -89,12 +87,13 @@ async function submitTransaction() {
 }
 
 function onDisabledClient(): boolean {
-  if (selectedTransactionType.value != "COMPRA") return false;
+  if (transactionType.value != "COMPRA") return false;
   selectedClient.value = GENERIC_CLIENT;
   return true;
 }
 
 onMounted(async () => {
+  onClearState();
   getClient();
 });
 </script>
@@ -110,13 +109,13 @@ onMounted(async () => {
         />
         <Select
           class="transaction-type"
-          v-model="selectedTransactionType"
-          :options="typeTransaction"
-          optionLabel="name"
+          v-model="transactionType"
+          :options="TRANSACTION_TYPE"
+          :optionLabel="(option) => $t(option.name)"
           optionValue="code"
           :placeholder="$t('transaction.typeMovementPlaceholder')"
           @change="
-            selectedPaymentType = null;
+            paymentMethod = null;
             selectedClient = null;
           "
         />
@@ -167,10 +166,10 @@ onMounted(async () => {
     </article>
     <div class="separator">
       <Select
-        v-if="selectedTransactionType != 'CREDITO'"
-        v-model="selectedPaymentType"
-        :options="typePayment"
-        optionLabel="name"
+        v-if="transactionType != 'CREDITO'"
+        v-model="paymentMethod"
+        :options="PAYMENT_METHOD"
+        :optionLabel="(option) => $t(option.name)"
         optionValue="code"
         :placeholder="$t('transaction.paymentTypePlaceholder')"
         fluid
@@ -200,7 +199,7 @@ onMounted(async () => {
           @filter="onSearchClient"
           fluid
           :option-disabled="
-            (option) => option.disabled && selectedTransactionType === 'CREDITO'
+            (option) => option.disabled && transactionType === 'CREDITO'
           "
         >
           <template #footer>
