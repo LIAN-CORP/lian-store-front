@@ -1,4 +1,4 @@
-interface Client {
+export interface Client {
   name: string;
   phone: string;
 }
@@ -14,7 +14,8 @@ interface Product {
   quantity: number;
 }
 
-interface TransactionRequest {
+export interface NewTransactionRequest {
   transaction: Transaction;
+  paymentMethod?: string;
   products: Product[];
 }

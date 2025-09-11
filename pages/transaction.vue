@@ -1,27 +1,45 @@
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue/dist/iconify.js";
 import {
-  useTransactionTypes,
-  useTransactionPaymentTypes,
-} from "~/constants/transaction.constant";
+  GENERIC_CLIENT,
+  TRANSACTION_TYPE,
+  PAYMENT_METHOD,
+} from "../constants/transaction.constant";
+const { modalData, modalState, getComponent, open, close } =
+  useTransactionModalHandler();
 
+let debounceTimeOut: number | undefined;
+const { formatData, loading, saveTransaction } = useNewTransaction();
 const { onDeleteState, onClearState, onGetState } = useCartState();
 const { result, getClient } = useGetClients();
+
 const cart = onGetState();
-let debounceTimeOut: number | undefined;
-const { typeTransaction } = useTransactionTypes();
-const { typePayment } = useTransactionPaymentTypes();
+const transactionType = ref<string | null>(null);
+const paymentMethod = ref<string | null>(null);
+const selectedClient = ref<null | any>(null);
 
-const selectComponent = ref(false);
-const selectAddDebtor = ref(false);
-
-const selectedTransactionType = ref("");
-const selectedPaymentType = ref("");
-const selectedClient = ref();
-
-watch(selectedClient, (newVal) => {
-  console.log(newVal);
+const canSend = computed(() => {
+  if (cart.value.length === 0) {
+    return false;
+  }
+  switch (transactionType.value) {
+    case "COMPRA":
+      return !!paymentMethod.value;
+    case "CREDITO":
+      return !!selectedClient.value;
+    case "VENTA":
+      return !!selectedClient.value && !!paymentMethod.value;
+    default:
+      return false;
+  }
 });
+
+function onClearControls() {
+  onClearState();
+  transactionType.value = null;
+  paymentMethod.value = null;
+  selectedClient.value = null;
+}
 
 function onSearchClient(event: any) {
   if (debounceTimeOut) clearTimeout(debounceTimeOut);
@@ -48,23 +66,34 @@ const totalSum = computed(() => {
   }, 0);
 });
 
-function submitTransaction() {
-  /*   console.log('Submitting transaction...');
-  console.log('Transaction type:', selectedTransactionType.value);
-  console.log('Payment type:', selectedPaymentType.value);
-  console.log('Selected products:', selectedProducts.value);
-  const transaction: TransactionRequest = {
-    transaction: {
-      typeMovement: selectedTransactionType.value,
-      userId: "18d8af95-7ee5-41d4-bc76-b37ff4c11579"
-    },
-    products: selectedProducts.value.map(product => ({
-      productId: product.id,
-      quantity: product.quantity
-    }))
-  } */
+async function submitTransaction() {
+  let request = null;
+  if (transactionType.value != "CREDITO") {
+    request = formatData(
+      cart.value,
+      transactionType.value!,
+      selectedClient.value!
+    );
+  }
+  request = formatData(
+    cart.value,
+    transactionType.value!,
+    selectedClient.value!,
+    paymentMethod.value!
+  );
+  console.log(request);
+  await saveTransaction(request);
+  onClearControls();
 }
+
+function onDisabledClient(): boolean {
+  if (transactionType.value != "COMPRA") return false;
+  selectedClient.value = GENERIC_CLIENT;
+  return true;
+}
+
 onMounted(async () => {
+  onClearState();
   getClient();
 });
 </script>
@@ -75,24 +104,23 @@ onMounted(async () => {
       <div class="actions">
         <Button
           :label="$t('transaction.addProduct')"
-          @click="selectComponent = true"
+          @click="open('SelectProducts')"
           severity="success"
         />
         <Select
-          v-model="selectedTransactionType"
-          :options="typeTransaction"
-          optionLabel="name"
+          class="transaction-type"
+          v-model="transactionType"
+          :options="TRANSACTION_TYPE"
+          :optionLabel="(option) => $t(option.name)"
           optionValue="code"
           :placeholder="$t('transaction.typeMovementPlaceholder')"
+          @change="
+            paymentMethod = null;
+            selectedClient = null;
+          "
         />
       </div>
-      <div>
-        <Button
-          :label="$t('transaction.submit')"
-          @click="submitTransaction"
-          severity="success"
-        />
-      </div>
+      <div></div>
     </article>
 
     <article class="transaction-body">
@@ -138,9 +166,10 @@ onMounted(async () => {
     </article>
     <div class="separator">
       <Select
-        v-model="selectedPaymentType"
-        :options="typePayment"
-        optionLabel="name"
+        v-if="transactionType != 'CREDITO'"
+        v-model="paymentMethod"
+        :options="PAYMENT_METHOD"
+        :optionLabel="(option) => $t(option.name)"
         optionValue="code"
         :placeholder="$t('transaction.paymentTypePlaceholder')"
         fluid
@@ -155,44 +184,83 @@ onMounted(async () => {
       />
     </div>
     <div class="transaction-debtor">
-      <Select
-        name="client"
-        v-model="selectedClient"
-        option-label="name"
-        :options="result.clients!"
-        filter
-        @filter="onSearchClient"
-        fluid
-        :placeholder="$t('transaction.debtorSelectPlaceholder')"
-      />
-      <Button label="+" @click="selectAddDebtor = !selectAddDebtor" />
+      <InputGroup>
+        <InputGroupAddon>
+          <IconButton icon="grommet-icons:edit" />
+        </InputGroupAddon>
+        <Select
+          name="client"
+          :placeholder="$t('transaction.clientSelectPlaceholder')"
+          :disabled="onDisabledClient()"
+          v-model="selectedClient"
+          option-label="name"
+          :options="result.clients!"
+          filter
+          @filter="onSearchClient"
+          fluid
+          :option-disabled="
+            (option) => option.disabled && transactionType === 'CREDITO'
+          "
+        >
+          <template #footer>
+            <Button
+              @click="open('NewClient')"
+              :label="$t('transaction.newClientButton')"
+              fluid
+              severity="success"
+              variant="text"
+              size="small"
+            /> </template
+        ></Select>
+      </InputGroup>
     </div>
-    <Transition name="slide-fade">
-      <DebtsNewClient v-if="selectAddDebtor" @created="getClient" />
-    </Transition>
+    <Button
+      :disabled="!canSend"
+      class="save-button"
+      :label="$t('transaction.submit')"
+      @click="submitTransaction"
+      severity="success"
+    />
   </section>
-  <Dialog v-model:visible="selectComponent" modal>
+  <Dialog
+    v-model:visible="modalState"
+    :header="modalData.activeFormTranslate"
+    modal
+  >
     <template #default>
-      <TransactionSelectProduct />
+      <component
+        :is="getComponent()"
+        @created="
+          getClient();
+          close();
+        "
+      />
     </template>
   </Dialog>
+  <LoadingScreen :state="loading" />
 </template>
 
 <style lang="scss" scoped>
 .transaction {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin: 1rem;
   padding: 1rem;
   gap: 1rem;
   border-radius: 10px;
   box-shadow: inset 0px 0px 17px 0px rgba(0, 0, 0, 0.12);
   &-header {
+    width: 100%;
     display: flex;
     gap: 1rem;
     justify-content: space-between;
+    .transaction-type {
+      min-width: 200px;
+    }
   }
   &-body {
+    width: 100%;
     ::v-deep(.p-inputnumber) {
       .p-inputnumber-input {
         width: 50px;
@@ -202,6 +270,7 @@ onMounted(async () => {
   }
   .separator {
     display: flex;
+    width: 100%;
     align-items: center;
     gap: 1rem;
     &-badge {
@@ -209,37 +278,23 @@ onMounted(async () => {
     }
   }
   &-debtor {
+    width: 100%;
     display: flex;
     align-content: center;
     justify-content: center;
     gap: 1rem;
   }
+  .save-button {
+    flex-grow: 0;
+    max-width: 200px;
+  }
 }
-
 .actions {
   display: flex;
   gap: 2rem;
 }
 
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  max-height: 0;
-  opacity: 0;
-}
-
-.slide-fade-enter-to,
-.slide-fade-leave-from {
-  max-height: 500px;
-  opacity: 1;
-}
-
-@media (max-width: 500px) {
+@media (max-width: 800px) {
   .transaction {
     padding: 0.5rem;
     margin: 0.5rem;
@@ -249,6 +304,10 @@ onMounted(async () => {
     .separator {
       flex-direction: column-reverse;
     }
+  }
+  .actions {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
 </style>

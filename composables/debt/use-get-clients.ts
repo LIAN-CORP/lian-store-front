@@ -13,11 +13,18 @@ export default function useGetClients() {
     const url = useGetApiUrl("client", "transactionApi");
     try {
       result.loading = true;
-      result.clients = await $fetch<getListClient[]>(url, {
+      const data = await $fetch<getListClient[]>(url, {
         query: {
           name: name,
         },
       });
+
+      result.clients = data.map((c) => ({
+        id: c.id,
+        name: c.name,
+        phone: c.phone,
+        disabled: c.name == "Generic Client",
+      }));
     } catch (e: any) {
       result.clients = null;
     } finally {

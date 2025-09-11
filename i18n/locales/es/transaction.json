@@ -2,15 +2,17 @@
   "transaction": {
     "addProduct": "Añadir producto",
     "typeMovementPlaceholder": "Tipo de movimiento",
-    "debtorSelectPlaceholder": "Deudor",
+    "clientSelectPlaceholder": "Cliente",
     "paymentTypePlaceholder": "Tipo de pago",
+    "selectProductTitle": "Selecciona los productos del cliente",
+    "newClientButton": "Crear Cliente",
     "table": {
       "product": "Producto",
       "quantity": "Cantidad",
       "price": "Precio",
       "total": "Total"
     },
-    "formDebtor": {
+    "newClient": {
       "title": "Crear Cliente",
       "name": "Nombre del cliente",
       "phone": "Número del cliente"

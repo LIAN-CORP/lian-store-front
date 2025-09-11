@@ -1,23 +1,14 @@
-export const useTransactionTypes = () => {
-    const { t } = useI18n();
+export const GENERIC_CLIENT = {
+  name: "Generic Client",
+  phone: "0000000000",
+};
+export const TRANSACTION_TYPE = [
+  { name: "transaction.type.buy", code: "COMPRA" },
+  { name: "transaction.type.sell", code: "VENTA" },
+  { name: "transaction.type.credit", code: "CREDITO" },
+];
 
-    const typeTransaction = ref([
-        { name: t('transaction.type.buy'), code: 'COMPRA' },
-        { name: t('transaction.type.sell'), code: 'VENTA' },
-        { name: t('transaction.type.credit'), code: 'CREDITO' }
-    ]);
-   
-    return {typeTransaction};
-}
-
-export const useTransactionPaymentTypes = () => {
-    const { t } = useI18n();
-
-    const typePayment = ref([
-        { name: t('transaction.payment.cash'), code: 'cash' },
-        { name: t('transaction.payment.transfer'), code: 'transfer' },
-        
-    ]);
-
-    return {typePayment};
-}
+export const PAYMENT_METHOD = [
+  { name: "transaction.payment.cash", code: "CASH" },
+  { name: "transaction.payment.transfer", code: "TRANSFER" },
+];
