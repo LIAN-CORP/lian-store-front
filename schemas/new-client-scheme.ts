@@ -12,7 +12,7 @@ export const NewClientScheme = (t: any) => {
       .string({
         message: t("formError.not_null"),
       })
-      .refine((val) => !val.includes("_"), {
+      .refine((val) => !val.includes("_") && val.trim().length > 0, {
         message: t("formError.phone_incomplete"),
       }),
   });
