@@ -7,6 +7,7 @@
         "min_length": "The minimum length is {size} characters",
         "max_length": "The maximum length is {size} characters",
         "min_value": "The minimum value is {min}",
-        "max_value": "The maximum value is {max}"
+        "max_value": "The maximum value is {max}",
+        "phone_incomplete": "The phone number is incomplete"
     }
 }

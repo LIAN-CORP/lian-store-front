@@ -6,11 +6,17 @@
     "paymentTypePlaceholder": "Payment Type",
     "selectProductTitle": "Select Customer Products",
     "newClientButton": "Create Client",
+    "NotEditableClient": "The generic client cannot be modified",
     "table": {
       "product": "Product",
       "quantity": "Quantity",
       "price": "Price",
       "total": "Total"
+    },
+    "updateClient": {
+      "title": "Editar Cliente",
+      "name": "Nombre del cliente",
+      "phone": "Número del cliente"
     },
     "newClient": {
       "title": "New Client",

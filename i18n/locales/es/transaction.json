@@ -6,11 +6,17 @@
     "paymentTypePlaceholder": "Tipo de pago",
     "selectProductTitle": "Selecciona los productos del cliente",
     "newClientButton": "Crear Cliente",
+    "NotEditableClient": "No se puede editar el cliente genérico",
     "table": {
       "product": "Producto",
       "quantity": "Cantidad",
       "price": "Precio",
       "total": "Total"
+    },
+    "updateClient": {
+      "title": "Editar Cliente",
+      "name": "Nombre del cliente",
+      "phone": "Número del cliente"
     },
     "newClient": {
       "title": "Crear Cliente",
