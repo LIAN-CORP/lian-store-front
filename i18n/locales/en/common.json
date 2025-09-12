@@ -3,7 +3,7 @@
     "transaction": "Transaction",
     "inventory": "Inventory",
     "debtors": "Debtors",
-    "movements": "Movements",
+    "history": "History",
     "logout": "Logout"
   },
   "button": {

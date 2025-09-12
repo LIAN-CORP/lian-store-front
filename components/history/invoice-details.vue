@@ -99,7 +99,7 @@ defineProps<{}>();
           </template>
         </Button>
       </div>
-      <MovementsNewPayment v-if="show == true" />
+      <HistoryNewPayment v-if="show == true" />
       <DataTable
         :value="products"
         scrollHeight="200px"

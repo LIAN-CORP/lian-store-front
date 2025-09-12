@@ -38,11 +38,11 @@ const items = computed(() => [
     },
   },
   {
-    label: t("menuOptions.movements"),
+    label: t("menuOptions.history"),
     icon: "mdi:report-box",
-    to: "/movements",
+    to: "/history",
     command: () => {
-      router.push(localePath("/movements"));
+      router.push(localePath("/history"));
     },
   },
   {
