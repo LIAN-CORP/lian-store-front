@@ -195,8 +195,7 @@ const onSubmit = handleSubmit(async (values: NewProductInferType) => {
             rounded
             raised
             :label="$t('button.save')"
-          >
-          </Button>
+          />
         </div>
       </article>
     </form>

@@ -12,7 +12,7 @@ const emit = defineEmits(["created"]);
 const { t } = useI18n();
 const { hasChanges } = useFormChangeHandle();
 const { fetchCategoryById } = useGetCategory();
-const { updateCategory } = useUpdateCategory();
+const { updateCategory, loading } = useUpdateCategory();
 const { data } = await fetchCategoryById(props.categoryId);
 const scheme = UpdateCategoryScheme(t);
 
@@ -56,6 +56,7 @@ const onSubmit = handleSubmit(async (values: UpdateCategoryInferType) => {
       :disabled="!send"
     />
   </form>
+  <LoadingScreen :state="loading" />
 </template>
 
 <style lang="scss" scoped>

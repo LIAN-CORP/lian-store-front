@@ -10,7 +10,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits(["created"]);
 const { getSubcategoryById } = useGetSubcategory();
-const { updateSubcategory } = useUpdateSubcategory();
+const { updateSubcategory, loading } = useUpdateSubcategory();
 const { data } = await getSubcategoryById(props.subcategoryId);
 const { hasChanges } = useFormChangeHandle();
 const { t } = useI18n();
@@ -57,6 +57,7 @@ const onSubmit = handleSubmit(async (values: updateSubcategoryInferType) => {
       :disabled="!canSend"
     />
   </form>
+  <LoadingScreen :state="loading" />
 </template>
 
 <style lang="scss" scoped>

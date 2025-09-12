@@ -19,7 +19,7 @@ const props = defineProps<{
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 2000;
+  z-index: 3000;
   display: grid;
   place-items: center;
   background: #0000003a;
