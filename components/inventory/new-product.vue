@@ -7,17 +7,20 @@ import {
 const { modalState, modalData, open, close, getComponent } =
   useInventoryModalHandler();
 const { t } = useI18n();
-const { deleteSubcategory } = useDeleteSubcategory();
-const { deleteCategory } = useDeleteCategory();
+const { deleteSubcategory, loading: loadDeleteSub } = useDeleteSubcategory();
+const { deleteCategory, loading: loadDeleteCat } = useDeleteCategory();
 const { onConfirmDelete } = useConfirmDialog();
 const { subcategories, refresh } = useGetSubcategory();
 const { categories, categoryRefresh } = useGetCategory();
 const scheme = NewProductScheme(t);
+const { createNewProduct, loading: loadNewProduct } = useNewProduct();
+const isLoading = computed(
+  () => loadDeleteCat.value || loadDeleteSub.value || loadNewProduct.value
+);
 const { handleSubmit, resetField, resetForm, values } = useForm({
   name: "newProduct",
   validationSchema: toTypedSchema(scheme),
 });
-const { createNewProduct } = useNewProduct();
 const refreshActions: Record<string, () => void> = {
   NewCategory: () => categoryRefresh(),
   EditCategory: () => {
@@ -85,6 +88,10 @@ watch(
     refresh(id!);
   }
 );
+
+async function onCancel() {
+  await navigateTo("/inventory");
+}
 
 const onSubmit = handleSubmit(async (values: NewProductInferType) => {
   const product: NewProductRequest = {
@@ -177,6 +184,12 @@ const onSubmit = handleSubmit(async (values: NewProductInferType) => {
             :label="$t('inventory.select.subcategoryPlaceholder')"
           />
           <Button
+            severity="secondary"
+            rounded
+            :label="$t('button.cancel')"
+            @click="onCancel"
+          />
+          <Button
             type="submit"
             severity="success"
             rounded
@@ -202,6 +215,7 @@ const onSubmit = handleSubmit(async (values: NewProductInferType) => {
       />
     </template>
   </Dialog>
+  <LoadingScreen :state="isLoading" />
 </template>
 
 <style lang="scss" scoped>

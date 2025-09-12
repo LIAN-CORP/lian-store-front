@@ -2,6 +2,7 @@ import type { ErrorResponse } from "~/interfaces/error.response";
 import type { NewProductRequest } from "~/interfaces/inventory/product/request/new.product.request";
 
 export default function useNewProduct() {
+  const loading = ref<boolean>(false);
   const { errorToast, successToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
 
@@ -15,6 +16,7 @@ export default function useNewProduct() {
     formData.append("image", image);
     formData.append("product", jsonBlob);
     try {
+      loading.value = true;
       await fetch(url, {
         method: "POST",
         body: formData,
@@ -25,9 +27,12 @@ export default function useNewProduct() {
       const error = e.data as ErrorResponse;
       msg = getErrorTranslate(error.type);
       errorToast(msg);
+    } finally {
+      loading.value = false;
     }
   }
   return {
     createNewProduct,
+    loading,
   };
 }
