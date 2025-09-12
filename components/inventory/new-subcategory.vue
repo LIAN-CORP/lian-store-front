@@ -5,7 +5,7 @@ import {
   type NewSubcategoryInferType,
 } from "~/schemas/new.subcategory.scheme";
 const { t } = useI18n();
-const { createSubcategory } = useNewSubcategory();
+const { createSubcategory, loading } = useNewSubcategory();
 const emit = defineEmits(["created"]);
 const props = defineProps<{
   categoryId: string;
@@ -42,6 +42,7 @@ const onSubmit = handleSubmit(async (values: NewSubcategoryInferType) => {
     />
     <Button :label="$t('button.save')" type="submit" severity="success" />
   </form>
+  <LoadingScreen :state="loading" />
 </template>
 
 <style lang="scss" scoped>

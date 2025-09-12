@@ -6,7 +6,7 @@ import {
 } from "~/schemas/new.category.scheme";
 const emit = defineEmits(["created"]);
 const { t } = useI18n();
-const { createCategory } = useNewCategory();
+const { createCategory, loading } = useNewCategory();
 const scheme = NewCategoryScheme(t);
 const { handleSubmit, resetForm } = useForm({
   name: "newCategory",
@@ -38,6 +38,7 @@ const onSubmit = handleSubmit(async (values: NewCategory) => {
     />
     <Button :label="$t('button.save')" type="submit" severity="success" />
   </form>
+  <LoadingScreen :state="loading" />
 </template>
 
 <style lang="scss" scoped>

@@ -3,6 +3,7 @@ import type { NewSubcategoryResponse } from "~/interfaces/inventory/subcategory/
 import type { NewSubcategoryRequest } from "~/interfaces/inventory/subcategory/request/new.subcategory.request";
 
 export default function useNewSubcategory() {
+  const loading = ref<boolean>(false);
   const { errorToast, successToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
 
@@ -10,6 +11,7 @@ export default function useNewSubcategory() {
     const url = useGetApiUrl("subcategory", "stockApi");
     let msg = "";
     try {
+      loading.value = true;
       await $fetch<NewSubcategoryResponse>(url, {
         method: "POST",
         body: subcategory,
@@ -20,7 +22,9 @@ export default function useNewSubcategory() {
       const error = e.data as ErrorResponse;
       msg = getErrorTranslate(error.type);
       errorToast(msg);
+    } finally {
+      loading.value = false;
     }
   }
-  return { createSubcategory };
+  return { createSubcategory, loading };
 }

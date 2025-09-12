@@ -3,11 +3,13 @@ import type { NewCategoryRequest } from "~/interfaces/inventory/category/request
 import type { NewCategoryResponse } from "~/interfaces/inventory/category/response/new.category.response";
 
 export default function useNewCategory() {
+  const loading = ref<boolean>(false);
   const { errorToast, successToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   async function createCategory(category: NewCategoryRequest) {
     const url = useGetApiUrl("category", "stockApi");
     try {
+      loading.value = true;
       await $fetch<NewCategoryResponse>(url, {
         method: "POST",
         body: category,
@@ -18,9 +20,12 @@ export default function useNewCategory() {
       const error = e.data as ErrorResponse;
       const msg = getErrorTranslate(error.type);
       errorToast(msg);
+    } finally {
+      loading.value = false;
     }
   }
   return {
     createCategory,
+    loading,
   };
 }
