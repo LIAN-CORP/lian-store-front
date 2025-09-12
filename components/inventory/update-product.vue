@@ -46,6 +46,22 @@ const refreshActions: Record<string, () => void> = {
     close();
   },
 };
+function getModalProps() {
+  switch (modalData.activeForm) {
+    case "NewCategory":
+      return {};
+    case "EditCategory":
+      return { categoryId: values.category };
+    case "NewSubcategory":
+      return { categoryId: values.category };
+    case "EditSubcategory":
+      return {
+        subcategoryId: values.subcategoryId,
+      };
+    default:
+      return {};
+  }
+}
 const send = hasChanges({ ...initialValues }, values, meta);
 function onNewCategory() {
   subcategories.value = null;
@@ -195,8 +211,7 @@ onMounted(() => {
     <template #default>
       <component
         :is="getComponent()"
-        :category-id="values.category!"
-        :subcategory-id="values.subcategoryId!"
+        v-bind="getModalProps()"
         @created="handleRefresh"
       />
     </template>

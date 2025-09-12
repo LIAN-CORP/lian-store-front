@@ -33,6 +33,22 @@ const refreshActions: Record<string, () => void> = {
     close();
   },
 };
+function getModalProps() {
+  switch (modalData.activeForm) {
+    case "NewCategory":
+      return {};
+    case "EditCategory":
+      return { categoryId: values.category?.id };
+    case "NewSubcategory":
+      return { categoryId: values.category?.id };
+    case "EditSubcategory":
+      return {
+        subcategoryId: values.subcategory?.id,
+      };
+    default:
+      return {};
+  }
+}
 function onNewCategory() {
   subcategories.value = null;
   resetField("subcategory");
@@ -212,8 +228,7 @@ const onSubmit = handleSubmit(async (values: NewProductInferType) => {
     <template #default>
       <component
         :is="getComponent()"
-        :category-id="values.category?.id!"
-        :subcategory-id="values.subcategory?.id!"
+        v-bind="getModalProps()"
         @created="handleRefresh"
       />
     </template>
