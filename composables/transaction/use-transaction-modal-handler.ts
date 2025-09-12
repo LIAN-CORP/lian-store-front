@@ -1,4 +1,8 @@
-import { DebtsNewClient, TransactionSelectProduct } from "#components";
+import {
+  DebtsNewClient,
+  TransactionSelectProduct,
+  DebtsUpdateClient,
+} from "#components";
 
 export default function useInventoryModalHandler() {
   const { t } = useI18n();
@@ -26,6 +30,7 @@ export default function useInventoryModalHandler() {
     const translations: Record<string, string> = {
       SelectProducts: t("transaction.selectProductTitle"),
       NewClient: t("transaction.newClient.title"),
+      UpdateClient: t("transaction.updateClient.title"),
     };
     modalData.activeFormTranslate = translations[modalData.activeForm] || "";
   }
@@ -35,6 +40,8 @@ export default function useInventoryModalHandler() {
         return TransactionSelectProduct;
       case "NewClient":
         return DebtsNewClient;
+      case "UpdateClient":
+        return DebtsUpdateClient;
       default:
         return null;
     }

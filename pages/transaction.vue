@@ -33,6 +33,22 @@ const canSend = computed(() => {
       return false;
   }
 });
+function getProps() {
+  switch (modalData.activeForm) {
+    case "UpdateClient":
+      return {
+        id: selectedClient.value.id,
+        name: selectedClient.value.name,
+        phone: selectedClient.value.phone,
+      };
+    case "NewClient":
+      return {};
+    case "SelectProducts":
+      return {};
+    default:
+      return {};
+  }
+}
 
 function onClearControls() {
   onClearState();
@@ -186,7 +202,11 @@ onMounted(async () => {
     <div class="transaction-debtor">
       <InputGroup>
         <InputGroupAddon>
-          <IconButton icon="grommet-icons:edit" />
+          <IconButton
+            icon="grommet-icons:edit"
+            :disabled="!selectedClient"
+            @click="open('UpdateClient')"
+          />
         </InputGroupAddon>
         <Select
           name="client"
@@ -230,6 +250,7 @@ onMounted(async () => {
     <template #default>
       <component
         :is="getComponent()"
+        v-bind="getProps()"
         @created="
           getClient();
           close();
