@@ -26,6 +26,9 @@ const props = withDefaults(
   }
 );
 const { value, errorMessage } = useField<number>(() => props.name);
+function onInput(event: any) {
+  value.value = event.value;
+}
 </script>
 
 <template>
@@ -52,6 +55,7 @@ const { value, errorMessage } = useField<number>(() => props.name);
         :step="props.step"
         buttonLayout="vertical"
         v-model:modelValue="value"
+        @input="onInput"
       />
       <label :for="props.id">{{ props.label }}</label>
     </FloatLabel>
