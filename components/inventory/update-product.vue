@@ -12,7 +12,7 @@ const { t } = useI18n();
 const { hasChanges } = useFormChangeHandle();
 const { modalData, modalState, open, close, getComponent } =
   useInventoryModalHandler();
-const { update } = useUpdateProduct();
+const { update, loading } = useUpdateProduct();
 const { subcategories, refresh } = useGetSubcategory();
 const { categories, categoryRefresh } = useGetCategory();
 const scheme = updateProductScheme(t);
@@ -87,6 +87,10 @@ const onSubmit = handleSubmit(async (values: updatedProductInferScheme) => {
   await update(productUpdated);
   await navigateTo("/inventory");
 });
+
+async function onCancel() {
+  await navigateTo("/inventory");
+}
 
 onMounted(() => {
   refresh(values.category!);
@@ -163,13 +167,18 @@ onMounted(() => {
             @on-click1="onUpdateSubcategory"
           />
           <Button
+            severity="secondary"
+            rounded
+            :label="$t('button.cancel')"
+            @click="onCancel"
+          />
+          <Button
             type="submit"
             severity="success"
             rounded
             :disabled="!send"
             :label="$t('button.save')"
-          >
-          </Button>
+          />
         </div>
       </article>
     </form>
@@ -188,6 +197,7 @@ onMounted(() => {
       />
     </template>
   </Dialog>
+  <LoadingScreen :state="loading" />
 </template>
 
 <style lang="scss" scoped>

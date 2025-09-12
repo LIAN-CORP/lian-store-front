@@ -2,6 +2,7 @@ import type { ErrorResponse } from "~/interfaces/error.response";
 import type { UpdateProductRequest } from "~/interfaces/inventory/product/request/update.product.request";
 
 export default function useUpdateProduct() {
+  const loading = ref<boolean>(false);
   const { errorToast, infoToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
 
@@ -9,6 +10,7 @@ export default function useUpdateProduct() {
     const url = useGetApiUrl("product", "stockApi");
     let msg: string;
     try {
+      loading.value = true;
       await $fetch.raw(url, {
         method: "PUT",
         body: updatedProduct,
@@ -19,9 +21,12 @@ export default function useUpdateProduct() {
       const error = e as ErrorResponse;
       msg = getErrorTranslate(error.type);
       errorToast(msg);
+    } finally {
+      loading.value = false;
     }
   }
   return {
     update,
+    loading,
   };
 }
