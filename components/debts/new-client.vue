@@ -40,7 +40,7 @@ const onSubmit = handleSubmit(async (values: NewClientInferType) => {
           name="phone"
           :label="$t('transaction.newClient.phone')"
           mask="999-9999-999"
-          slot="000-0000-000"
+          slot="_"
           placeholder="000-0000-000"
           autocomplete="phone"
         />
