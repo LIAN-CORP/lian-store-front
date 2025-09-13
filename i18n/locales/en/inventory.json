@@ -42,7 +42,7 @@
       "description": "Description"
     },
     "updateSubcategory": {
-      "title": "New Subcategory",
+      "title": "Update Subcategory",
       "name": "Subcategory name",
       "description": "Description"
     }
