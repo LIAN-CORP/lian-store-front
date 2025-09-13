@@ -29,7 +29,8 @@ const onSubmit = handleSubmit(async (values: NewSubcategoryInferType) => {
 </script>
 
 <template>
-  <form @submit="onSubmit" class="new-subcategory">
+  <LoadingScreen :state="loading" in-modal />
+  <form v-if="!loading" @submit="onSubmit" class="new-subcategory">
     <CustomTextField
       id="subcategoryID"
       name="subcategory"
@@ -42,7 +43,6 @@ const onSubmit = handleSubmit(async (values: NewSubcategoryInferType) => {
     />
     <Button :label="$t('button.save')" type="submit" severity="success" />
   </form>
-  <LoadingScreen :state="loading" />
 </template>
 
 <style lang="scss" scoped>

@@ -25,7 +25,8 @@ const onSubmit = handleSubmit(async (values: NewCategory) => {
 </script>
 
 <template>
-  <form @submit="onSubmit" class="new-category">
+  <LoadingScreen :state="loading" in-modal />
+  <form v-if="!loading" @submit="onSubmit" class="new-category">
     <CustomTextField
       id="categoryNameID"
       name="category"
@@ -38,7 +39,6 @@ const onSubmit = handleSubmit(async (values: NewCategory) => {
     />
     <Button :label="$t('button.save')" type="submit" severity="success" />
   </form>
-  <LoadingScreen :state="loading" />
 </template>
 
 <style lang="scss" scoped>

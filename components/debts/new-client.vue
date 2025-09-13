@@ -28,9 +28,9 @@ const onSubmit = handleSubmit(async (values: NewClientInferType) => {
 
 <template>
   <section class="debtor">
-    <LoadingScreen :state="loading" />
     <div class="debtor-container">
-      <form @submit="onSubmit" class="debtor-form">
+      <LoadingScreen :state="loading" in-modal />
+      <form v-if="!loading" @submit="onSubmit" class="debtor-form">
         <CustomTextField
           id="clientNameID"
           name="clientName"

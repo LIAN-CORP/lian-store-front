@@ -38,7 +38,8 @@ const onSubmit = handleSubmit(async (values: UpdateCategoryInferType) => {
 </script>
 
 <template>
-  <form class="edit-category" @submit="onSubmit">
+  <LoadingScreen :state="loading" in-modal />
+  <form v-if="!loading" class="edit-category" @submit="onSubmit">
     <CustomTextField
       name="category"
       id="categoryEditId"
@@ -56,7 +57,6 @@ const onSubmit = handleSubmit(async (values: UpdateCategoryInferType) => {
       :disabled="!send"
     />
   </form>
-  <LoadingScreen :state="loading" />
 </template>
 
 <style lang="scss" scoped>

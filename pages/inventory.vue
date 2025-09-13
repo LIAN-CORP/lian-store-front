@@ -3,7 +3,7 @@ import { Icon } from "@iconify/vue/dist/iconify.js";
 import type { PageState } from "primevue";
 
 const { fetchAllProducts, fetchAllProductsByName } = useGetProduct();
-const { deleteProduct } = useDeleteProduct();
+const { deleteProduct, loading } = useDeleteProduct();
 const { onConfirmDelete } = useConfirmDialog();
 
 const { t } = useI18n();
@@ -26,7 +26,8 @@ function onDelete(id: string, name: string) {
     message: t("confirm.delete.product.message", { name: name }),
     onAccept: async () => {
       await deleteProduct(id);
-      fetchAllProducts(0, 10);
+      const { products } = await fetchAllProducts(page.value, sizePage);
+      productList.value = products;
     },
   });
 }
@@ -65,6 +66,7 @@ onMounted(async () => {
 
 <template>
   <ConfirmDialog />
+  <LoadingScreen :state="loading" />
   <section class="inventory">
     <div class="inventory-header">
       <InputText

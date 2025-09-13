@@ -42,8 +42,8 @@ const onSubmit = handleSubmit(async (values: NewClientInferType) => {
 
 <template>
   <section class="debtor">
-    <LoadingScreen :state="loading" />
-    <div class="debtor-container">
+    <LoadingScreen :state="loading" in-modal />
+    <div v-if="!loading" class="debtor-container">
       <p v-if="`+57${GENERIC_CLIENT.phone}` === phone">
         {{ t("transaction.NotEditableClient") }}
       </p>
