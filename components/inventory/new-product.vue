@@ -220,10 +220,6 @@ const onSubmit = handleSubmit(async (values: NewProductInferType) => {
     v-model:visible="modalState"
     :header="modalData.activeFormTranslate"
     modal
-    :pt="{
-      mask: { style: 'z-index: 2000' },
-      root: { style: 'z-index: 2001' },
-    }"
   >
     <template #default>
       <component
