@@ -71,6 +71,7 @@ onMounted(async () => {
               :image="product.imagePath"
               :category="product.category"
               :price="product.priceSell"
+              :stock="product.stock"
             />
           </section>
         </template>

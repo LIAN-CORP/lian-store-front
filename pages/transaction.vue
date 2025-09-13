@@ -147,7 +147,11 @@ onMounted(async () => {
         @cell-edit-complete="onCellEditComplete"
       >
         <Column field="product" :header="$t('transaction.table.product')" />
-        <Column field="quantity" :header="$t('transaction.table.quantity')">
+        <Column
+          field="quantity"
+          :header="$t('transaction.table.quantity')"
+          :body-style="{ backgroundColor: '#f5f5f5' }"
+        >
           <template #editor="{ data, field }">
             <InputNumber
               v-model="data[field]"
@@ -155,6 +159,7 @@ onMounted(async () => {
               :min="0"
               button-layout="horizontal"
               size="small"
+              :max="data.stock"
             />
           </template>
         </Column>
@@ -287,6 +292,9 @@ onMounted(async () => {
         width: 50px;
         height: 25px;
       }
+    }
+    .editable-column {
+      background-color: gray;
     }
   }
   .separator {

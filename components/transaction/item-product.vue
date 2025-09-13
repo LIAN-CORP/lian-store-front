@@ -7,6 +7,7 @@ defineProps<{
   name: string;
   category: string;
   price: number;
+  stock: number;
 }>();
 </script>
 
@@ -21,15 +22,17 @@ defineProps<{
           product: name,
           price: price,
           quantity: 1,
+          stock: stock,
         }"
       />
     </label>
     <div class="item-container">
       <img class="item-image" :src="image" alt="product-image" />
       <div class="item-content">
-        <p class="item-content-strong">{{ name }}</p>
+        <p class="item-content-muted">{{ name }}</p>
         <p class="item-content-muted">{{ category }}</p>
         <p class="item-content-strong">${{ price }}</p>
+        <p class="item-content-strong">{{ stock }}u/c</p>
       </div>
     </div>
   </article>
