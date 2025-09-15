@@ -1,7 +1,6 @@
 {
-  "movements": {
-    "startDate": "Fecha Inicial",
-    "endDate": "Fecha Final",
+  "history": {
+    "dateRange": "Rango de fechas",
     "selectPlaceholder": "Selecciona el tipo de movimiento",
     "clientNameLabel": "Cliente",
     "clientPhoneLabel": "Teléfono",
@@ -12,7 +11,7 @@
       "resume": {
         "date": "Fecha",
         "invoice": "Factura",
-        "total": "Total",
+        "type": "Tipo",
         "actions": "Acciones"
       },
       "payment": {
