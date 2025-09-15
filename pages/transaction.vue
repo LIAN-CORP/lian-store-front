@@ -171,16 +171,13 @@ onMounted(async () => {
         </Column>
         <Column class="w-24 !text-end">
           <template #body="{ data }">
-            <Button @click="deleteRow(data.id)" severity="danger" rounded>
-              <template #icon>
-                <Icon
-                  icon="material-symbols:close"
-                  width="1.5em"
-                  height="1.5em"
-                  style="color: #fff"
-                />
-              </template>
-            </Button>
+            <IconButton
+              variant="text"
+              severity="danger"
+              @click="deleteRow(data.id)"
+              icon="material-symbols:close"
+              icon-color="#EF4444"
+            />
           </template>
         </Column>
       </DataTable>
