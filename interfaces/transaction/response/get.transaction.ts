@@ -4,6 +4,7 @@ export interface GetTransaction {
   transactionDate: number[];
   client: {
     name: string;
+    phone: string;
   };
   userId: string;
 }

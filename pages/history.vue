@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { PageState } from "primevue";
 import { TRANSACTION_TYPE } from "../constants/transaction.constant";
-const { t } = useI18n();
+const { onConfirmDelete } = useConfirmDialog();
 const detailsDialog = ref(false);
-
+const { t } = useI18n();
 const selectedType = ref<string | null>(null);
 const rangeDate = ref<Date[] | null>();
 const page = ref<number>(0);
@@ -18,11 +18,6 @@ function toLocalISODate(date: Date | null) {
 }
 const { getTransactions, loading, transactions, formatDate } =
   useGetTransaction();
-const options = ref([
-  { label: t("history.select.sales"), value: "sales" },
-  { label: t("history.select.purchases"), value: "purchases" },
-  { label: t("history.select.debts"), value: "debts" },
-]);
 
 watch(rangeDate, async (range) => {
   console.log(range);
@@ -38,6 +33,14 @@ async function onPageChange(e: PageState) {
   page.value = e.page;
   getTransactions(page.value, size);
 }
+function onDelete(id: string) {
+  onConfirmDelete({
+    message: t("confirm.delete.transaction.message", { id: id }),
+    async onAccept() {
+      console.log("eliminando");
+    },
+  });
+}
 
 function showDetails() {
   detailsDialog.value = true;
@@ -48,6 +51,8 @@ onMounted(async () => {
 </script>
 
 <template>
+  <ConfirmDialog />
+
   <section class="movements">
     <article class="movements-header">
       <IftaLabel>
@@ -94,13 +99,20 @@ onMounted(async () => {
           :header="$t('history.table.resume.type')"
         />
         <Column field="actions" :header="$t('history.table.resume.actions')">
-          <template #body>
+          <template #body="{ data }">
             <IconButton
               variant="text"
               severity="info"
               @click="showDetails()"
               icon="lets-icons:chat-search"
               icon-color="#172455"
+            />
+            <IconButton
+              variant="text"
+              severity="danger"
+              @click="onDelete(data.id)"
+              icon="material-symbols:close"
+              icon-color="#EF4444"
             />
           </template>
         </Column>

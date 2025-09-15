@@ -20,6 +20,9 @@
   "confirm": {
     "delete": {
       "header": "Confirm Deletion",
+      "transaction": {
+        "message": "Are you sure you want to delete '{id}' transaction? \n This will permanently remove all associated data."
+      },
       "product": {
         "message": "Are you sure you want to delete '{name}'?"
       },
