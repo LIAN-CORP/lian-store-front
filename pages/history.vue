@@ -16,6 +16,8 @@ function toLocalISODate(date: Date | null) {
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
+
+const { loading: deleteLoading, onDeleteTransaction } = useDeleteTransaction();
 const { getTransactions, loading, transactions, formatDate } =
   useGetTransaction();
 
@@ -37,7 +39,8 @@ function onDelete(id: string) {
   onConfirmDelete({
     message: t("confirm.delete.transaction.message", { id: id }),
     async onAccept() {
-      console.log("eliminando");
+      await onDeleteTransaction(id);
+      await getTransactions(page.value, size);
     },
   });
 }
@@ -52,7 +55,7 @@ onMounted(async () => {
 
 <template>
   <ConfirmDialog />
-
+  <LoadingScreen :state="deleteLoading" />
   <section class="movements">
     <article class="movements-header">
       <IftaLabel>
