@@ -1,25 +1,20 @@
 <script lang="ts" setup>
 import type { PageState } from "primevue";
 import { TRANSACTION_TYPE } from "../constants/transaction.constant";
+import type { GetTransaction } from "~/interfaces/transaction/response/get.transaction";
+import { formatDate, toLocalISODate } from "#imports";
+
 const { onConfirmDelete } = useConfirmDialog();
-const detailsDialog = ref(false);
 const { t } = useI18n();
+const { loading: deleteLoading, onDeleteTransaction } = useDeleteTransaction();
+const { getTransactions, loading, transactions } = useGetTransaction();
+
+const detailsDialog = ref(false);
 const selectedType = ref<string | null>(null);
+const selectedTransaction = ref<GetTransaction | null>(null);
 const rangeDate = ref<Date[] | null>();
 const page = ref<number>(0);
 const size = 10;
-
-function toLocalISODate(date: Date | null) {
-  if (!date) return null;
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-const { loading: deleteLoading, onDeleteTransaction } = useDeleteTransaction();
-const { getTransactions, loading, transactions, formatDate } =
-  useGetTransaction();
 
 watch(rangeDate, async (range) => {
   console.log(range);
@@ -45,7 +40,9 @@ function onDelete(id: string) {
   });
 }
 
-function showDetails() {
+function showDetails(details: GetTransaction) {
+  selectedTransaction.value = details;
+  console.log(selectedTransaction);
   detailsDialog.value = true;
 }
 onMounted(async () => {
@@ -106,7 +103,7 @@ onMounted(async () => {
             <IconButton
               variant="text"
               severity="info"
-              @click="showDetails()"
+              @click="showDetails(data)"
               icon="lets-icons:chat-search"
               icon-color="#172455"
             />
@@ -129,7 +126,7 @@ onMounted(async () => {
     v-model:visible="detailsDialog"
   >
     <template #default>
-      <HistoryInvoiceDetails />
+      <HistoryInvoiceDetails :transaction="selectedTransaction!" />
     </template>
   </Dialog>
 </template>

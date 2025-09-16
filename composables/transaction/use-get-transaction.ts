@@ -31,15 +31,9 @@ export default function useGetTransaction() {
       loading.value = false;
     }
   }
-
-  function formatDate(arr: number[]) {
-    return new Date(arr[0], arr[1] - 1, arr[2]).toLocaleDateString("es-CO");
-  }
-
   return {
     getTransactions,
     transactions,
     loading,
-    formatDate,
   };
 }
