@@ -16,3 +16,11 @@ export function toLocalISODate(date: Date | null) {
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
+
+export function formatPhone(phone: string) {
+  const prefix = `(${phone.slice(0, 3)}) `;
+  return `${prefix}${phone.slice(3, 6)}-${phone.slice(6, 10)}-${phone.slice(
+    10,
+    13
+  )}`;
+}

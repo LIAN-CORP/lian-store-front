@@ -17,12 +17,10 @@ const page = ref<number>(0);
 const size = 10;
 
 watch(rangeDate, async (range) => {
-  console.log(range);
   if (!range || range.length < 2) return;
   page.value = 0;
   const start = toLocalISODate(range[0]);
   const end = toLocalISODate(range[1]);
-
   await getTransactions(page.value, size, start!, end!);
 });
 
@@ -42,7 +40,6 @@ function onDelete(id: string) {
 
 function showDetails(details: GetTransaction) {
   selectedTransaction.value = details;
-  console.log(selectedTransaction);
   detailsDialog.value = true;
 }
 onMounted(async () => {
@@ -57,6 +54,7 @@ onMounted(async () => {
     <article class="movements-header">
       <IftaLabel>
         <DatePicker
+          :manualInput="false"
           fluid
           input-id="start_date"
           v-model="rangeDate"

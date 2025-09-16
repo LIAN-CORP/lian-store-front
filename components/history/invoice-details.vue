@@ -1,38 +1,25 @@
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue/dist/iconify.js";
+import { formatDate, formatPhone } from "#imports";
 import type { GetTransaction } from "~/interfaces/transaction/response/get.transaction";
 
-const {} = useGetTransaction();
+const { getDetails, loading, details } = useGetTransactionDetails();
 
 const props = defineProps<{
   transaction?: GetTransaction;
 }>();
 
-const show = ref(false);
-function showForm() {
-  show.value = !show.value;
-}
+const totalSum = computed(() => {
+  if (details.value == null) {
+    return 0;
+  }
+  return details.value.reduce((sum, product) => {
+    return sum + product.unitPrice * product.quantity;
+  }, 0);
+});
 
-const products = ref([
-  {
-    product: "Producto 1",
-    quantity: 2,
-    price: 50,
-    total: 100,
-  },
-  {
-    product: "Producto 2",
-    quantity: 1,
-    price: 200,
-    total: 200,
-  },
-  {
-    product: "Producto 3",
-    quantity: 3,
-    price: 30,
-    total: 90,
-  },
-]);
+onMounted(() => {
+  getDetails(props.transaction?.id!);
+});
 </script>
 
 <template>
@@ -45,7 +32,7 @@ const products = ref([
         />
         <BadgeDisplay
           :label="$t('history.clientPhoneLabel')"
-          :value="transaction?.client.phone!"
+          :value="formatPhone(transaction?.client.phone!)"
         />
       </div>
 
@@ -56,33 +43,30 @@ const products = ref([
         />
         <BadgeDisplay
           :label="$t('history.typeMovement')"
-          :value="transaction?.transactionDate.toString()!"
+          :value="formatDate(transaction?.transactionDate!)"
         />
       </div>
     </article>
     <article class="invoice-body">
-      <DataTable
-        :value="products"
-        scrollHeight="200px"
-        :virtual-scroller-options="{
-          itemSize: 5,
-          lazy: true,
-          showLoader: true,
-        }"
-        :rows="5"
-      >
+      <DataTable :value="details ?? []" :loading="loading">
         <Column field="product" :header="$t('history.table.product.product')" />
         <Column
           field="quantity"
           :header="$t('history.table.product.quantity')"
         />
-        <Column field="price" :header="$t('history.table.product.unitPrice')" />
-        <Column field="total" :header="$t('history.table.product.total')" />
+        <Column
+          field="unitPrice"
+          :header="$t('history.table.product.unitPrice')"
+        />
+        <Column
+          field="totalPrice"
+          :header="$t('history.table.product.total')"
+        />
       </DataTable>
       <div class="total-badge-container">
         <BadgeDisplay
           label="Total:"
-          value="390"
+          :value="totalSum"
           backgroundColor="#172455"
           color="#ffffff"
           borderColor="#172455"
@@ -124,10 +108,15 @@ const products = ref([
     &-header {
       gap: 0.5rem;
       .invoice-separator {
-        flex-direction: column;
         gap: 0.5rem;
       }
     }
+  }
+}
+@media (max-width: 600px) {
+  .invoice-separator {
+    gap: 0.5rem;
+    flex-direction: column;
   }
 }
 </style>
