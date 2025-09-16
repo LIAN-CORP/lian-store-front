@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue/dist/iconify.js";
 
+import { formatAmount } from "#imports";
+
 defineProps<{
   name: string;
   amount: number;
@@ -8,13 +10,6 @@ defineProps<{
 const emit = defineEmits(["searchDebt"]);
 function onSearchDebt() {
   emit("searchDebt");
-}
-
-function formatAmount(amount: number): string {
-  return amount.toLocaleString("es-CO", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
 }
 </script>
 
