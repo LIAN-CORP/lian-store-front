@@ -1,73 +1,154 @@
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue/dist/iconify.js";
-const { t } = useI18n();
-const detailsDialog = ref(false);
-const selectedItem = ref();
-const options = ref([
-  { label: t("movements.select.sales"), value: "sales" },
-  { label: t("movements.select.purchases"), value: "purchases" },
-  { label: t("movements.select.debts"), value: "debts" },
-]);
-const payments = ref([
-  {
-    date: "2023-10-01",
-    id: "123456",
-    total: 100,
-  },
-  {
-    date: "2023-10-02",
-    id: "123457",
-    total: 200,
-  },
-  {
-    date: "2023-10-03",
-    id: "123458",
-    total: 300,
-  },
-]);
+import type { PageState } from "primevue";
+import { TRANSACTION_TYPE } from "../constants/transaction.constant";
+import type { GetTransaction } from "~/interfaces/transaction/response/get.transaction";
+import { formatDate, toLocalISODate } from "#imports";
 
-function showDetails() {
+const { onConfirmDelete } = useConfirmDialog();
+const { onGenerateReport } = useGetResumeFile();
+const { t } = useI18n();
+const { loading: deleteLoading, onDeleteTransaction } = useDeleteTransaction();
+const { getTransactions, loading, transactions } = useGetTransaction();
+
+const detailsDialog = ref(false);
+const selectedType = ref<string | null>(null);
+const selectedTransaction = ref<GetTransaction | null>(null);
+const rangeDate = ref<Date[] | null>();
+const page = ref<number>(0);
+const size = 10;
+
+const canGenerate = computed(() => {
+  return (
+    rangeDate.value?.length === 2 &&
+    rangeDate.value[0] !== null &&
+    rangeDate.value[1] !== null
+  );
+});
+
+watch(rangeDate, async (range) => {
+  if (!canGenerate.value) return;
+  page.value = 0;
+  const start = toLocalISODate(range![0]);
+  const end = toLocalISODate(range![1]);
+  await getTransactions(page.value, size, start!, end!);
+});
+
+async function onGenerate() {
+  if (!canGenerate.value) return;
+  const start = toLocalISODate(rangeDate.value![0]);
+  const end = toLocalISODate(rangeDate.value![1]);
+  await onGenerateReport(start!, end!);
+}
+
+async function onPageChange(e: PageState) {
+  page.value = e.page;
+  getTransactions(page.value, size);
+}
+function onDelete(id: string) {
+  onConfirmDelete({
+    message: t("confirm.delete.transaction.message", { id: id }),
+    async onAccept() {
+      await onDeleteTransaction(id);
+      await getTransactions(page.value, size);
+    },
+  });
+}
+
+function showDetails(details: GetTransaction) {
+  selectedTransaction.value = details;
   detailsDialog.value = true;
 }
+onMounted(async () => {
+  getTransactions(page.value, size);
+});
 </script>
 
 <template>
+  <ConfirmDialog />
+  <LoadingScreen :state="deleteLoading" />
   <section class="movements">
     <article class="movements-header">
-      <IftaLabel>
-        <DatePicker fluid input-id="start_date" show-icon />
-        <label for="start_date">{{ $t("movements.startDate") }}</label>
-      </IftaLabel>
-      <IftaLabel>
-        <DatePicker fluid input-id="end_date" show-icon />
-        <label for="end_date">{{ $t("movements.endDate") }}</label>
-      </IftaLabel>
-      <Button :label="$t('button.save')" severity="warn" />
+      <InputGroup class="group">
+        <IftaLabel>
+          <DatePicker
+            :manualInput="false"
+            input-id="start_date"
+            v-model="rangeDate"
+            dateFormat="dd/mm/yy"
+            selection-mode="range"
+          />
+          <label for="start_date">{{ $t("history.dateRange") }}</label>
+        </IftaLabel>
+        <InputGroupAddon>
+          <IconButton
+            severity="secondary"
+            icon="material-symbols:close"
+            icon-color="gray"
+            icon-size="1.2em"
+            style="height: 100%"
+            :disabled="!canGenerate"
+            @click="
+              rangeDate = null;
+              getTransactions(page, size);
+            "
+          />
+        </InputGroupAddon>
+      </InputGroup>
+      <Button
+        :label="$t('button.save')"
+        :disabled="!canGenerate"
+        severity="warn"
+        @click="onGenerate"
+      />
     </article>
     <Select
-      :options="options"
-      option-label="label"
-      option-value="value"
-      :placeholder="$t('movements.selectPlaceholder')"
-      v-model="selectedItem"
+      show-clear
+      :options="TRANSACTION_TYPE"
+      :optionLabel="(option) => $t(option.name)"
+      option-value="code"
+      :placeholder="$t('history.selectPlaceholder')"
+      v-model="selectedType"
     ></Select>
     <div class="movements-content">
-      <DataTable :value="payments" paginator :rows="9">
-        <Column field="date" :header="$t('movements.table.resume.date')" />
-        <Column field="id" :header="$t('movements.table.resume.invoice')" />
-        <Column field="total" :header="$t('movements.table.resume.total')" />
-        <Column field="actions" :header="$t('movements.table.resume.actions')">
+      <DataTable
+        data-key="id"
+        lazy
+        paginator
+        :value="transactions?.content ?? []"
+        :loading="loading"
+        :rows="size"
+        :total-records="transactions?.totalPage ?? 0"
+        @page="onPageChange"
+      >
+        <Column
+          field="transactionDate"
+          :header="$t('history.table.resume.date')"
+        >
           <template #body="{ data }">
-            <Button variant="text" severity="info" @click="showDetails()">
-              <template #icon>
-                <Icon
-                  icon="lets-icons:chat-search"
-                  width="24"
-                  height="24"
-                  style="color: #172455"
-                />
-              </template>
-            </Button>
+            {{ formatDate(data.transactionDate) }}
+          </template>
+        </Column>
+        <Column field="id" :header="$t('history.table.resume.invoice')" />
+        <Column
+          field="typeMovement"
+          :header="$t('history.table.resume.type')"
+        />
+        <Column field="actions" :header="$t('history.table.resume.actions')">
+          <template #body="{ data }">
+            <IconButton
+              variant="text"
+              severity="info"
+              @click="showDetails(data)"
+              icon="lets-icons:chat-search"
+              icon-color="#172455"
+            />
+            <IconButton
+              variant="text"
+              severity="danger"
+              @click="onDelete(data.id)"
+              icon="material-symbols:close"
+              icon-color="#EF4444"
+            />
           </template>
         </Column>
       </DataTable>
@@ -75,17 +156,20 @@ function showDetails() {
   </section>
   <Dialog
     modal
-    :header="$t('movements.modalTitle')"
+    :header="$t('history.modalTitle')"
     :style="{ width: '90vw', maxWidth: 'none' }"
     v-model:visible="detailsDialog"
   >
     <template #default>
-      <HistoryInvoiceDetails />
+      <HistoryInvoiceDetails :transaction="selectedTransaction!" />
     </template>
   </Dialog>
 </template>
 
 <style lang="scss" scoped>
+.group {
+  max-width: 500px;
+}
 .p-select {
   width: 100%;
 }
@@ -105,7 +189,10 @@ function showDetails() {
   }
 }
 
-@media (width < 800px) {
+@media (max-width: 800px) {
+  .group {
+    max-width: 100%;
+  }
   .movements {
     padding: 1rem;
     &-header {

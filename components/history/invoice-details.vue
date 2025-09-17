@@ -1,133 +1,72 @@
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue/dist/iconify.js";
+import { formatDate, formatPhone } from "#imports";
+import type { GetTransaction } from "~/interfaces/transaction/response/get.transaction";
 
-const show = ref(false);
-function showForm() {
-  show.value = !show.value;
-}
+const { getDetails, loading, details } = useGetTransactionDetails();
 
-const products = ref([
-  {
-    product: "Producto 1",
-    quantity: 2,
-    price: 50,
-    total: 100,
-  },
-  {
-    product: "Producto 2",
-    quantity: 1,
-    price: 200,
-    total: 200,
-  },
-  {
-    product: "Producto 3",
-    quantity: 3,
-    price: 30,
-    total: 90,
-  },
-]);
+const props = defineProps<{
+  transaction?: GetTransaction;
+}>();
 
-const payments = ref([
-  {
-    payment: 1,
-    method: "Efectivo",
-    quantity: 100,
-  },
-  {
-    payment: 2,
-    method: "Tarjeta",
-    quantity: 200,
-  },
-  {
-    payment: 3,
-    method: "Transferencia",
-    quantity: 300,
-  },
-]);
+const totalSum = computed(() => {
+  if (details.value == null) {
+    return 0;
+  }
+  return details.value.reduce((sum, product) => {
+    return sum + product.unitPrice * product.quantity;
+  }, 0);
+});
 
-defineProps<{}>();
+onMounted(() => {
+  getDetails(props.transaction?.id!);
+});
 </script>
 
 <template>
   <section class="invoice">
     <article class="invoice-header">
-      <BadgeDisplay
-        :label="$t('movements.clientNameLabel')"
-        value="Erick Enrique Chaparro Martinez"
-      />
       <div class="invoice-separator">
         <BadgeDisplay
-          :label="$t('movements.clientPhoneLabel')"
-          value="0000000000"
+          :label="$t('history.clientNameLabel')"
+          :value="transaction?.client.name!"
         />
-        <BadgeDisplay :label="$t('movements.typeMovement')" value="Deuda" />
+        <BadgeDisplay
+          :label="$t('history.clientPhoneLabel')"
+          :value="formatPhone(transaction?.client.phone!)"
+        />
+      </div>
+
+      <div class="invoice-separator">
+        <BadgeDisplay
+          :label="$t('history.typeMovement')"
+          :value="transaction?.typeMovement!"
+        />
+        <BadgeDisplay
+          :label="$t('history.typeMovement')"
+          :value="formatDate(transaction?.transactionDate!)"
+        />
       </div>
     </article>
     <article class="invoice-body">
-      <DataTable
-        :value="payments"
-        scrollHeight="200px"
-        :virtual-scroller-options="{
-          itemSize: 5,
-          lazy: true,
-          showLoader: true,
-        }"
-        :rows="3"
-      >
-        <Column
-          field="payment"
-          :header="$t('movements.table.payment.receipt')"
-        />
-        <Column field="method" :header="$t('movements.table.payment.method')" />
+      <DataTable :value="details ?? []" :loading="loading">
+        <Column field="product" :header="$t('history.table.product.product')" />
         <Column
           field="quantity"
-          :header="$t('movements.table.payment.amount')"
-        />
-      </DataTable>
-      <div class="debt-badge-container">
-        <BadgeDisplay
-          :label="$t('movements.debtBadge') + ':'"
-          value="390"
-          backgroundColor="#172455"
-          color="#ffffff"
-          borderColor="#172455"
-          withContainer
-        />
-        <Button severity="success" rounded @click="showForm">
-          <template #icon>
-            <Icon icon="majesticons:money-plus-line" width="24" height="24" />
-          </template>
-        </Button>
-      </div>
-      <HistoryNewPayment v-if="show == true" />
-      <DataTable
-        :value="products"
-        scrollHeight="200px"
-        :virtual-scroller-options="{
-          itemSize: 5,
-          lazy: true,
-          showLoader: true,
-        }"
-        :rows="5"
-      >
-        <Column
-          field="product"
-          :header="$t('movements.table.product.product')"
+          :header="$t('history.table.product.quantity')"
         />
         <Column
-          field="quantity"
-          :header="$t('movements.table.product.quantity')"
+          field="unitPrice"
+          :header="$t('history.table.product.unitPrice')"
         />
         <Column
-          field="price"
-          :header="$t('movements.table.product.unitPrice')"
+          field="totalPrice"
+          :header="$t('history.table.product.total')"
         />
-        <Column field="total" :header="$t('movements.table.product.total')" />
       </DataTable>
       <div class="total-badge-container">
         <BadgeDisplay
           label="Total:"
-          value="390"
+          :value="totalSum"
           backgroundColor="#172455"
           color="#ffffff"
           borderColor="#172455"
@@ -142,6 +81,7 @@ defineProps<{}>();
 .invoice {
   &-header {
     display: flex;
+    flex-direction: column;
     gap: 1rem;
     align-items: center;
     justify-content: center;
@@ -157,11 +97,6 @@ defineProps<{}>();
     gap: 1rem;
     justify-content: right;
     margin-top: 2rem;
-    .debt-badge-container {
-      display: flex;
-      justify-content: right;
-      gap: 1rem;
-    }
     .total-badge-container {
       display: flex;
       justify-content: right;
@@ -171,17 +106,17 @@ defineProps<{}>();
 @media (width < 800px) {
   .invoice {
     &-header {
-      flex-direction: column;
       gap: 0.5rem;
       .invoice-separator {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      .invoice-group {
-        flex-direction: column;
         gap: 0.5rem;
       }
     }
+  }
+}
+@media (max-width: 600px) {
+  .invoice-separator {
+    gap: 0.5rem;
+    flex-direction: column;
   }
 }
 </style>

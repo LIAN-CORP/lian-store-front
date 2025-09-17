@@ -21,6 +21,9 @@
   "confirm": {
     "delete": {
       "header": "Confirmar Eliminación",
+      "transaction": {
+        "message": "¿Desea eliminar la transacción '{id}'?.\n Esta acción eliminara los datos relacionados"
+      },
       "product": {
         "message": "¿Desea eliminar el producto {name}?"
       },
