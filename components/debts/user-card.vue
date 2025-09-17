@@ -29,25 +29,11 @@ function onSearchDebt() {
         <!-- Button Details -->
 
         <div class="card-buttons">
-          <Button class="button" rounded @click="onSearchDebt">
-            <template #icon>
-              <Icon
-                icon="solar:card-search-linear"
-                width="1.5rem"
-                height="1.5rem"
-              />
-            </template>
-          </Button>
-          <Button class="button" severity="info" rounded @click="onSearchDebt">
-            <template #icon>
-              <Icon
-                icon="material-symbols:edit-square-outline"
-                width="1.5em"
-                height="1.5em"
-                style="color: #fff"
-              />
-            </template>
-          </Button>
+          <IconButton
+            rounded
+            icon="material-symbols:payments-outline"
+            @click="onSearchDebt"
+          />
         </div>
       </div>
     </article>

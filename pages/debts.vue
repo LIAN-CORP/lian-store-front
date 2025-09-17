@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { Icon } from "@iconify/vue/dist/iconify.js";
 import type { PageState } from "primevue";
 
-const { result: dataDebts, getDebts } = useGetDebts();
+const { debts, loading, getDebts } = useGetDebts();
 const page = ref(0);
 const sizePage = 20;
 
@@ -34,19 +33,19 @@ onMounted(() => {
           variant="filled"
           :placeholder="$t('debtors.search')"
         />
-        <Button severity="info" @click="onSearch">
-          <template #icon>
-            <Icon icon="grommet-icons:search" width="1.5em" height="1.5em" />
-          </template>
-        </Button>
+        <IconButton
+          severity="info"
+          icon="grommet-icons:search"
+          @click="onSearch"
+        />
       </InputGroup>
     </article>
-    <p v-if="dataDebts.debts?.content" class="notFound">
+    <p v-if="!debts?.content" class="notFound">
       {{ $t("records.notFound") }}
     </p>
-    <article v-if="dataDebts.debts?.content" class="debt-clients">
+    <article v-if="debts?.content != null" class="debt-clients">
       <DebtsUserCard
-        v-for="debtor in dataDebts.debts?.content"
+        v-for="debtor in debts?.content"
         :name="debtor.client"
         :amount="debtor.remainingAmount"
         @search-debt="onShowResume"
@@ -54,10 +53,10 @@ onMounted(() => {
     </article>
     <article class="debt-footer">
       <Paginator
-        v-if="dataDebts.debts?.totalElements"
+        v-if="debts?.totalElements"
         @page="onPageChange"
         :rows="sizePage"
-        :totalRecords="dataDebts.debts?.totalElements"
+        :totalRecords="debts?.totalElements"
       />
     </article>
   </section>
