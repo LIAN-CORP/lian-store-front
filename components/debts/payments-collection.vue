@@ -10,6 +10,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <!--   <DebtsNewPayment :client-id="client"/> -->
   <article class="resume">
     <DataTable :value="payments" :loading="loading">
       <Column field="id" :header="$t('debtors.detailsTable.total')" />
@@ -20,11 +21,6 @@ onMounted(() => {
       />
       <Column field="amount" :header="$t('debtors.detailsTable.total')" />
       <Column field="clientId" :header="$t('debtors.detailsTable.total')" />
-      <Column
-        field="transactionId"
-        :header="$t('debtors.detailsTable.total')"
-      />
-      <Column field="debtId" :header="$t('debtors.detailsTable.total')" />
     </DataTable>
   </article>
 </template>
