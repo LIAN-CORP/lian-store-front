@@ -3,13 +3,15 @@ import { Icon } from "@iconify/vue/dist/iconify.js";
 
 import { formatAmount } from "#imports";
 
-defineProps<{
+const props = defineProps<{
   name: string;
   amount: number;
+  client: string;
+  debt: string;
 }>();
 const emit = defineEmits(["searchDebt"]);
 function onSearchDebt() {
-  emit("searchDebt");
+  emit("searchDebt", props.debt);
 }
 </script>
 

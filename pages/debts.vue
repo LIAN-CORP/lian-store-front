@@ -1,24 +1,23 @@
 <script setup lang="ts">
 import type { PageState } from "primevue";
 
-const { debts, loading, getDebts } = useGetDebts();
+const { debts, getDebts, loading } = useGetDebts();
 const page = ref(0);
 const sizePage = 20;
 
+const client = ref<string>();
+
 const searchValue = ref("");
 const showResume = ref(false);
-function onShowResume() {
+function onShowResume(id: string) {
+  if (!id) return;
+  client.value = id;
   showResume.value = !showResume.value;
-}
-function onSearch() {
-  console.log("New debt");
 }
 
 function onPageChange(event: PageState) {
   page.value = event.page;
 }
-
-function onSearchDebt() {}
 onMounted(() => {
   getDebts(page.value, sizePage);
 });
@@ -26,28 +25,25 @@ onMounted(() => {
 <template>
   <section class="debt">
     <article class="debt-header">
-      <InputGroup>
-        <InputText
-          id="in_label"
-          v-model="searchValue"
-          variant="filled"
-          :placeholder="$t('debtors.search')"
-        />
-        <IconButton
-          severity="info"
-          icon="grommet-icons:search"
-          @click="onSearch"
-        />
-      </InputGroup>
+      <InputText
+        id="in_label"
+        fluid
+        v-model="searchValue"
+        variant="filled"
+        :placeholder="$t('debtors.search')"
+      />
     </article>
     <p v-if="!debts?.content" class="notFound">
       {{ $t("records.notFound") }}
     </p>
+    <ProgressSpinner v-if="loading" animation-duration="0.7" stroke-width="5" />
     <article v-if="debts?.content != null" class="debt-clients">
       <DebtsUserCard
-        v-for="debtor in debts?.content"
-        :name="debtor.client"
-        :amount="debtor.remainingAmount"
+        v-for="debt in debts?.content"
+        :debt="debt.id"
+        :client="debt.clientId"
+        :name="debt.client"
+        :amount="debt.remainingAmount"
         @search-debt="onShowResume"
       />
     </article>
@@ -68,7 +64,7 @@ onMounted(() => {
     :style="{ width: '90vw', maxWidth: 'none' }"
   >
     <template #default>
-      <DebtsInvoiceCollection />
+      <DebtsPaymentsCollection :client="client!" />
     </template>
   </Dialog>
 </template>
