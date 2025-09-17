@@ -2,19 +2,13 @@ import type { getListDebtResponse } from "~/interfaces/debt/response/get.list.de
 import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface";
 
 export default function useGetDebt() {
-  const result = reactive<{
-    debts: paginatedResponse<getListDebtResponse> | null;
-    loading: boolean;
-  }>({
-    debts: null,
-    loading: false,
-  });
-
+  const debts = ref<paginatedResponse<getListDebtResponse> | null>(null);
+  const loading = ref<boolean>(false);
   async function getDebts(page: number, size: number) {
     const url = useGetApiUrl("debt/active", "paymentApi");
     try {
-      result.loading = true;
-      result.debts = await $fetch<paginatedResponse<getListDebtResponse>>(url, {
+      loading.value = true;
+      debts.value = await $fetch<paginatedResponse<getListDebtResponse>>(url, {
         query: {
           page: page,
           size: size,
@@ -22,14 +16,14 @@ export default function useGetDebt() {
         },
       });
     } catch (e: any) {
-      result.debts = null;
+      debts.value = null;
     } finally {
-      result.loading = false;
+      loading.value = false;
     }
-    return result;
   }
   return {
-    result,
+    debts,
+    loading,
     getDebts,
   };
 }

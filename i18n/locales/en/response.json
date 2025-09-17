@@ -13,6 +13,7 @@
       "new_subcategory": "Subcategory created successfully",
       "new_product": "Product created successfully!",
       "new_client" :"Client created successfully!",
+      "new_payment" :"Payment created successfully!",
       "update_category": "Category updated successfully",
       "update_subcategory": "Subcategory updated successfully",
       "update_product": "Product updated successfully!",
