@@ -1,4 +1,4 @@
-import type { GetPayment } from "~/interfaces/payment/get.payment";
+import type { GetPayment } from "~/interfaces/payment/response/get.payment";
 
 export default function useGetClientPayments() {
   const payments = ref<GetPayment[] | null>(null);
