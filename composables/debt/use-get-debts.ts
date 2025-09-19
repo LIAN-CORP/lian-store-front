@@ -5,7 +5,7 @@ export default function useGetDebt() {
   const debts = ref<paginatedResponse<getListDebtResponse> | null>(null);
   const loading = ref<boolean>(false);
   async function getDebts(page: number, size: number) {
-    const url = useGetApiUrl("debt/active", "paymentApi");
+    const url = useGetApiUrl("debt/active");
     try {
       loading.value = true;
       debts.value = await $fetch<paginatedResponse<getListDebtResponse>>(url, {

@@ -4,7 +4,7 @@ import type { GetListCategories } from "~/interfaces/inventory/category/response
 import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface";
 
 export default function useGetCategory() {
-  const url = useGetApiUrl("category", "stockApi");
+  const url = useGetApiUrl("category");
   const { errorToast } = useCreateToast();
   const { getErrorTranslate } = useHandleResponse();
 
@@ -21,7 +21,7 @@ export default function useGetCategory() {
   const categories = computed(() => data.value?.content ?? []);
 
   async function fetchCategoryById(id: string) {
-    const url = useGetApiUrl(`category/${id}`, "stockApi");
+    const url = useGetApiUrl(`category/${id}`);
     const result = await useFetch<GetCategory>(url);
     if (result.error.value) {
       const error = result.error.value.data as ErrorResponse;

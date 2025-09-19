@@ -9,7 +9,7 @@ export default function useUpdateCategory() {
     let msg: string = "";
     try {
       loading.value = true;
-      const url = useGetApiUrl("category", "stockApi");
+      const url = useGetApiUrl("category");
       const result = await $fetch.raw(url, {
         method: "PUT",
         body: category,

@@ -3,7 +3,7 @@ import type { ErrorResponse } from "~/interfaces/error.response";
 
 export default function useNewClient() {
   const loading = ref<boolean>(false);
-  const url = useGetApiUrl("client", "transactionApi");
+  const url = useGetApiUrl("client");
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   const { errorToast, successToast } = useCreateToast();
 

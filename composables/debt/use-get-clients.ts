@@ -10,7 +10,7 @@ export default function useGetClients() {
   });
 
   async function getClient(name?: string) {
-    const url = useGetApiUrl("client", "transactionApi");
+    const url = useGetApiUrl("client");
     try {
       result.loading = true;
       const data = await $fetch<getListClient[]>(url, {

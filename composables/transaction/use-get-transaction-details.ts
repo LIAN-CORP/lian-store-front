@@ -3,7 +3,7 @@ import type { GetTransactionDetails } from "~/interfaces/transaction/response/ge
 export default function useGetTransaction() {
   const details = ref<GetTransactionDetails[] | null>();
   const loading = ref(false);
-  const url = useGetApiUrl("detail-transaction", "transactionApi");
+  const url = useGetApiUrl("detail-transaction");
 
   async function getDetails(id: string) {
     try {

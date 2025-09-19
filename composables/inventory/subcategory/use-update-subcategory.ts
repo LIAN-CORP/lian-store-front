@@ -8,7 +8,7 @@ export default function useUpdateSubcategory() {
   async function updateSubcategory(subcategory: UpdateSubcategoryRequest) {
     let msg: string;
     try {
-      const url = useGetApiUrl("subcategory", "stockApi");
+      const url = useGetApiUrl("subcategory");
       loading.value = true;
       await $fetch(url, {
         method: "PUT",

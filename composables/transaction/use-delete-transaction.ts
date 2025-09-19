@@ -5,7 +5,7 @@ export default function useDeleteTransaction() {
   const { errorToast, infoToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   async function onDeleteTransaction(id: string) {
-    const url = useGetApiUrl(`transaction/${id}`, "transactionApi");
+    const url = useGetApiUrl(`transaction/${id}`);
     try {
       loading.value = true;
       await $fetch(url, {

@@ -7,7 +7,7 @@ export default function useUpdateProduct() {
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
 
   async function update(updatedProduct: UpdateProductRequest) {
-    const url = useGetApiUrl("product", "stockApi");
+    const url = useGetApiUrl("product");
     let msg: string;
     try {
       loading.value = true;

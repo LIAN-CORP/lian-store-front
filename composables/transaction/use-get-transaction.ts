@@ -4,7 +4,7 @@ import type { GetTransaction } from "~/interfaces/transaction/response/get.trans
 export default function useGetTransaction() {
   const transactions = ref<paginatedResponse<GetTransaction> | null>();
   const loading = ref(false);
-  const url = useGetApiUrl("transaction", "transactionApi");
+  const url = useGetApiUrl("transaction");
 
   async function getTransactions(
     page: number,

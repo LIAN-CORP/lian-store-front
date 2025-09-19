@@ -17,7 +17,7 @@ export default function useGetProduct() {
   });
 
   async function fetchAllProducts(page: number, size: number) {
-    const url = useGetApiUrl("product", "stockApi");
+    const url = useGetApiUrl("product");
     try {
       result.loading = true;
       result.products = await $fetch<paginatedResponse<GetListProducts>>(url, {
@@ -36,7 +36,7 @@ export default function useGetProduct() {
     return result;
   }
   async function fetchProductById(id: string) {
-    const url = useGetApiUrl(`product/${id}`, "stockApi");
+    const url = useGetApiUrl(`product/${id}`);
     try {
       result.loading = true;
       result.product = await $fetch<GetProduct>(url);
@@ -55,7 +55,7 @@ export default function useGetProduct() {
     size: number,
     name: string
   ) {
-    const url = useGetApiUrl("product/name", "stockApi");
+    const url = useGetApiUrl("product/name");
     try {
       result.loading = true;
       result.products = await $fetch<paginatedResponse<GetListProducts>>(url, {

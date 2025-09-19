@@ -12,7 +12,7 @@ export default function useGetSubcategory() {
   async function fetch(id: string) {
     loading.value = true;
     try {
-      const url = useGetApiUrl(`subcategory/parent/${id}`, "stockApi");
+      const url = useGetApiUrl(`subcategory/parent/${id}`);
       const data = await $fetch<paginatedResponse<GetListSubcategories>>(url, {
         query: {
           page: 0,
@@ -29,7 +29,7 @@ export default function useGetSubcategory() {
   }
 
   async function getSubcategoryById(subcategoryId: string) {
-    const url = useGetApiUrl(`subcategory/${subcategoryId}`, "stockApi");
+    const url = useGetApiUrl(`subcategory/${subcategoryId}`);
     const result = await useFetch<GetSubcategory>(url);
     if (result.error.value) {
       const error = result.error.value.data as ErrorResponse;

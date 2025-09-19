@@ -8,7 +8,7 @@ export default function useNewSubcategory() {
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
 
   async function createSubcategory(subcategory: NewSubcategoryRequest) {
-    const url = useGetApiUrl("subcategory", "stockApi");
+    const url = useGetApiUrl("subcategory");
     let msg = "";
     try {
       loading.value = true;

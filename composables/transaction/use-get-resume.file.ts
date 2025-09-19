@@ -5,7 +5,7 @@ export default function useGetResumeFile() {
   const { getErrorTranslate } = useHandleResponse();
 
   async function onGenerateReport(start: string, end: string) {
-    const url = useGetApiUrl(`transaction/download/report`, "transactionApi");
+    const url = useGetApiUrl(`transaction/download/report`);
     try {
       const response = await $fetch.raw<Blob>(url, {
         params: {

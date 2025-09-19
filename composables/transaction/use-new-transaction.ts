@@ -8,7 +8,7 @@ import type { StateProduct } from "~/interfaces/transaction/state.product";
 
 export default function useNewTransaction() {
   const loading = ref<boolean>(false);
-  const url = useGetApiUrl("transaction", "transactionApi");
+  const url = useGetApiUrl("transaction");
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   const { errorToast, successToast } = useCreateToast();
 

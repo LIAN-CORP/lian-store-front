@@ -5,7 +5,7 @@ export default function useDeleteProduct() {
   const { errorToast, infoToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   async function deleteProduct(id: string) {
-    const url = useGetApiUrl(`product/${id}`, "stockApi");
+    const url = useGetApiUrl(`product/${id}`);
     let msg: string;
     try {
       loading.value = true;
