@@ -1,5 +1,5 @@
 import { z } from "zod";
-export const NewClientScheme = (t: any) => {
+export const LoginScheme = (t: any) => {
   return z.object({
     email: z
       .string({
@@ -13,4 +13,4 @@ export const NewClientScheme = (t: any) => {
     }),
   });
 };
-export type NewClientInferType = z.infer<ReturnType<typeof NewClientScheme>>;
+export type LoginSchemeInferType = z.infer<ReturnType<typeof LoginScheme>>;
