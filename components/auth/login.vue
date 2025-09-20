@@ -1,31 +1,51 @@
 <script lang="ts" setup>
-function prueba() {
-  navigateTo("inventory");
+import type { LoginRequest } from "~/interfaces/auth/request/login.request";
+import { LoginScheme, type LoginInferType } from "~/schemas/login-scheme";
+
+const { loading, login } = useLogin();
+const { t } = useI18n();
+const scheme = LoginScheme(t);
+const { handleSubmit, resetForm } = useForm({
+  name: "Login",
+  validationSchema: toTypedSchema(scheme),
+});
+
+const onSubmit = handleSubmit(async (values: LoginInferType) => {
+  const auth: LoginRequest = {
+    email: values.email,
+    password: values.password,
+  };
+  await login(auth);
+  resetForm();
+});
+async function prueba() {
+  await navigateTo("inventory");
 }
 </script>
 
 <template>
   <section class="login">
     <h2>{{ $t("auth.login.title") }}</h2>
-    <form class="login-form">
+    <form class="login-form" @submit="onSubmit">
       <CustomTextField
-        id="usernameId"
-        name="username"
-        :label="$t('auth.login.username')"
+        id="emailId"
+        name="email"
+        :label="$t('auth.login.email')"
         input-color="white"
-        autocomplete="username"
+        autocomplete="email"
       />
-      <CustomTextField
+      <CustomInputPassword
         id="passwordId"
         name="password"
         :label="$t('auth.login.password')"
         input-color="white"
+        type="password"
       />
       <Button
         rounded
         severity="success"
         :label="$t('auth.login.button')"
-        @click="prueba"
+        type="submit"
       />
     </form>
     <Button
@@ -47,7 +67,7 @@ function prueba() {
   &-form {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    max-width: 370px;
     gap: 1rem;
   }
 }

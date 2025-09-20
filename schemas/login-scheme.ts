@@ -13,4 +13,4 @@ export const LoginScheme = (t: any) => {
     }),
   });
 };
-export type LoginSchemeInferType = z.infer<ReturnType<typeof LoginScheme>>;
+export type LoginInferType = z.infer<ReturnType<typeof LoginScheme>>;
