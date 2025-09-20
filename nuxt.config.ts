@@ -93,6 +93,7 @@ export default defineNuxtConfig({
         "FormField",
         "ProgressSpinner",
         "InputMask",
+        "Password",
       ],
     },
     options: {
