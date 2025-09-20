@@ -10,6 +10,7 @@
     "max_value": "El valor máximo es de {max}",
     "phone_incomplete": "El número de teléfono esta incompleto",
     "email_error": "El correo no es valido",
+    "must_be_18": "Debes tener al menos 18 años.",
     "password_match": "Las contraseñas no coinciden",
     "password_character": "La contraseña debe contener al menos un carácter especial",
     "password_uppercase": "La contraseña debe contener al menos una letra mayúscula",

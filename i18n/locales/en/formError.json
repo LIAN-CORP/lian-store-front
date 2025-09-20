@@ -10,6 +10,7 @@
     "max_value": "The maximum value is {max}",
     "phone_incomplete": "The phone number is incomplete",
     "email_error": "Invalid email address",
+    "must_be_18": "You must be at least 18 years old.",
     "password_match": "Passwords do not match",
     "password_character": "Password must include at least one special character",
     "password_uppercase": "Password must include at least one uppercase letter",
