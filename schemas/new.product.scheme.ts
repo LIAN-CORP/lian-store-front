@@ -17,7 +17,7 @@ export const NewProductScheme = (t: any) => {
         message: t("formError.not_null"),
       })
       .min(10, {
-        message: "la descripción debe contener al menos 10 letras",
+        message: t("formError.min_length", { size: 10 }),
       })
       .max(200, {
         message: t("formError.max_length", { size: 200 }),
