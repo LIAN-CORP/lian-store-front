@@ -18,9 +18,6 @@ const onSubmit = handleSubmit(async (values: LoginInferType) => {
   await login(auth);
   resetForm();
 });
-async function prueba() {
-  await navigateTo("inventory");
-}
 </script>
 
 <template>
