@@ -2,6 +2,7 @@ import type { ErrorResponse } from "~/interfaces/error.response";
 import type { NewProductRequest } from "~/interfaces/inventory/product/request/new.product.request";
 
 export default function useNewProduct() {
+  const token = useCookie("access_token");
   const loading = ref<boolean>(false);
   const { errorToast, successToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
@@ -20,6 +21,9 @@ export default function useNewProduct() {
       await fetch(url, {
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: token.value ? `Bearer ${token.value}` : "",
+        },
       });
       msg = getSuccessTranslate("response.success.new_product");
       successToast(msg);

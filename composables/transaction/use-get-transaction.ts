@@ -2,6 +2,7 @@ import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface
 import type { GetTransaction } from "~/interfaces/transaction/response/get.transaction";
 
 export default function useGetTransaction() {
+  const token = useCookie("access_token");
   const transactions = ref<paginatedResponse<GetTransaction> | null>();
   const loading = ref(false);
   const url = useGetApiUrl("transaction");
@@ -22,6 +23,9 @@ export default function useGetTransaction() {
             size: size,
             start: initDate,
             end: endDate,
+          },
+          headers: {
+            Authorization: token.value ? `Bearer ${token.value}` : "",
           },
         }
       );

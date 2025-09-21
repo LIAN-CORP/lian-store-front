@@ -2,6 +2,8 @@ import type { ErrorResponse } from "~/interfaces/error.response";
 import type { UpdateProductRequest } from "~/interfaces/inventory/product/request/update.product.request";
 
 export default function useUpdateProduct() {
+  const token = useCookie("access_token");
+
   const loading = ref<boolean>(false);
   const { errorToast, infoToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
@@ -14,6 +16,9 @@ export default function useUpdateProduct() {
       await $fetch.raw(url, {
         method: "PUT",
         body: updatedProduct,
+        headers: {
+          Authorization: token.value ? `Bearer ${token.value}` : "",
+        },
       });
       msg = getSuccessTranslate("response.success.update_product");
       infoToast(msg);

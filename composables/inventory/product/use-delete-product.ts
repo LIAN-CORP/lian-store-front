@@ -1,6 +1,7 @@
 import type { ErrorResponse } from "~/interfaces/error.response";
 
 export default function useDeleteProduct() {
+  const token = useCookie("access_token");
   const loading = ref<boolean>(false);
   const { errorToast, infoToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
@@ -11,6 +12,9 @@ export default function useDeleteProduct() {
       loading.value = true;
       await $fetch(url, {
         method: "DELETE",
+        headers: {
+          Authorization: token.value ? `Bearer ${token.value}` : "",
+        },
       });
       msg = getSuccessTranslate("response.success.delete_product");
       infoToast(msg);

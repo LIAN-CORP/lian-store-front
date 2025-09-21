@@ -4,6 +4,8 @@ import type { GetSubcategory } from "~/interfaces/inventory/subcategory/response
 import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface";
 
 export default function useGetSubcategory() {
+  const token = useCookie("access_token");
+
   const subcategories = ref();
   const loading = ref(false);
   const { errorToast } = useCreateToast();
@@ -18,6 +20,9 @@ export default function useGetSubcategory() {
           page: 0,
           size: 100,
           isAsc: true,
+        },
+        headers: {
+          Authorization: token.value ? `Bearer ${token.value}` : "",
         },
       });
       subcategories.value = data?.content ?? [];

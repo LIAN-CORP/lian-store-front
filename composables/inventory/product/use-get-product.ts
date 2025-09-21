@@ -4,6 +4,7 @@ import type { GetProduct } from "~/interfaces/inventory/product/response/get.pro
 import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface";
 
 export default function useGetProduct() {
+  const token = useCookie("access_token");
   const { errorToast } = useCreateToast();
   const { getErrorTranslate } = useHandleResponse();
   const result = reactive<{
@@ -27,6 +28,9 @@ export default function useGetProduct() {
           isAsc: true,
           sortBy: "name",
         },
+        headers: {
+          Authorization: token.value ? `Bearer ${token.value}` : "",
+        },
       });
     } catch (e: any) {
       result.product = null;
@@ -39,7 +43,11 @@ export default function useGetProduct() {
     const url = useGetApiUrl(`product/${id}`);
     try {
       result.loading = true;
-      result.product = await $fetch<GetProduct>(url);
+      result.product = await $fetch<GetProduct>(url, {
+        headers: {
+          Authorization: token.value ? `Bearer ${token.value}` : "",
+        },
+      });
     } catch (e: any) {
       const error = e as ErrorResponse;
       const msg = getErrorTranslate(error.type);
@@ -65,6 +73,9 @@ export default function useGetProduct() {
           isAsc: true,
           sortBy: "name",
           name: name,
+        },
+        headers: {
+          Authorization: token.value ? `Bearer ${token.value}` : "",
         },
       });
     } catch (e: any) {

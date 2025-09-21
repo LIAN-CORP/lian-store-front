@@ -4,9 +4,12 @@ import type { GetListCategories } from "~/interfaces/inventory/category/response
 import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface";
 
 export default function useGetCategory() {
+  const token = useCookie("access_token");
   const url = useGetApiUrl("category");
   const { errorToast } = useCreateToast();
   const { getErrorTranslate } = useHandleResponse();
+
+  console.log(token.value);
 
   const { data, error, refresh, status } = useFetch<
     paginatedResponse<GetListCategories>
@@ -16,13 +19,20 @@ export default function useGetCategory() {
       size: 100,
       isAsc: true,
     },
+    headers: {
+      Authorization: token.value ? `Bearer ${token.value}` : "",
+    },
     lazy: true,
   });
   const categories = computed(() => data.value?.content ?? []);
 
   async function fetchCategoryById(id: string) {
     const url = useGetApiUrl(`category/${id}`);
-    const result = await useFetch<GetCategory>(url);
+    const result = await useFetch<GetCategory>(url, {
+      headers: {
+        Authorization: token.value ? `Bearer ${token.value}` : "",
+      },
+    });
     if (result.error.value) {
       const error = result.error.value.data as ErrorResponse;
       const msg = getErrorTranslate(error.type);
