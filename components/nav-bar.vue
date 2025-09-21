@@ -48,6 +48,10 @@ const items = computed(() => [
   {
     label: t("menuOptions.logout"),
     type: "logout",
+    command: () => {
+      const token = useCookie("access_token");
+      token.value = null;
+    },
   },
 ]);
 

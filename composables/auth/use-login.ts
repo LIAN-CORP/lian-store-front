@@ -11,15 +11,20 @@ export default function useLogin() {
   async function login(auth: LoginRequest) {
     loading.value = true;
     try {
+      const token = useCookie("access_token", {
+        maxAge: 60 * 58,
+        sameSite: "strict",
+      });
       const result = await $fetch<LoginResponse>(url, {
         method: "POST",
         body: auth,
       });
+      token.value = result.access_token;
+      await navigateTo("/inventory");
     } catch (e: any) {
       const error = e.data as ErrorResponse;
       const msg = getErrorTranslate(error.type);
       errorToast(msg);
-      return null;
     } finally {
       loading.value = false;
     }
