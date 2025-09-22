@@ -1,61 +1,46 @@
-import type { ErrorResponse } from "~/interfaces/error.response";
 import type { GetListProducts } from "~/interfaces/inventory/product/response/get.list.products.";
 import type { GetProduct } from "~/interfaces/inventory/product/response/get.product";
 import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface";
 
 export default function useGetProduct() {
-  const token = useCookie("access_token");
   const { errorToast } = useCreateToast();
   const { getErrorTranslate } = useHandleResponse();
-  const result = reactive<{
-    products: paginatedResponse<GetListProducts> | null;
-    product: GetProduct | null;
-    loading: boolean;
-  }>({
-    products: null,
-    product: null,
-    loading: false,
-  });
+
+  const products = ref<paginatedResponse<GetListProducts> | null>(null);
+  const product = ref<GetProduct | null>(null);
+  const loading = ref(false);
 
   async function fetchAllProducts(page: number, size: number) {
-    const url = useGetApiUrl("product");
-    try {
-      result.loading = true;
-      result.products = await $fetch<paginatedResponse<GetListProducts>>(url, {
-        query: {
-          page: page,
-          size: size,
-          isAsc: true,
-          sortBy: "name",
-        },
-        headers: {
-          Authorization: token.value ? `Bearer ${token.value}` : "",
-        },
-      });
-    } catch (e: any) {
-      result.product = null;
-    } finally {
-      result.loading = false;
-    }
-    return result;
+    const {
+      data,
+      execute,
+      loading: load,
+    } = useApiFetch<paginatedResponse<GetListProducts>>("product", {
+      query: {
+        page: page,
+        size: size,
+        isAsc: true,
+        sortBy: "name",
+      },
+    });
+    await execute();
+    products.value = data.value ?? null;
+    loading.value = load.value;
   }
   async function fetchProductById(id: string) {
-    const url = useGetApiUrl(`product/${id}`);
-    try {
-      result.loading = true;
-      result.product = await $fetch<GetProduct>(url, {
-        headers: {
-          Authorization: token.value ? `Bearer ${token.value}` : "",
-        },
-      });
-    } catch (e: any) {
-      const error = e as ErrorResponse;
-      const msg = getErrorTranslate(error.type);
+    const {
+      data,
+      execute,
+      loading: load,
+      error,
+    } = useApiFetch<GetProduct>(`product/${id}`);
+    await execute();
+    product.value = data.value ?? null;
+    loading.value = load.value;
+    if (error.value) {
+      const msg = getErrorTranslate(error.value.type);
       errorToast(msg);
-    } finally {
-      result.loading = false;
     }
-    return result;
   }
 
   async function fetchAllProductsByName(
@@ -63,30 +48,22 @@ export default function useGetProduct() {
     size: number,
     name: string
   ) {
-    const url = useGetApiUrl("product/name");
-    try {
-      result.loading = true;
-      result.products = await $fetch<paginatedResponse<GetListProducts>>(url, {
-        query: {
-          page: page,
-          size: size,
-          isAsc: true,
-          sortBy: "name",
-          name: name,
-        },
-        headers: {
-          Authorization: token.value ? `Bearer ${token.value}` : "",
-        },
-      });
-    } catch (e: any) {
-      result.products = null;
-    } finally {
-      result.loading = false;
-    }
-    return result;
+    const {
+      data,
+      execute,
+      loading: load,
+    } = useApiFetch<paginatedResponse<GetListProducts>>("product/name", {
+      query: { page, size, isAsc: true, sortBy: "name", name },
+    });
+
+    await execute();
+    products.value = data.value ?? null;
+    loading.value = load.value;
   }
   return {
-    result,
+    products,
+    product,
+    loading,
     fetchAllProducts,
     refreshProduct: fetchProductById,
     fetchAllProductsByName,
