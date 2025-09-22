@@ -11,7 +11,7 @@ const { deleteSubcategory, loading: loadDeleteSub } = useDeleteSubcategory();
 const { deleteCategory, loading: loadDeleteCat } = useDeleteCategory();
 const { onConfirmDelete } = useConfirmDialog();
 const { subcategories, refresh } = useGetSubcategory();
-const { categories, categoryRefresh } = useGetCategory();
+const { categories, fetchAllCategories } = useGetCategory();
 const scheme = NewProductScheme(t);
 const { createNewProduct, loading: loadNewProduct } = useNewProduct();
 const isLoading = computed(
@@ -22,9 +22,9 @@ const { handleSubmit, resetField, resetForm, values } = useForm({
   validationSchema: toTypedSchema(scheme),
 });
 const refreshActions: Record<string, () => void> = {
-  NewCategory: () => categoryRefresh(),
-  EditCategory: () => {
-    categoryRefresh();
+  NewCategory: async () => await fetchAllCategories(),
+  EditCategory: async () => {
+    await fetchAllCategories();
     close();
   },
   NewSubcategory: () => refresh(values.category?.id!),
@@ -72,7 +72,7 @@ function onDeleteCategory() {
     onAccept: async () => {
       if (!values.category) return;
       await deleteCategory(values.category.id!);
-      await categoryRefresh();
+      await fetchAllCategories();
       resetField("subcategory");
       resetField("category");
     },
@@ -120,6 +120,9 @@ const onSubmit = handleSubmit(async (values: NewProductInferType) => {
   };
   await createNewProduct(values.image, product);
   resetForm();
+});
+onMounted(async () => {
+  await fetchAllCategories();
 });
 </script>
 
@@ -172,7 +175,7 @@ const onSubmit = handleSubmit(async (values: NewProductInferType) => {
             name="category"
             title="category"
             :label="$t('inventory.select.categoryPlaceholder')"
-            :prop-options="categories"
+            :prop-options="categories?.content"
             :new-action-label="$t('inventory.newCategoryButton')"
             button1-icon="grommet-icons:edit"
             button2-icon="material-symbols:delete-rounded"
@@ -193,7 +196,7 @@ const onSubmit = handleSubmit(async (values: NewProductInferType) => {
             :disabled-button1="!values.subcategory"
             :disabled-button2="!values.subcategory"
             :disabled="!values.category"
-            :prop-options="subcategories"
+            :prop-options="subcategories?.content"
             @click-new="onNewSubcategory"
             @on-click1="onUpdateSubcategory"
             @on-click2="onDeleteSubcategory"

@@ -23,9 +23,11 @@ export default function useGetProduct() {
         sortBy: "name",
       },
     });
+    watch(load, (val) => {
+      loading.value = val;
+    });
     await execute();
     products.value = data.value ?? null;
-    loading.value = load.value;
   }
   async function fetchProductById(id: string) {
     const {
@@ -34,9 +36,11 @@ export default function useGetProduct() {
       loading: load,
       error,
     } = useApiFetch<GetProduct>(`product/${id}`);
+    watch(load, (val) => {
+      loading.value = val;
+    });
     await execute();
     product.value = data.value ?? null;
-    loading.value = load.value;
     if (error.value) {
       const msg = getErrorTranslate(error.value.type);
       errorToast(msg);
@@ -55,10 +59,11 @@ export default function useGetProduct() {
     } = useApiFetch<paginatedResponse<GetListProducts>>("product/name", {
       query: { page, size, isAsc: true, sortBy: "name", name },
     });
-
+    watch(load, (val) => {
+      loading.value = val;
+    });
     await execute();
     products.value = data.value ?? null;
-    loading.value = load.value;
   }
   return {
     products,

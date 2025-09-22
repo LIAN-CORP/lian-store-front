@@ -1,4 +1,3 @@
-import type { ErrorResponse } from "~/interfaces/error.response";
 import type { UpdateSubcategoryRequest } from "~/interfaces/inventory/subcategory/request/update.subcategory.resquest";
 
 export default function useUpdateSubcategory() {
@@ -6,23 +5,25 @@ export default function useUpdateSubcategory() {
   const { errorToast, infoToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   async function updateSubcategory(subcategory: UpdateSubcategoryRequest) {
-    let msg: string;
-    try {
-      const url = useGetApiUrl("subcategory");
-      loading.value = true;
-      await $fetch(url, {
-        method: "PUT",
-        body: subcategory,
-      });
-      msg = getSuccessTranslate("response.success.update_subcategory");
-      infoToast(msg);
-    } catch (e: any) {
-      const error = e as ErrorResponse;
-      msg = getErrorTranslate(error.type);
+    const {
+      loading: load,
+      error,
+      execute,
+    } = useApiFetch("subcategory", {
+      method: "PUT",
+      body: subcategory,
+    });
+    watch(load, (val) => {
+      loading.value = val;
+    });
+    await execute();
+    if (error.value) {
+      const msg = getErrorTranslate(error.value.type);
       errorToast(msg);
-    } finally {
-      loading.value = false;
+      return;
     }
+    const msg = getSuccessTranslate("response.success.update_subcategory");
+    infoToast(msg);
   }
   return {
     updateSubcategory,

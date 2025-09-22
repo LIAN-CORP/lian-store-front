@@ -13,7 +13,7 @@ const { t } = useI18n();
 const { hasChanges } = useFormChangeHandle();
 const { fetchCategoryById } = useGetCategory();
 const { updateCategory, loading } = useUpdateCategory();
-const { data } = await fetchCategoryById(props.categoryId);
+const data = ref();
 const scheme = UpdateCategoryScheme(t);
 
 const initialValues = {
@@ -34,6 +34,11 @@ const onSubmit = handleSubmit(async (values: UpdateCategoryInferType) => {
   };
   await updateCategory(updatedCategory);
   emit("created");
+});
+
+onMounted(async () => {
+  const { data: category } = await fetchCategoryById(props.categoryId);
+  data.value = category;
 });
 </script>
 

@@ -14,8 +14,10 @@ export default function useNewCategory() {
       method: "POST",
       body: category,
     });
+    watch(load, (val) => {
+      loading.value = val;
+    });
     await execute();
-    loading.value = load.value;
     if (error.value) {
       const msg = getErrorTranslate(error.value.type);
       errorToast(msg);
