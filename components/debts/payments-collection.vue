@@ -5,14 +5,13 @@ const props = defineProps<{
   data: GetListDebtResponse;
 }>();
 
-const { GetPayment, loading, payments } = useGetClientPayments();
+const { getPayment, loading, payments } = useGetClientPayments();
 onMounted(() => {
-  GetPayment(props.data.id);
+  getPayment(props.data.id);
 });
 </script>
 
 <template>
-  <!--   <DebtsNewPayment :client-id="client"/> -->
   <article class="resume">
     <DataTable :value="payments" :loading="loading">
       <Column field="id" :header="$t('debtors.detailsTable.total')" />
@@ -24,6 +23,14 @@ onMounted(() => {
       <Column field="amount" :header="$t('debtors.detailsTable.total')" />
       <Column field="clientId" :header="$t('debtors.detailsTable.total')" />
     </DataTable>
+
+    <DebtsNewPayment
+      :client-id="data.clientId"
+      :transaction-id="data.transactionId"
+      :debt-id="data.id"
+      :amount="data.remainingAmount"
+      @created="async () => await getPayment(data.id)"
+    />
   </article>
 </template>
 

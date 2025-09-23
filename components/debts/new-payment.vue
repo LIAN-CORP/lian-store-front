@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { NewPaymentRequest } from "~/interfaces/payment/request/new.payment.request";
+import { PAYMENT_METHOD } from "../../constants/transaction.constant";
 import {
   NewPaymentScheme,
   type NewPaymentInferType,
@@ -9,13 +10,13 @@ const props = defineProps<{
   clientId: string;
   transactionId: string;
   debtId: string;
+  amount: number;
 }>();
 
 const { loading, savePayment } = useNewPayment();
-
+const emit = defineEmits(["created"]);
 const { t } = useI18n();
 const scheme = NewPaymentScheme(t);
-const emit = defineEmits(["created"]);
 const { handleSubmit, resetForm } = useForm({
   name: "NewPayment",
   validationSchema: toTypedSchema(scheme),
@@ -36,30 +37,42 @@ const onSubmit = handleSubmit(async (values: NewPaymentInferType) => {
 
 <template>
   <LoadingScreen :state="loading" in-modal />
-  <form v-if="!loading" @submit="onSubmit" class="new-payment">
-    <h3>{{ $t("movements.form.title") }}</h3>
-    <CustomNumberField
-      id="amountID"
-      name="amount"
-      :label="$t('movements.form.amount')"
-      :options="{ prefix: '$', min: 0 }"
-    />
-    <CustomSelectInput
-      id="methodID"
-      name="method"
-      :label="$t('movements.form.method')"
-    />
-    <Button type="submit" :label="$t('button.save')" severity="success" />
-  </form>
+  <div class="container">
+    <form v-if="!loading" @submit="onSubmit" class="new-payment">
+      <h3>{{ $t("history.form.title") }}</h3>
+      <CustomNumberField
+        id="amountID"
+        name="amount"
+        :max="amount"
+        :label="$t('history.form.amount')"
+        :options="{ prefix: '$', min: 0 }"
+      />
+      <CustomSelectInput
+        :prop-options="PAYMENT_METHOD"
+        :optionLabel="(option) => $t(option.name)"
+        option-value="code"
+        id="methodID"
+        name="method"
+        :label="$t('history.form.method')"
+      />
+      <Button type="submit" :label="$t('button.save')" severity="success" />
+    </form>
+  </div>
 </template>
 
 <style lang="scss" scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .new-payment {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  gap: 0.5em;
   flex-direction: column;
-  padding: 1rem 0;
-  gap: 1rem;
+  max-width: 350px;
+  h3 {
+    text-align: center;
+  }
 }
 </style>

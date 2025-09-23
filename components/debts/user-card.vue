@@ -2,17 +2,14 @@
 import { Icon } from "@iconify/vue/dist/iconify.js";
 
 import { formatAmount } from "#imports";
+import type { GetListDebtResponse } from "~/interfaces/debt/response/get.list.debt.response";
 
 const props = defineProps<{
-  id: string;
-  amount: number;
-  name: string;
-  clientId: string;
-  transactionId: string;
+  debt: GetListDebtResponse;
 }>();
 const emit = defineEmits(["searchDebt"]);
 function onSearchDebt() {
-  emit("searchDebt", props);
+  emit("searchDebt", props.debt);
 }
 </script>
 
@@ -27,8 +24,10 @@ function onSearchDebt() {
 
       <div class="card-info">
         <!-- Card Info -->
-        <h2 class="user-name">{{ name }}</h2>
-        <h3 class="user-amount-debt">${{ formatAmount(amount) }}</h3>
+        <h2 class="user-name">{{ debt.client }}</h2>
+        <h3 class="user-amount-debt">
+          ${{ formatAmount(debt.remainingAmount) }}
+        </h3>
         <!-- Button Details -->
 
         <div class="card-buttons">

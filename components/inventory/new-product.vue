@@ -174,6 +174,7 @@ onMounted(async () => {
           <CustomSelectInput
             name="category"
             title="category"
+            option-label="name"
             :label="$t('inventory.select.categoryPlaceholder')"
             :prop-options="categories?.content"
             :new-action-label="$t('inventory.newCategoryButton')"
@@ -189,6 +190,7 @@ onMounted(async () => {
           <CustomSelectInput
             name="subcategory"
             title="subcategory"
+            option-label="name"
             button1-icon="grommet-icons:edit"
             button2-icon="material-symbols:delete-rounded"
             button2-severity="danger"

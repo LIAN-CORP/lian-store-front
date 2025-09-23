@@ -164,6 +164,7 @@ onMounted(async () => {
           <CustomSelectInput
             option-value="id"
             name="category"
+            option-label="name"
             button1-icon="grommet-icons:edit"
             :label="$t('inventory.select.categoryPlaceholder')"
             :prop-options="categories?.content"
@@ -174,6 +175,7 @@ onMounted(async () => {
           <CustomSelectInput
             option-value="id"
             name="subcategoryId"
+            option-label="name"
             button1-icon="grommet-icons:edit"
             :disabled-button1="!values.subcategoryId"
             :label="$t('inventory.select.subcategoryPlaceholder')"

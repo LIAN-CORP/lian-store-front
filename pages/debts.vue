@@ -41,11 +41,7 @@ onMounted(() => {
     <article v-if="debts?.content != null" class="debt-clients">
       <DebtsUserCard
         v-for="debt in debts?.content"
-        :id="debt.id"
-        :client-id="debt.clientId"
-        :name="debt.client"
-        :amount="debt.remainingAmount"
-        :transaction-id="debt.transactionId"
+        :debt="debt"
         @search-debt="onShowResume"
       />
     </article>

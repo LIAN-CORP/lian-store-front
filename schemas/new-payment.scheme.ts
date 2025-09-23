@@ -8,9 +8,13 @@ export const NewPaymentScheme = (t: any) => {
       .min(50, {
         message: t("formError.min_value", { min: 50 }),
       }),
-    method: z.string().min(1, {
-      message: t("formError.not_null"),
-    }),
+    method: z
+      .string({
+        message: t("formError.not_null"),
+      })
+      .min(1, {
+        message: t("formError.min_length", { size: 1 }),
+      }),
   });
 };
 export type NewPaymentInferType = z.infer<ReturnType<typeof NewPaymentScheme>>;
