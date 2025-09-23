@@ -1,5 +1,3 @@
-import type { getListClient } from "~/interfaces/debt/response/get.list.client";
-import type { ErrorResponse } from "~/interfaces/error.response";
 import type {
   Client,
   NewTransactionRequest,
@@ -8,26 +6,29 @@ import type { StateProduct } from "~/interfaces/transaction/state.product";
 
 export default function useNewTransaction() {
   const loading = ref<boolean>(false);
-  const url = useGetApiUrl("transaction");
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   const { errorToast, successToast } = useCreateToast();
 
   async function saveTransaction(transaction: NewTransactionRequest) {
-    loading.value = true;
-    try {
-      await $fetch(url, {
-        method: "POST",
-        body: transaction,
-      });
-      const msg = getSuccessTranslate("response.success.new_client");
-      successToast(msg);
-    } catch (e: any) {
-      const error = e.data as ErrorResponse;
-      const msg = getErrorTranslate(error.type);
+    const {
+      loading: load,
+      error,
+      execute,
+    } = useApiFetch("transaction", {
+      method: "POST",
+      body: transaction,
+    });
+    watch(load, (val) => {
+      loading.value = val;
+    });
+    await execute();
+    if (error.value) {
+      const msg = getErrorTranslate(error.value.type);
       errorToast(msg);
-    } finally {
-      loading.value = false;
+      return;
     }
+    const msg = getSuccessTranslate("response.success.new_client");
+    successToast(msg);
   }
   function formatData(
     stateProducts: StateProduct[],
@@ -43,7 +44,7 @@ export default function useNewTransaction() {
       transaction: {
         client: client,
         typeMovement: typeMovement,
-        userId: "aff909ec-1583-41b6-90b4-b04287c6b7b9",
+        userId: "612a316e-c9b4-4cc4-91bd-1a24aadf94f0",
       },
     };
     if (typePayment) {

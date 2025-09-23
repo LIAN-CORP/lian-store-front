@@ -1,6 +1,7 @@
 import type { ErrorResponse } from "~/interfaces/error.response";
 
 export default function useGetResumeFile() {
+  const token = useCookie("access_token");
   const { errorToast } = useCreateToast();
   const { getErrorTranslate } = useHandleResponse();
 
@@ -11,6 +12,9 @@ export default function useGetResumeFile() {
         params: {
           start: start,
           end: end,
+        },
+        headers: {
+          Authorization: `Bearer ${token.value}`,
         },
         responseType: "blob",
       });
@@ -26,6 +30,10 @@ export default function useGetResumeFile() {
       URL.revokeObjectURL(blobUrl);
     } catch (e: any) {
       const error = e as ErrorResponse;
+      if (error.code == 401) {
+        token.value = null;
+      }
+
       const msg = getErrorTranslate(error.type);
       errorToast(msg);
     }
