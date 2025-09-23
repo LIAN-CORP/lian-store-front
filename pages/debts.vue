@@ -16,11 +16,16 @@ function onShowResume(debt: GetListDebtResponse) {
   showResume.value = !showResume.value;
 }
 
+async function onNewPayment() {
+  await getDebts(page.value, sizePage);
+  showResume.value = false;
+}
+
 function onPageChange(event: PageState) {
   page.value = event.page;
 }
-onMounted(() => {
-  getDebts(page.value, sizePage);
+onMounted(async () => {
+  await getDebts(page.value, sizePage);
 });
 </script>
 <template>
@@ -62,7 +67,7 @@ onMounted(() => {
     :style="{ width: '90vw', maxWidth: 'none' }"
   >
     <template #default>
-      <DebtsPaymentsCollection :data="debt_data!" />
+      <DebtsPaymentsCollection :data="debt_data!" @created="onNewPayment" />
     </template>
   </Dialog>
 </template>

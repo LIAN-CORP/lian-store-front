@@ -9,6 +9,17 @@ export function formatDate(arr: number[]) {
   return new Date(arr[0], arr[1] - 1, arr[2]).toLocaleDateString("es-CO");
 }
 
+export function formatDateTime(date: Date | string): string {
+  const d = typeof date === "string" ? new Date(date) : date;
+  return d.toLocaleString("es-CO", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 export function toLocalISODate(date: Date | null) {
   if (!date) return null;
   const year = date.getFullYear();

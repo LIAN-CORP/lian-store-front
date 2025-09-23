@@ -5,9 +5,9 @@
     "modalTitle": "Debts",
     "detailsTable": {
       "date": "Date",
-      "invoice": "Invoice",
-      "total": "Total",
-      "actions": "Actions"
+      "payment": "Payment",
+      "amount": "Amount paid",
+      "method": "Payment Method"
     }
   }
 }

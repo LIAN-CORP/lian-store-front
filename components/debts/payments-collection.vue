@@ -5,6 +5,11 @@ const props = defineProps<{
   data: GetListDebtResponse;
 }>();
 
+const emit = defineEmits(["created"]);
+function onCreated() {
+  emit("created");
+}
+
 const { getPayment, loading, payments } = useGetClientPayments();
 onMounted(() => {
   getPayment(props.data.id);
@@ -13,15 +18,18 @@ onMounted(() => {
 
 <template>
   <article class="resume">
-    <DataTable :value="payments" :loading="loading">
-      <Column field="id" :header="$t('debtors.detailsTable.total')" />
-      <Column field="paymentDate" :header="$t('debtors.detailsTable.date')" />
+    <DataTable :value="payments" :loading="loading" :rows="5" paginator>
+      <Column field="paymentDate" :header="$t('debtors.detailsTable.date')">
+        <template #body="slotProps">
+          {{ formatDateTime(slotProps.data.paymentDate) }}
+        </template>
+      </Column>
+      <Column field="id" :header="$t('debtors.detailsTable.payment')" />
+      <Column field="amount" :header="$t('debtors.detailsTable.amount')" />
       <Column
         field="paymentMethod"
-        :header="$t('debtors.detailsTable.invoice')"
+        :header="$t('debtors.detailsTable.method')"
       />
-      <Column field="amount" :header="$t('debtors.detailsTable.total')" />
-      <Column field="clientId" :header="$t('debtors.detailsTable.total')" />
     </DataTable>
 
     <DebtsNewPayment
@@ -29,7 +37,7 @@ onMounted(() => {
       :transaction-id="data.transactionId"
       :debt-id="data.id"
       :amount="data.remainingAmount"
-      @created="async () => await getPayment(data.id)"
+      @created="onCreated"
     />
   </article>
 </template>
