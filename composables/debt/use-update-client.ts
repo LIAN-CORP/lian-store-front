@@ -23,7 +23,7 @@ export default function useNewClient() {
       errorToast(msg);
       return;
     }
-    const msg = getSuccessTranslate("response.success.new_client");
+    const msg = getSuccessTranslate("response.success.update_client");
     infoToast(msg);
   }
 

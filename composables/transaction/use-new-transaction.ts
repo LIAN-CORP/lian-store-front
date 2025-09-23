@@ -27,7 +27,7 @@ export default function useNewTransaction() {
       errorToast(msg);
       return;
     }
-    const msg = getSuccessTranslate("response.success.new_client");
+    const msg = getSuccessTranslate("response.success.new_transaction");
     successToast(msg);
   }
   function formatData(

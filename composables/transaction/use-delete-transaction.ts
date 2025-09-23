@@ -19,7 +19,7 @@ export default function useDeleteTransaction() {
       errorToast(msg);
       return;
     }
-    const msg = getSuccessTranslate("response.success.delete_category");
+    const msg = getSuccessTranslate("response.success.delete_transaction");
     infoToast(msg);
   }
   return {

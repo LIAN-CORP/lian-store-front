@@ -14,12 +14,15 @@
       "new_product": "Producto creado exitosamente",
       "new_client" :"Cliente creado exitosamente",
       "new_payment": "Pago creado exitosamente",
+      "new_transaction": "Transacción creada exitosamente",
       "update_category": "Categoría actualizada exitosamente",
       "update_subcategory": "Subcategoría actualizada exitosamente",
       "update_product": "Producto actualizado exitosamente",
+      "update_client" :"Cliente actualizada exitosamente",
       "delete_category": "Categoría eliminada",
       "delete_subcategory": "Subcategoría eliminada",
-      "delete_product": "Producto eliminado"
+      "delete_product": "Producto eliminado",
+      "delete_transaction": "Transacción eliminada"
     }
   }
 }
