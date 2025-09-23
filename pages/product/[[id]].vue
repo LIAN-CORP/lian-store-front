@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const route = useRoute();
 const productId = route.params.id as string;
-const { result, refreshProduct } = useGetProduct();
+const { product, refreshProduct } = useGetProduct();
 onMounted(async () => {
   if (!productId) return;
   await refreshProduct(productId);
@@ -11,11 +11,8 @@ onMounted(async () => {
 <template>
   <section class="product">
     <article class="product-body">
-      <inventory-new-product v-if="!result.product" />
-      <inventory-update-product
-        v-if="result.product"
-        :product="result.product"
-      />
+      <inventory-new-product v-if="!product" />
+      <inventory-update-product v-if="product" :product="product" />
     </article>
   </section>
 </template>

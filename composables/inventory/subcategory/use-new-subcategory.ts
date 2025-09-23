@@ -1,4 +1,3 @@
-import type { ErrorResponse } from "~/interfaces/error.response";
 import type { NewSubcategoryResponse } from "~/interfaces/inventory/subcategory/response/new.subcategory.response";
 import type { NewSubcategoryRequest } from "~/interfaces/inventory/subcategory/request/new.subcategory.request";
 
@@ -8,23 +7,25 @@ export default function useNewSubcategory() {
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
 
   async function createSubcategory(subcategory: NewSubcategoryRequest) {
-    const url = useGetApiUrl("subcategory", "stockApi");
-    let msg = "";
-    try {
-      loading.value = true;
-      await $fetch<NewSubcategoryResponse>(url, {
-        method: "POST",
-        body: subcategory,
-      });
-      msg = getSuccessTranslate("response.success.new_subcategory");
-      successToast(msg);
-    } catch (e: any) {
-      const error = e.data as ErrorResponse;
-      msg = getErrorTranslate(error.type);
+    const {
+      loading: load,
+      error,
+      execute,
+    } = useApiFetch<NewSubcategoryResponse>("subcategory", {
+      method: "POST",
+      body: subcategory,
+    });
+    watch(load, (val) => {
+      loading.value = val;
+    });
+    await execute();
+    if (error.value) {
+      const msg = getErrorTranslate(error.value.type);
       errorToast(msg);
-    } finally {
-      loading.value = false;
+      return;
     }
+    const msg = getSuccessTranslate("response.success.new_subcategory");
+    successToast(msg);
   }
   return { createSubcategory, loading };
 }

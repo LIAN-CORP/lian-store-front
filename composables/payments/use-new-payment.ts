@@ -3,7 +3,7 @@ import type { NewPaymentRequest } from "~/interfaces/payment/request/new.payment
 
 export default function useNewPayment() {
   const loading = ref<boolean>(false);
-  const url = useGetApiUrl("payment/debt", "paymentApi");
+  const url = useGetApiUrl("payment/debt");
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   const { errorToast, successToast } = useCreateToast();
 

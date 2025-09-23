@@ -1,3 +1,12 @@
+<script setup lang="ts">
+const token = useCookie("access_token");
+
+watch(token, async (newVal) => {
+  if (!newVal) {
+    await navigateTo("/");
+  }
+});
+</script>
 <template>
   <div>
     <Toast />
@@ -5,5 +14,3 @@
     <slot />
   </div>
 </template>
-
-<script setup lang="ts"></script>

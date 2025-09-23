@@ -1,25 +1,16 @@
 <script lang="ts" setup>
 import type { PageState } from "primevue";
 
-const { fetchAllProducts, fetchAllProductsByName } = useGetProduct();
+const { fetchAllProducts, fetchAllProductsByName, products } = useGetProduct();
 
 const { t } = useI18n();
 let debounceTimeOut: number | undefined;
-const searchResults = ref<any>();
 const searchValue = ref("");
 const page = ref<number>(0);
 const sizePage = 6;
-async function handleSearch() {
-  const { products } = await fetchAllProductsByName(
-    page.value,
-    sizePage,
-    searchValue.value
-  );
-  searchResults.value = products;
-}
-function onPageChange(event: PageState) {
+async function onPageChange(event: PageState) {
   page.value = event.page;
-  handleSearch();
+  await fetchAllProductsByName(page.value, sizePage, searchValue.value);
 }
 watch(searchValue, async (newVal) => {
   if (debounceTimeOut) clearTimeout(debounceTimeOut);
@@ -27,16 +18,14 @@ watch(searchValue, async (newVal) => {
   debounceTimeOut = setTimeout(async () => {
     if (newVal) {
       page.value = 0;
-      await handleSearch();
+      await fetchAllProductsByName(page.value, sizePage, searchValue.value);
     } else {
-      const { products } = await fetchAllProducts(page.value, sizePage);
-      searchResults.value = products;
+      await fetchAllProducts(page.value, sizePage);
     }
   }, 500);
 });
 onMounted(async () => {
-  const { products } = await fetchAllProducts(page.value, sizePage);
-  searchResults.value = products;
+  await fetchAllProducts(page.value, sizePage);
 });
 </script>
 
@@ -53,18 +42,18 @@ onMounted(async () => {
       />
     </div>
     <div class="select-content">
-      <p v-if="!searchResults?.content || searchResults?.content.length === 0">
+      <p v-if="!products?.content || products?.content.length === 0">
         {{ t("transaction.noResults") }}
       </p>
       <DataView
-        :value="searchResults?.content || []"
+        :value="products?.content || []"
         data-key="id"
-        v-if="searchResults?.content && searchResults?.content.length > 0"
+        v-if="products?.content && products?.content.length > 0"
       >
         <template #list="data">
           <section class="cards-container">
             <TransactionItemProduct
-              v-for="product in searchResults?.content || []"
+              v-for="product in products?.content || []"
               :key="product.id"
               :id="product.id"
               :name="product.name"
@@ -79,10 +68,10 @@ onMounted(async () => {
     </div>
     <article class="select-footer">
       <Paginator
-        v-if="searchResults"
+        v-if="products"
         :first="page * sizePage"
         :rows="sizePage"
-        :total-records="searchResults.totalElements"
+        :total-records="products.totalElements"
         @page="onPageChange"
       ></Paginator>
     </article>

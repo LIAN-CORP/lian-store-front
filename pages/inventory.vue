@@ -2,12 +2,11 @@
 import { Icon } from "@iconify/vue/dist/iconify.js";
 import type { PageState } from "primevue";
 
-const { fetchAllProducts, fetchAllProductsByName } = useGetProduct();
+const { fetchAllProducts, fetchAllProductsByName, products } = useGetProduct();
 const { deleteProduct, loading } = useDeleteProduct();
 const { onConfirmDelete } = useConfirmDialog();
 
 const { t } = useI18n();
-const productList = ref();
 const searchValue = ref("");
 const page = ref<number>(0);
 const sizePage = 14;
@@ -26,23 +25,14 @@ function onDelete(id: string, name: string) {
     message: t("confirm.delete.product.message", { name: name }),
     onAccept: async () => {
       await deleteProduct(id);
-      const { products } = await fetchAllProducts(page.value, sizePage);
-      productList.value = products;
+      await fetchAllProducts(page.value, sizePage);
     },
   });
 }
-async function handleSearch() {
-  const { products } = await fetchAllProductsByName(
-    page.value,
-    sizePage,
-    searchValue.value
-  );
-  productList.value = products;
-}
 
-function onPageChange(event: PageState) {
+async function onPageChange(event: PageState) {
   page.value = event.page;
-  handleSearch();
+  await fetchAllProductsByName(page.value, sizePage, searchValue.value);
 }
 watch(searchValue, async (newVal) => {
   if (debounceTimeOut) clearTimeout(debounceTimeOut);
@@ -50,17 +40,17 @@ watch(searchValue, async (newVal) => {
   debounceTimeOut = setTimeout(async () => {
     if (newVal) {
       page.value = 0;
-      await handleSearch();
+      await fetchAllProductsByName(page.value, sizePage, searchValue.value);
+
+      console.log(products);
     } else {
-      const { products } = await fetchAllProducts(page.value, sizePage);
-      productList.value = products;
+      await fetchAllProducts(page.value, sizePage);
     }
   }, 500);
 });
 
 onMounted(async () => {
-  const { products } = await fetchAllProducts(page.value, sizePage);
-  productList.value = products;
+  await fetchAllProducts(page.value, sizePage);
 });
 </script>
 
@@ -90,7 +80,7 @@ onMounted(async () => {
     </div>
     <article class="inventory-products">
       <InventoryCardProduct
-        v-for="p in productList?.content || []"
+        v-for="p in products?.content || []"
         :id="p.id"
         :name="p.name"
         :image="p.imagePath || ''"
@@ -101,16 +91,16 @@ onMounted(async () => {
         @delete-product="onDelete"
         @edit-product="onEditProduct"
       />
-      <p v-if="(productList?.content || []).length === 0">
+      <p v-if="(products?.content || []).length === 0">
         {{ $t("records.notFound") }}
       </p>
     </article>
     <div class="inventory-footer">
       <Paginator
-        v-if="productList"
+        v-if="products"
         :first="page * sizePage"
         :rows="sizePage"
-        :total-records="productList.totalElements"
+        :total-records="products.totalElements"
         @page="onPageChange"
       />
     </div>

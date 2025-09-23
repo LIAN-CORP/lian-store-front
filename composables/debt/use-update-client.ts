@@ -1,28 +1,30 @@
 import type { UpdateClientRequest } from "~/interfaces/debt/request/update.client.request";
-import type { ErrorResponse } from "~/interfaces/error.response";
 
 export default function useNewClient() {
   const loading = ref<boolean>(false);
-  const url = useGetApiUrl("client", "transactionApi");
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
-  const { errorToast, successToast } = useCreateToast();
+  const { errorToast, infoToast } = useCreateToast();
 
   async function updateClient(client: UpdateClientRequest) {
-    loading.value = true;
-    try {
-      await $fetch(url, {
-        method: "PUT",
-        body: client,
-      });
-      const msg = getSuccessTranslate("response.success.new_client");
-      successToast(msg);
-    } catch (e: any) {
-      const error = e.data as ErrorResponse;
-      const msg = getErrorTranslate(error.type);
+    const {
+      loading: load,
+      error,
+      execute,
+    } = useApiFetch("client", {
+      method: "PUT",
+      body: client,
+    });
+    watch(load, (val) => {
+      loading.value = val;
+    });
+    await execute();
+    if (error.value) {
+      const msg = getErrorTranslate(error.value.type);
       errorToast(msg);
-    } finally {
-      loading.value = false;
+      return;
     }
+    const msg = getSuccessTranslate("response.success.new_client");
+    infoToast(msg);
   }
 
   return {

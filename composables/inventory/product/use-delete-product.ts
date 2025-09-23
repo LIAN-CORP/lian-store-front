@@ -1,26 +1,26 @@
-import type { ErrorResponse } from "~/interfaces/error.response";
-
 export default function useDeleteProduct() {
   const loading = ref<boolean>(false);
   const { errorToast, infoToast } = useCreateToast();
   const { getErrorTranslate, getSuccessTranslate } = useHandleResponse();
   async function deleteProduct(id: string) {
-    const url = useGetApiUrl(`product/${id}`, "stockApi");
-    let msg: string;
-    try {
-      loading.value = true;
-      await $fetch(url, {
-        method: "DELETE",
-      });
-      msg = getSuccessTranslate("response.success.delete_product");
-      infoToast(msg);
-    } catch (e: any) {
-      const error = e as ErrorResponse;
-      msg = getErrorTranslate(error.type);
+    const {
+      error,
+      execute,
+      loading: load,
+    } = useApiFetch(`product/${id}`, {
+      method: "DELETE",
+    });
+    watch(load, (val) => {
+      loading.value = val;
+    });
+    await execute();
+    if (error.value) {
+      const msg = getErrorTranslate(error.value.type);
       errorToast(msg);
-    } finally {
-      loading.value = false;
+      return;
     }
+    const msg = getSuccessTranslate("response.success.delete_product");
+    infoToast(msg);
   }
   return {
     deleteProduct,

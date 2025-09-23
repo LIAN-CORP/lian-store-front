@@ -10,26 +10,26 @@ export default function useGetClients() {
   });
 
   async function getClient(name?: string) {
-    const url = useGetApiUrl("client", "transactionApi");
-    try {
-      result.loading = true;
-      const data = await $fetch<getListClient[]>(url, {
-        query: {
-          name: name,
-        },
-      });
-
-      result.clients = data.map((c) => ({
-        id: c.id,
-        name: c.name,
-        phone: c.phone,
-        disabled: c.name == "Generic Client",
-      }));
-    } catch (e: any) {
-      result.clients = null;
-    } finally {
-      result.loading = false;
-    }
+    const {
+      data,
+      execute,
+      loading: load,
+    } = useApiFetch<getListClient[]>("client", {
+      query: {
+        name: name,
+      },
+    });
+    watch(load, (val) => {
+      result.loading = val;
+    });
+    await execute();
+    if (!data.value) return;
+    result.clients = data.value?.map((c) => ({
+      id: c.id,
+      name: c.name,
+      phone: c.phone,
+      disabled: c.name == "Generic Client",
+    }));
     return result;
   }
   return {

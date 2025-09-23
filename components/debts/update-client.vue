@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { NewClientRequest } from "~/interfaces/debt/request/new.client.request";
 import {
   NewClientScheme,
   type NewClientInferType,
@@ -8,6 +7,7 @@ import { GENERIC_CLIENT } from "../../constants/transaction.constant";
 import type { UpdateClientRequest } from "~/interfaces/debt/request/update.client.request";
 
 const { t } = useI18n();
+const { hasChanges } = useFormChangeHandle();
 const emit = defineEmits(["created"]);
 const scheme = NewClientScheme(t);
 const props = defineProps<{
@@ -22,11 +22,13 @@ const initialValues = {
   clientName: props.name,
   phone: props.phone,
 };
-const { handleSubmit, resetForm } = useForm({
+const { handleSubmit, resetForm, values, meta } = useForm({
   name: "updateClient",
   validationSchema: toTypedSchema(scheme),
   initialValues: initialValues,
 });
+
+const send = hasChanges({ ...initialValues }, values, meta);
 
 const onSubmit = handleSubmit(async (values: NewClientInferType) => {
   const newClient: UpdateClientRequest = {
@@ -62,7 +64,12 @@ const onSubmit = handleSubmit(async (values: NewClientInferType) => {
           placeholder="+00-000-0000-000"
           autocomplete="phone"
         />
-        <Button type="submit" :label="$t('button.save')" severity="success" />
+        <Button
+          :disabled="!send"
+          type="submit"
+          :label="$t('button.save')"
+          severity="success"
+        />
       </form>
     </div>
   </section>

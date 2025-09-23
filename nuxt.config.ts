@@ -5,12 +5,10 @@ import { process } from "std-env";
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
+  ssr: false,
   runtimeConfig: {
     public: {
-      stockApi: process.env.PRODUCT_MICROSERVICE_URL,
-      transactionApi: process.env.TRANSACTION_MICROSERVICE_URL,
-      paymentApi: process.env.PAYMENT_MICROSERVICE_URL,
-      userApi: process.env.USER_MICROSERVICE_URL,
+      apiGateway: process.env.API_GATEWAY,
     },
   },
   modules: ["@primevue/nuxt-module", "@nuxtjs/i18n", "@vee-validate/nuxt"],
@@ -96,6 +94,7 @@ export default defineNuxtConfig({
         "FormField",
         "ProgressSpinner",
         "InputMask",
+        "Password",
       ],
     },
     options: {

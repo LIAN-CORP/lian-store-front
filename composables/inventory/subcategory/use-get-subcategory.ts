@@ -1,42 +1,39 @@
-import type { ErrorResponse } from "~/interfaces/error.response";
 import type { GetListSubcategories } from "~/interfaces/inventory/subcategory/response/get.list.subcategories";
 import type { GetSubcategory } from "~/interfaces/inventory/subcategory/response/get.subcategory";
 import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface";
 
 export default function useGetSubcategory() {
-  const subcategories = ref();
+  const subcategories = ref<paginatedResponse<GetListSubcategories> | null>(
+    null
+  );
   const loading = ref(false);
   const { errorToast } = useCreateToast();
   const { getErrorTranslate } = useHandleResponse();
 
   async function fetch(id: string) {
-    loading.value = true;
-    try {
-      const url = useGetApiUrl(`subcategory/parent/${id}`, "stockApi");
-      const data = await $fetch<paginatedResponse<GetListSubcategories>>(url, {
-        query: {
-          page: 0,
-          size: 100,
-          isAsc: true,
-        },
-      });
-      subcategories.value = data?.content ?? [];
-    } catch (e: any) {
-      subcategories.value = [];
-    } finally {
-      loading.value = false;
-    }
+    const { data, execute } = useApiFetch<
+      paginatedResponse<GetListSubcategories>
+    >(`subcategory/parent/${id}`, {
+      query: {
+        page: 0,
+        size: 100,
+        isAsc: true,
+      },
+    });
+    await execute();
+    subcategories.value = data.value ?? null;
   }
 
   async function getSubcategoryById(subcategoryId: string) {
-    const url = useGetApiUrl(`subcategory/${subcategoryId}`, "stockApi");
-    const result = await useFetch<GetSubcategory>(url);
-    if (result.error.value) {
-      const error = result.error.value.data as ErrorResponse;
-      const msg = getErrorTranslate(error.type);
+    const { data, execute, error } = useApiFetch<GetSubcategory>(
+      `subcategory/${subcategoryId}`
+    );
+    await execute();
+    if (error.value) {
+      const msg = getErrorTranslate(error.value.type);
       errorToast(msg);
     }
-    return result;
+    return { data };
   }
 
   return {

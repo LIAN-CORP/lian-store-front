@@ -14,7 +14,7 @@ const { modalData, modalState, open, close, getComponent } =
   useInventoryModalHandler();
 const { update, loading } = useUpdateProduct();
 const { subcategories, refresh } = useGetSubcategory();
-const { categories, categoryRefresh } = useGetCategory();
+const { categories, fetchAllCategories } = useGetCategory();
 const scheme = updateProductScheme(t);
 const initialValues = {
   product: props.product.name,
@@ -32,9 +32,9 @@ const { handleSubmit, resetField, values, meta } = useForm({
 });
 
 const refreshActions: Record<string, () => void> = {
-  NewCategory: () => categoryRefresh(),
-  EditCategory: () => {
-    categoryRefresh();
+  NewCategory: async () => await fetchAllCategories(),
+  EditCategory: async () => {
+    await fetchAllCategories();
     close();
   },
   NewSubcategory: () => refresh(values.category!),
@@ -108,8 +108,9 @@ async function onCancel() {
   await navigateTo("/inventory");
 }
 
-onMounted(() => {
-  refresh(values.category!);
+onMounted(async () => {
+  await refresh(values.category!);
+  await fetchAllCategories();
 });
 </script>
 
@@ -165,7 +166,7 @@ onMounted(() => {
             name="category"
             button1-icon="grommet-icons:edit"
             :label="$t('inventory.select.categoryPlaceholder')"
-            :prop-options="categories"
+            :prop-options="categories?.content"
             :new-action-label="$t('inventory.newCategoryButton')"
             @click-new="onNewCategory"
             @on-click1="onUpdateCategory"
@@ -177,7 +178,7 @@ onMounted(() => {
             :disabled-button1="!values.subcategoryId"
             :label="$t('inventory.select.subcategoryPlaceholder')"
             :disabled="!values.category"
-            :prop-options="subcategories"
+            :prop-options="subcategories?.content"
             :new-action-label="$t('inventory.newSubcategoryButton')"
             @click-new="onNewSubcategory"
             @on-click1="onUpdateSubcategory"
