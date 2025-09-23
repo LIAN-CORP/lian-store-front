@@ -15,11 +15,16 @@ export default function useLogin() {
         maxAge: 60 * 58,
         sameSite: "strict",
       });
+      const role = useCookie("role", {
+        maxAge: 60 * 58,
+        sameSite: "strict",
+      });
       const result = await $fetch<LoginResponse>(url, {
         method: "POST",
         body: auth,
       });
       token.value = result.access_token;
+      role.value = result.role;
       await navigateTo("/inventory");
     } catch (e: any) {
       const error = e.data as ErrorResponse;

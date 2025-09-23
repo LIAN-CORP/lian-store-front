@@ -3,4 +3,5 @@ export interface getListDebtResponse {
   remainingAmount: number;
   client: string;
   clientId: string;
+  //    UUID transactionId
 }

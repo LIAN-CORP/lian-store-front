@@ -50,7 +50,9 @@ const items = computed(() => [
     type: "logout",
     command: () => {
       const token = useCookie("access_token");
+      const role = useCookie("role");
       token.value = null;
+      role.value = null;
     },
   },
 ]);
