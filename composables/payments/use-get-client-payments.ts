@@ -4,15 +4,16 @@ export default function useGetClientPayments() {
   const payments = ref<GetPayment[] | null>(null);
   const loading = ref<boolean>(false);
   async function GetPayment(client_id: string) {
-    const url = useGetApiUrl(`payment/debt/${client_id}`);
-    try {
-      loading.value = true;
-      payments.value = await $fetch<GetPayment[]>(url);
-    } catch (e: any) {
-      payments.value = null;
-    } finally {
-      loading.value = false;
-    }
+    const {
+      loading: load,
+      data,
+      execute,
+    } = useApiFetch<GetPayment[]>(`payment/debt/${client_id}`);
+    watch(load, (val) => {
+      loading.value = val;
+    });
+    await execute();
+    payments.value = data.value ?? null;
   }
   return {
     payments,

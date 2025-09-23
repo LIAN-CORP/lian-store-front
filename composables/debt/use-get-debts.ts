@@ -1,15 +1,15 @@
-import type { getListDebtResponse } from "~/interfaces/debt/response/get.list.debt.response";
+import type { GetListDebtResponse } from "~/interfaces/debt/response/get.list.debt.response";
 import type { paginatedResponse } from "~/interfaces/paginatedResponse.interface";
 
 export default function useGetDebt() {
-  const debts = ref<paginatedResponse<getListDebtResponse> | null>(null);
+  const debts = ref<paginatedResponse<GetListDebtResponse> | null>(null);
   const loading = ref<boolean>(false);
   async function getDebts(page: number, size: number) {
     const {
       data,
       execute,
       loading: load,
-    } = useApiFetch<paginatedResponse<getListDebtResponse>>("debt/active", {
+    } = useApiFetch<paginatedResponse<GetListDebtResponse>>("debt/active", {
       query: {
         page: page,
         size: size,

@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import type { GetListDebtResponse } from "~/interfaces/debt/response/get.list.debt.response";
+
 const props = defineProps<{
-  client: string;
+  data: GetListDebtResponse;
 }>();
 
 const { GetPayment, loading, payments } = useGetClientPayments();
 onMounted(() => {
-  GetPayment(props.client);
+  GetPayment(props.data.id);
 });
 </script>
 
