@@ -6,6 +6,8 @@
       "CLIENT_PHONE_ALREADY_EXISTS": "this phone number is already in use",
       "ILLEGAL_ARGUMENT": "The submitted data is invalid",
       "SERVER_WEB_INPUT_EXCEPTION": "The submitted data is invalid",
+      "EMAIL_IS_ALREADY_REGISTERED_EXCEPTION": "Email is already registered",
+      "INVALID_CREDENTIALS": "Email or password is incorrect",
       "UNKNOWN_ERROR": "An unexpected error occurred"
     },
     "success": {

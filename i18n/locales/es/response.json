@@ -6,6 +6,8 @@
       "CLIENT_PHONE_ALREADY_EXISTS": "El número de teléfono ya se encuentra en uso",
       "ILLEGAL_ARGUMENT": "Los datos enviados no son válidos",
       "SERVER_WEB_INPUT_EXCEPTION": "Los datos enviados no son válidos",
+      "EMAIL_REGISTERED": "El correo electrónico ya esta registrado",
+      "INVALID_CREDENTIALS": "El correo o contraseña no son correctas",
       "UNKNOWN_ERROR": "Ha ocurrido un error inesperado"
     },
     "success": {
