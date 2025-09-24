@@ -4,6 +4,7 @@ import {
   RegisterScheme,
   type RegisterInferType,
 } from "~/schemas/register.scheme";
+const emit = defineEmits(["showLogin"]);
 const { onRegister } = useRegister();
 const { t } = useI18n();
 const scheme = RegisterScheme(t);
@@ -22,6 +23,7 @@ const onSubmit = handleSubmit(async (values: RegisterInferType) => {
   };
   await onRegister(register);
   resetForm();
+  emit("showLogin", "login");
 });
 </script>
 

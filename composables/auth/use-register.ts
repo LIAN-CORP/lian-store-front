@@ -2,6 +2,8 @@ import type { RegisterRequest } from "~/interfaces/auth/request/register.request
 import type { ErrorResponse } from "~/interfaces/error.response";
 
 export default function useRegister() {
+  const { successToast } = useCreateToast();
+  const { getSuccessTranslate } = useHandleResponse();
   const loading = ref<boolean>(false);
   const url = useGetApiUrl("auth/register");
   const { getErrorTranslate } = useHandleResponse();
@@ -14,7 +16,8 @@ export default function useRegister() {
         method: "POST",
         body: auth,
       });
-      console.log("se creó");
+      const msg = getSuccessTranslate("response.success.new_user");
+      successToast(msg);
     } catch (e: any) {
       const error = e.data as ErrorResponse;
       const msg = getErrorTranslate(error.type);

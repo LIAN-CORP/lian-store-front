@@ -17,6 +17,7 @@
       "new_client" :"Client created successfully!",
       "new_payment" :"Payment created successfully!",
       "new_transaction": "Transaction created successfully!",
+      "new_user": "User created successfully!",
       "update_category": "Category updated successfully",
       "update_subcategory": "Subcategory updated successfully",
       "update_product": "Product updated successfully!",

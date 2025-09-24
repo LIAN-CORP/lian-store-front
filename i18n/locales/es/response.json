@@ -17,6 +17,7 @@
       "new_client" :"Cliente creado exitosamente",
       "new_payment": "Pago creado exitosamente",
       "new_transaction": "Transacción creada exitosamente",
+      "new_user": "El usuario se ha creado exitosamente",
       "update_category": "Categoría actualizada exitosamente",
       "update_subcategory": "Subcategoría actualizada exitosamente",
       "update_product": "Producto actualizado exitosamente",
