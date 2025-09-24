@@ -9,6 +9,8 @@ const props = defineProps<{
   product: GetProduct;
 }>();
 const { t } = useI18n();
+
+const locale = useLocalePath();
 const { hasChanges } = useFormChangeHandle();
 const { modalData, modalState, open, close, getComponent } =
   useInventoryModalHandler();
@@ -101,11 +103,11 @@ const onSubmit = handleSubmit(async (values: updatedProductInferScheme) => {
     subcategoryId: values.subcategoryId,
   };
   await update(productUpdated);
-  await navigateTo("/inventory");
+  await onCancel();
 });
 
 async function onCancel() {
-  await navigateTo("/inventory");
+  await navigateTo(locale("/inventory"));
 }
 
 onMounted(async () => {

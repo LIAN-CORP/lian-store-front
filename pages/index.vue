@@ -2,17 +2,12 @@
 definePageMeta({
   layout: "blank",
 });
-const attributionModal = ref(false);
-const { locale } = useI18n();
 const activeLanguage = ref();
 const languages = ref([
   { unicode: "🇨🇴", code: "es" },
   { unicode: "🇬🇧", code: "en" },
 ]);
-
-function onShowAttributionModal() {
-  attributionModal.value = true;
-}
+const { locale } = useI18n();
 
 const activeForm = ref("login");
 
@@ -31,6 +26,24 @@ function onChangeForm(name: string) {
           v-if="activeForm === 'register'"
           @showLogin="onChangeForm"
         />
+      </div>
+      <div class="select" v-if="activeForm !== 'register'">
+        <Select
+          :default-value="locale"
+          size="small"
+          v-model="activeLanguage"
+          :options="languages"
+          option-value="code"
+          option-label="unicode"
+          @change="$i18n.setLocale(activeLanguage)"
+        >
+          <template #option="slotProps">
+            <div class="options-label">
+              <span>{{ slotProps.option.unicode }}</span>
+              <span>{{ slotProps.option.code.toUpperCase() }}</span>
+            </div>
+          </template>
+        </Select>
       </div>
     </div>
     <p class="credits">
@@ -54,6 +67,11 @@ function onChangeForm(name: string) {
     text-align: center;
     margin-top: auto;
     opacity: 0.6;
+  }
+  .select {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .auth {
     display: flex;

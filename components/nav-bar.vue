@@ -4,7 +4,7 @@ import { Icon } from "@iconify/vue";
 const activeLanguage = ref();
 const router = useRouter();
 const route = useRoute();
-const { t, locale } = useI18n();
+const { t, setLocale, locale } = useI18n();
 const localePath = useLocalePath();
 function isActive(itemRoute: string) {
   if (!itemRoute) return false;
@@ -101,7 +101,7 @@ const languages = ref([
           :options="languages"
           option-value="code"
           option-label="unicode"
-          @change="$i18n.setLocale(activeLanguage)"
+          @change="setLocale(activeLanguage)"
         >
           <template #option="slotProps">
             <div class="options-label">

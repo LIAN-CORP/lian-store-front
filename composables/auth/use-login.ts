@@ -7,7 +7,7 @@ export default function useLogin() {
   const url = useGetApiUrl("auth/login");
   const { getErrorTranslate } = useHandleResponse();
   const { errorToast } = useCreateToast();
-
+  const localePath = useLocalePath();
   async function login(auth: LoginRequest) {
     loading.value = true;
     try {
@@ -25,7 +25,7 @@ export default function useLogin() {
       });
       token.value = result.access_token;
       role.value = result.role;
-      await navigateTo("/inventory");
+      await navigateTo(localePath("/inventory"));
     } catch (e: any) {
       const error = e.data as ErrorResponse;
       const msg = getErrorTranslate(error.type);

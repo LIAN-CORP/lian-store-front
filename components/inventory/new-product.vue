@@ -7,6 +7,7 @@ import {
 const { modalState, modalData, open, close, getComponent } =
   useInventoryModalHandler();
 const { t } = useI18n();
+const locale = useLocalePath();
 const { deleteSubcategory, loading: loadDeleteSub } = useDeleteSubcategory();
 const { deleteCategory, loading: loadDeleteCat } = useDeleteCategory();
 const { onConfirmDelete } = useConfirmDialog();
@@ -106,7 +107,7 @@ watch(
 );
 
 async function onCancel() {
-  await navigateTo("/inventory");
+  await navigateTo(locale("/inventory"));
 }
 
 const onSubmit = handleSubmit(async (values: NewProductInferType) => {
