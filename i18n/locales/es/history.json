@@ -5,11 +5,13 @@
     "clientNameLabel": "Cliente",
     "clientPhoneLabel": "Teléfono",
     "typeMovement": "Movimiento",
+    "date": "Fecha",
     "debtBadge": "Saldo Pendiente",
     "modalTitle": "Detalles",
     "table": {
       "resume": {
         "date": "Fecha",
+        "client": "Cliente",
         "invoice": "Factura",
         "type": "Tipo",
         "actions": "Acciones"

@@ -25,7 +25,18 @@ onMounted(() => {
 <template>
   <section class="invoice">
     <article class="invoice-header">
-      <div class="invoice-separator">
+      <div class="separator">
+        <BadgeDisplay
+          :label="$t('history.date')"
+          :value="formatDate(transaction?.transactionDate!)"
+        />
+
+        <BadgeDisplay
+          :label="$t('history.typeMovement')"
+          :value="transaction?.typeMovement!"
+        />
+      </div>
+      <div class="separator">
         <BadgeDisplay
           :label="$t('history.clientNameLabel')"
           :value="transaction?.client.name!"
@@ -33,17 +44,6 @@ onMounted(() => {
         <BadgeDisplay
           :label="$t('history.clientPhoneLabel')"
           :value="formatPhone(transaction?.client.phone!)"
-        />
-      </div>
-
-      <div class="invoice-separator">
-        <BadgeDisplay
-          :label="$t('history.typeMovement')"
-          :value="transaction?.typeMovement!"
-        />
-        <BadgeDisplay
-          :label="$t('history.typeMovement')"
-          :value="formatDate(transaction?.transactionDate!)"
         />
       </div>
     </article>
@@ -66,7 +66,7 @@ onMounted(() => {
       <div class="total-badge-container">
         <BadgeDisplay
           label="Total:"
-          :value="totalSum"
+          :value="`$${formatAmount(totalSum)}`"
           backgroundColor="#172455"
           color="#ffffff"
           borderColor="#172455"
@@ -80,15 +80,12 @@ onMounted(() => {
 <style lang="scss" scoped>
 .invoice {
   &-header {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     justify-content: center;
-    .invoice-separator {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
+    .separator {
+      display: grid;
+      gap: 0.5em;
     }
   }
   &-body {
@@ -103,9 +100,10 @@ onMounted(() => {
     }
   }
 }
-@media (width < 800px) {
+@media (max-width: 900px) {
   .invoice {
     &-header {
+      flex-direction: column;
       gap: 0.5rem;
       .invoice-separator {
         gap: 0.5rem;
@@ -113,10 +111,9 @@ onMounted(() => {
     }
   }
 }
-@media (max-width: 600px) {
-  .invoice-separator {
-    gap: 0.5rem;
-    flex-direction: column;
+@media (max-width: 400px) {
+  .invoice-header {
+    grid-template-columns: auto;
   }
 }
 </style>

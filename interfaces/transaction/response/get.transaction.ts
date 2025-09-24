@@ -1,7 +1,7 @@
 export interface GetTransaction {
   id: string;
   typeMovement: string;
-  transactionDate: number[];
+  transactionDate: string;
   client: {
     name: string;
     phone: string;

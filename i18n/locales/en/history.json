@@ -5,19 +5,16 @@
     "clientNameLabel": "Client",
     "clientPhoneLabel": "Phone",
     "typeMovement": "Movement",
+    "date": "Date",
     "debtBadge": "Amount due",
     "modalTitle": "Details",
     "table": {
       "resume": {
         "date": "Date",
+        "client": "Client",
         "invoice": "Invoice",
         "type": "Type",
         "actions": "Actions"
-      },
-      "payment": {
-        "receipt": "Receipt number",
-        "method": "Method",
-        "amount": "Amount"
       },
       "product": {
         "product": "Product",

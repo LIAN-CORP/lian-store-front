@@ -117,7 +117,7 @@ onMounted(async () => {
         :value="transactions?.content ?? []"
         :loading="loading"
         :rows="size"
-        :total-records="transactions?.totalPage ?? 0"
+        :total-records="transactions?.totalElements ?? 0"
         @page="onPageChange"
       >
         <Column
@@ -128,6 +128,10 @@ onMounted(async () => {
             {{ formatDate(data.transactionDate) }}
           </template>
         </Column>
+        <Column
+          field="client.name"
+          :header="$t('history.table.resume.client')"
+        />
         <Column field="id" :header="$t('history.table.resume.invoice')" />
         <Column
           field="typeMovement"

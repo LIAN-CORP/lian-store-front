@@ -5,8 +5,8 @@ export function formatAmount(amount: number): string {
   });
 }
 
-export function formatDate(arr: number[]) {
-  return new Date(arr[0], arr[1] - 1, arr[2]).toLocaleDateString("es-CO");
+export function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString("es-CO");
 }
 
 export function formatDateTime(date: Date | string): string {

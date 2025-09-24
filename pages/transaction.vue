@@ -98,20 +98,16 @@ function onDisabledClient(): boolean {
   return true;
 }
 
-const getPrice = computed(() => {
-  return (product: any) => {
-    return transactionType.value === "COMPRA"
-      ? product.priceBuy
-      : product.price;
-  };
-});
+function getPrice(product: any) {
+  return transactionType.value === "COMPRA" ? product.priceBuy : product.price;
+}
 
 const totalSum = computed(() => {
   if (cart.value == null) {
     return 0;
   }
   return cart.value.reduce((sum, product) => {
-    return sum + getPrice.value(product) * product.quantity;
+    return sum + getPrice(product) * product.quantity;
   }, 0);
 });
 
