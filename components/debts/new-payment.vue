@@ -43,6 +43,8 @@ const onSubmit = handleSubmit(async (values: NewPaymentInferType) => {
       <CustomNumberField
         id="amountID"
         name="amount"
+        currency="COP"
+        mode="currency"
         :max="amount"
         :label="$t('history.form.amount')"
         :options="{ prefix: '$', min: 0 }"

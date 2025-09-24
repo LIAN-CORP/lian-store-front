@@ -8,6 +8,7 @@
     "max_length": "The maximum length is {size} characters",
     "min_value": "The minimum value is {min}",
     "max_value": "The maximum value is {max}",
+    "valid_price": "Price must be a multiple of 50",
     "phone_incomplete": "The phone number is incomplete",
     "email_error": "Invalid email address",
     "must_be_18": "You must be at least 18 years old.",

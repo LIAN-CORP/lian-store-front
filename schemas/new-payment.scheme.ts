@@ -7,6 +7,9 @@ export const NewPaymentScheme = (t: any) => {
       })
       .min(50, {
         message: t("formError.min_value", { min: 50 }),
+      })
+      .refine((val) => val % 50 == 0, {
+        message: t("formError.valid_price"),
       }),
     method: z
       .string({

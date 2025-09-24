@@ -152,6 +152,8 @@ onMounted(async () => {
           <CustomNumberField
             :label="$t('inventory.newProduct.salePrice')"
             id="idPriceSale"
+            currency="COP"
+            mode="currency"
             name="priceSale"
             :options="{ prefix: '$', min: 0 }"
             input-color="white"
@@ -160,6 +162,8 @@ onMounted(async () => {
             :label="$t('inventory.newProduct.buyingPrice')"
             id="idPriceBuying"
             name="priceBuying"
+            currency="COP"
+            mode="currency"
             :options="{ prefix: '$', min: 0 }"
             input-color="white"
           />

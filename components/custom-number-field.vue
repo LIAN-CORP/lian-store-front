@@ -17,12 +17,20 @@ const props = withDefaults(
     max?: number;
     step?: number;
     inputColor?: string;
+    minFractionDigits?: number;
+    maxFractionDigits?: number;
+    locale?: string;
+    mode?: string;
+    currency?: string;
   }>(),
   {
     fluid: true,
     min: 0,
     step: 1,
     inputColor: "#eef2ff",
+    minFractionDigits: 0,
+    maxFractionDigits: 0,
+    locale: "es-CO",
   }
 );
 const { value, errorMessage } = useField<number>(() => props.name);
@@ -40,6 +48,11 @@ function onInput(event: any) {
       }"
     >
       <InputNumber
+        :mode="mode"
+        :currency="currency"
+        :locale="locale"
+        :minFractionDigits="minFractionDigits"
+        :maxFractionDigits="maxFractionDigits"
         :inputStyle="{ backgroundColor: inputColor }"
         :inputId="props.id"
         :name="props.name"

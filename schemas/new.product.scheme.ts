@@ -28,6 +28,9 @@ export const NewProductScheme = (t: any) => {
       })
       .min(50, {
         message: t("formError.min_value", { min: 50 }),
+      })
+      .refine((val) => val % 50 == 0, {
+        message: t("formError.valid_price"),
       }),
     priceBuying: z
       .number({
@@ -35,6 +38,9 @@ export const NewProductScheme = (t: any) => {
       })
       .min(50, {
         message: t("formError.min_value", { min: 50 }),
+      })
+      .refine((val) => val % 50 == 0, {
+        message: t("formError.valid_price"),
       }),
     stock: z
       .number({
