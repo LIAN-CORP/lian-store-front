@@ -73,15 +73,6 @@ function deleteRow(data: any) {
   onDeleteState(data);
 }
 
-const totalSum = computed(() => {
-  if (cart.value == null) {
-    return 0;
-  }
-  return cart.value.reduce((sum, product) => {
-    return sum + product.price * product.quantity;
-  }, 0);
-});
-
 async function submitTransaction() {
   let request = null;
   if (transactionType.value != "CREDITO") {
@@ -97,7 +88,6 @@ async function submitTransaction() {
     selectedClient.value!,
     paymentMethod.value!
   );
-  console.log(request);
   await saveTransaction(request);
   onClearControls();
 }
@@ -107,6 +97,23 @@ function onDisabledClient(): boolean {
   selectedClient.value = GENERIC_CLIENT;
   return true;
 }
+
+const getPrice = computed(() => {
+  return (product: any) => {
+    return transactionType.value === "COMPRA"
+      ? product.priceBuy
+      : product.price;
+  };
+});
+
+const totalSum = computed(() => {
+  if (cart.value == null) {
+    return 0;
+  }
+  return cart.value.reduce((sum, product) => {
+    return sum + getPrice.value(product) * product.quantity;
+  }, 0);
+});
 
 onMounted(async () => {
   onClearState();
@@ -163,10 +170,14 @@ onMounted(async () => {
             />
           </template>
         </Column>
-        <Column field="price" :header="$t('transaction.table.price')" />
+        <Column :header="$t('transaction.table.price')">
+          <template #body="{ data }">
+            ${{ formatAmount(getPrice(data)) }}
+          </template>
+        </Column>
         <Column field="total" :header="$t('transaction.table.total')">
           <template #body="{ data }">
-            {{ data.price * data.quantity }}
+            ${{ formatAmount(getPrice(data) * data.quantity) }}
           </template>
         </Column>
         <Column class="w-24 !text-end">
@@ -195,7 +206,7 @@ onMounted(async () => {
       <BadgeDisplay
         class="separator-badge"
         label="Total:"
-        :value="`$${totalSum}`"
+        :value="`$ ${formatAmount(totalSum)}`"
         color="#000000"
         withContainer
         radius="10px"

@@ -7,6 +7,7 @@ defineProps<{
   name: string;
   category: string;
   price: number;
+  priceBuy?: number;
   stock: number;
 }>();
 </script>
@@ -22,6 +23,7 @@ defineProps<{
           product: name,
           price: price,
           quantity: 1,
+          priceBuy: priceBuy,
           stock: stock,
         }"
       />
@@ -31,7 +33,11 @@ defineProps<{
       <div class="item-content">
         <p class="item-content-muted">{{ name }}</p>
         <p class="item-content-muted">{{ category }}</p>
-        <p class="item-content-strong">${{ price }}</p>
+        <p class="item-content-strong buy">
+          ${{ formatAmount(priceBuy ?? 0) }}
+        </p>
+        <p class="item-content-strong sell">${{ formatAmount(price ?? 0) }}</p>
+
         <p class="item-content-strong">{{ stock }}u/c</p>
       </div>
     </div>
@@ -57,7 +63,12 @@ defineProps<{
     border-radius: 5px 0 0 5px;
     cursor: pointer;
   }
-
+  .buy {
+    color: #ef4444;
+  }
+  .sell {
+    color: #22c55e;
+  }
   &-container {
     padding: 0.5rem;
     display: grid;
@@ -81,7 +92,8 @@ defineProps<{
       text-align: center;
       gap: 0.2rem;
       &-muted {
-        color: #474747;
+        font-weight: 600;
+        color: #747474;
       }
       &-strong {
         font-weight: 600;

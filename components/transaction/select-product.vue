@@ -58,6 +58,7 @@ onMounted(async () => {
               :id="product.id"
               :name="product.name"
               :image="product.imagePath"
+              :price-buy="product.priceBuy"
               :category="product.category"
               :price="product.priceSell"
               :stock="product.stock"
