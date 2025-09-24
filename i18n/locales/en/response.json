@@ -14,12 +14,15 @@
       "new_product": "Product created successfully!",
       "new_client" :"Client created successfully!",
       "new_payment" :"Payment created successfully!",
+      "new_transaction": "Transaction created successfully!",
       "update_category": "Category updated successfully",
       "update_subcategory": "Subcategory updated successfully",
       "update_product": "Product updated successfully!",
+      "update_client" :"Client updated successfully",
       "delete_category": "Category deleted successfully",
       "delete_subcategory": "Subcategory deleted successfully",
-      "delete_product": "Product deleted successfully!"
+      "delete_product": "Product deleted successfully!",
+      "delete_transaction": "Transaction deleted successfully!"
     }
   }
 }

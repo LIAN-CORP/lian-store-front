@@ -15,6 +15,7 @@ const props = defineProps<{
   button2Severity?: string;
   newActionLabel?: string;
   optionValue?: string;
+  optionLabel?: string | ((option: T) => string);
 }>();
 const emit = defineEmits(["onClick1", "onClick2", "clickNew"]);
 const { value, errorMessage, resetField } = useField<string>(() => props.name);
@@ -48,7 +49,7 @@ function onClickNew() {
       <Select
         :name="name"
         :optionValue="optionValue"
-        optionLabel="name"
+        :optionLabel="optionLabel"
         :placeholder="label"
         v-model="value"
         :options="propOptions"

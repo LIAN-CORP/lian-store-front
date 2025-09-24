@@ -1,25 +1,31 @@
 <script setup lang="ts">
 import type { PageState } from "primevue";
+import type { GetListDebtResponse } from "~/interfaces/debt/response/get.list.debt.response";
 
 const { debts, getDebts, loading } = useGetDebts();
 const page = ref(0);
 const sizePage = 20;
 
-const client = ref<string>();
+const debt_data = ref<GetListDebtResponse>();
 
 const searchValue = ref("");
 const showResume = ref(false);
-function onShowResume(id: string) {
-  if (!id) return;
-  client.value = id;
+function onShowResume(debt: GetListDebtResponse) {
+  if (!debt) return;
+  debt_data.value = debt;
   showResume.value = !showResume.value;
+}
+
+async function onNewPayment() {
+  await getDebts(page.value, sizePage);
+  showResume.value = false;
 }
 
 function onPageChange(event: PageState) {
   page.value = event.page;
 }
-onMounted(() => {
-  getDebts(page.value, sizePage);
+onMounted(async () => {
+  await getDebts(page.value, sizePage);
 });
 </script>
 <template>
@@ -40,10 +46,7 @@ onMounted(() => {
     <article v-if="debts?.content != null" class="debt-clients">
       <DebtsUserCard
         v-for="debt in debts?.content"
-        :debt="debt.id"
-        :client="debt.clientId"
-        :name="debt.client"
-        :amount="debt.remainingAmount"
+        :debt="debt"
         @search-debt="onShowResume"
       />
     </article>
@@ -64,7 +67,7 @@ onMounted(() => {
     :style="{ width: '90vw', maxWidth: 'none' }"
   >
     <template #default>
-      <DebtsPaymentsCollection :client="client!" />
+      <DebtsPaymentsCollection :data="debt_data!" @created="onNewPayment" />
     </template>
   </Dialog>
 </template>

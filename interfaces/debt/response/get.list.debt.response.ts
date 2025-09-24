@@ -1,7 +1,7 @@
-export interface getListDebtResponse {
+export interface GetListDebtResponse {
   id: string;
   remainingAmount: number;
   client: string;
   clientId: string;
-  //    UUID transactionId
+  transactionId: string;
 }
