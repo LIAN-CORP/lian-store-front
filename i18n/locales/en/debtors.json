@@ -2,11 +2,17 @@
   "debtors": {
     "search": "Search debtor",
     "details": "resume",
-    "modalTitle": "Debts",
+    "modalTitle": "Payments",
+    "remaining": "Amount remaining",
     "detailsTable": {
       "date": "Date",
       "payment": "Payment",
       "amount": "Amount paid",
+      "method": "Payment Method"
+    },
+    "form": {
+      "title": "New Payment",
+      "amount": "Amount",
       "method": "Payment Method"
     }
   }

@@ -23,11 +23,6 @@
         "total": "Total"
       }
     },
-    "form": {
-      "title": "New Payment",
-      "amount": "Amount",
-      "method": "Payment Method"
-    },
     "select": {
       "sales": "Sales",
       "purchases": "Purchases",

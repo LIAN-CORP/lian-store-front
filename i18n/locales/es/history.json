@@ -28,11 +28,6 @@
         "total": "Total"
       }
     },
-    "form": {
-      "title": "Nuevo Pago",
-      "amount": "Monto",
-      "method": "Método de pago"
-    },
     "select": {
       "sales": "Ventas",
       "purchases": "Compras",

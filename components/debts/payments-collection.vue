@@ -25,7 +25,11 @@ onMounted(() => {
         </template>
       </Column>
       <Column field="id" :header="$t('debtors.detailsTable.payment')" />
-      <Column field="amount" :header="$t('debtors.detailsTable.amount')" />
+      <Column field="amount" :header="$t('debtors.detailsTable.amount')">
+        <template #body="{ data }">
+          {{ `$${formatAmount(data.amount)}` }}
+        </template>
+      </Column>
       <Column
         field="paymentMethod"
         :header="$t('debtors.detailsTable.method')"

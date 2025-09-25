@@ -49,7 +49,7 @@ onMounted(async () => {
         :placeholder="$t('debtors.search')"
       />
     </article>
-    <p v-if="!debts?.content" class="notFound">
+    <p v-if="!debts?.content && !loading" class="notFound">
       {{ $t("records.notFound") }}
     </p>
     <ProgressSpinner v-if="loading" animation-duration="0.7" stroke-width="5" />

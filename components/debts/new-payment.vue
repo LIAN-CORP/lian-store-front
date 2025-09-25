@@ -38,15 +38,20 @@ const onSubmit = handleSubmit(async (values: NewPaymentInferType) => {
 <template>
   <LoadingScreen :state="loading" in-modal />
   <div class="container">
+    <BadgeDisplay
+      v-if="!loading"
+      :label="$t('debtors.remaining')"
+      :value="`$${formatAmount(amount)}`"
+    />
     <form v-if="!loading" @submit="onSubmit" class="new-payment">
-      <h3>{{ $t("history.form.title") }}</h3>
+      <h3>{{ $t("debtors.form.title") }}</h3>
       <CustomNumberField
         id="amountID"
         name="amount"
         currency="COP"
         mode="currency"
         :max="amount"
-        :label="$t('history.form.amount')"
+        :label="$t('debtors.form.amount')"
         :options="{ prefix: '$', min: 0 }"
       />
       <CustomSelectInput
@@ -55,7 +60,7 @@ const onSubmit = handleSubmit(async (values: NewPaymentInferType) => {
         option-value="code"
         id="methodID"
         name="method"
-        :label="$t('history.form.method')"
+        :label="$t('debtors.form.method')"
       />
       <Button type="submit" :label="$t('button.save')" severity="success" />
     </form>
@@ -65,6 +70,7 @@ const onSubmit = handleSubmit(async (values: NewPaymentInferType) => {
 <style lang="scss" scoped>
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -72,6 +78,7 @@ const onSubmit = handleSubmit(async (values: NewPaymentInferType) => {
   display: flex;
   gap: 0.5em;
   flex-direction: column;
+  margin-top: 1em;
   max-width: 350px;
   h3 {
     text-align: center;
