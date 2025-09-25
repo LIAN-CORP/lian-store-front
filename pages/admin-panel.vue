@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import type { PageState } from "primevue";
 
+definePageMeta({
+  middleware: "admin",
+});
+
 const page = ref<number>(0);
 const size = 10;
 const isRefreshing = ref(false);
@@ -79,8 +83,16 @@ onMounted(async () => {
         />
       </template>
       <Column field="id" :header="$t('auth.admin.id')" />
-      <Column field="createdAt" :header="$t('auth.admin.date')" />
-      <Column field="firstName" :header="$t('auth.admin.name')" />
+      <Column field="createdAt" :header="$t('auth.admin.date')">
+        <template #body="{ data }">
+          {{ formatDate(data.createdAt) }}
+        </template>
+      </Column>
+      <Column field="firstName" :header="$t('auth.admin.name')">
+        <template #body="{ data }">
+          {{ `${data.firstName} ${data.lastName}` }}
+        </template>
+      </Column>
       <Column field="email" :header="$t('auth.admin.email')" />
       <Column field="status" :header="$t('auth.admin.status')">
         <template #body="{ data }">
@@ -103,7 +115,7 @@ onMounted(async () => {
             @click="onAccept(data.id)"
             icon="material-symbols:check-circle-outline"
             icon-color="#22c55e"
-            :disabled="sended"
+            :disabled="sended || data.status != 'PENDING'"
           />
           <IconButton
             variant="text"
@@ -111,7 +123,7 @@ onMounted(async () => {
             @click="onReject(data.id)"
             icon="material-symbols:close"
             icon-color="#EF4444"
-            :disabled="sended"
+            :disabled="sended || data.status != 'PENDING'"
           />
         </template>
       </Column>
