@@ -4,6 +4,7 @@
     "inventory": "Inventory",
     "debtors": "Debtors",
     "history": "History",
+    "user": "User",
     "logout": "Logout"
   },
   "button": {

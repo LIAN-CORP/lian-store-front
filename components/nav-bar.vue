@@ -6,6 +6,7 @@ const router = useRouter();
 const route = useRoute();
 const { t, setLocale, locale } = useI18n();
 const localePath = useLocalePath();
+const role = useCookie("role");
 function isActive(itemRoute: string) {
   if (!itemRoute) return false;
   return route.path == localePath(itemRoute);
@@ -14,7 +15,7 @@ function isActive(itemRoute: string) {
 const items = computed(() => [
   {
     label: t("menuOptions.transaction"),
-    icon: "hugeicons:transaction",
+    icon: "material-symbols:add-shopping-cart",
     to: "/transaction",
     class: "active_item",
     command: () => {
@@ -23,7 +24,7 @@ const items = computed(() => [
   },
   {
     label: t("menuOptions.inventory"),
-    icon: "si:inventory-fill",
+    icon: "material-symbols:inventory-2",
     to: "/inventory",
     command: () => {
       router.push(localePath("/inventory"));
@@ -31,7 +32,7 @@ const items = computed(() => [
   },
   {
     label: t("menuOptions.debtors"),
-    icon: "lucide:book-user",
+    icon: "material-symbols:folder-shared-sharp",
     to: "/debts",
     command: () => {
       router.push(localePath("/debts"));
@@ -39,18 +40,26 @@ const items = computed(() => [
   },
   {
     label: t("menuOptions.history"),
-    icon: "mdi:report-box",
+    icon: "material-symbols:history",
     to: "/history",
     command: () => {
       router.push(localePath("/history"));
     },
   },
   {
+    label: t("menuOptions.user"),
+    icon: "material-symbols:user-attributes-rounded",
+    visible: role.value == "ADMIN",
+    command: () => {
+      router.push(localePath("/admin-panel"));
+    },
+  },
+  {
     label: t("menuOptions.logout"),
     type: "logout",
+    icon: "streamline:logout-1-solid",
     command: () => {
       const token = useCookie("access_token");
-      const role = useCookie("role");
       token.value = null;
       role.value = null;
     },
@@ -72,24 +81,17 @@ const languages = ref([
           style: isActive(context.item.to) ? 'background-color: #4155a4' : '',
         }),
       }"
-      breakpoint="1020px"
+      breakpoint="1200px"
     >
       <template #start>
         <h1>Lian Corp</h1>
       </template>
       <template #itemicon="{ item }">
         <Icon
-          v-if="!item.type"
           :icon="item.icon!"
           width="1.5em"
           height="1.5em"
-        />
-        <Icon
-          v-if="item.type == 'logout'"
-          icon="streamline:logout-1-solid"
-          width="1.3em"
-          height="1.3em"
-          style="color: #ff0101"
+          :color="item.type ? 'red' : ''"
         />
       </template>
 
