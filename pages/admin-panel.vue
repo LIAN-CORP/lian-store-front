@@ -5,12 +5,15 @@ const page = ref<number>(0);
 const size = 10;
 const isRefreshing = ref(false);
 const { getRequest, loading, request } = useRegistrationRequest();
+const { onResponseRequest, loading: sended } = useRequestActions();
 
 async function onReject(id: string) {
-  console.log(id);
+  await onResponseRequest("reject", id);
+  await getRequest(page.value, size);
 }
 async function onAccept(id: string) {
-  console.log(id);
+  await onResponseRequest("accept", id);
+  await getRequest(page.value, size);
 }
 function getStatusStyle(status: string) {
   switch (status) {
@@ -97,9 +100,10 @@ onMounted(async () => {
           <IconButton
             variant="text"
             severity="info"
-            @click="onAccept(data)"
+            @click="onAccept(data.id)"
             icon="material-symbols:check-circle-outline"
             icon-color="#22c55e"
+            :disabled="sended"
           />
           <IconButton
             variant="text"
@@ -107,6 +111,7 @@ onMounted(async () => {
             @click="onReject(data.id)"
             icon="material-symbols:close"
             icon-color="#EF4444"
+            :disabled="sended"
           />
         </template>
       </Column>

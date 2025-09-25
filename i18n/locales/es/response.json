@@ -25,7 +25,9 @@
       "delete_category": "Categoría eliminada",
       "delete_subcategory": "Subcategoría eliminada",
       "delete_product": "Producto eliminado",
-      "delete_transaction": "Transacción eliminada"
+      "delete_transaction": "Transacción eliminada",
+      "reject": "La solicitud de registro ha sido rechazada",
+      "accept": "La solicitud de registro ha sido aprobada"
     }
   }
 }

@@ -25,7 +25,9 @@
       "delete_category": "Category deleted successfully",
       "delete_subcategory": "Subcategory deleted successfully",
       "delete_product": "Product deleted successfully!",
-      "delete_transaction": "Transaction deleted successfully!"
+      "delete_transaction": "Transaction deleted successfully!",
+      "reject": "Registration request has been rejected",
+      "accept": "The request was successfully approved"
     }
   }
 }
