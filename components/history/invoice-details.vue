@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { formatDate, formatPhone } from "#imports";
+import { formatPhone } from "#imports";
 import type { GetTransaction } from "~/interfaces/transaction/response/get.transaction";
 
 const { getDetails, loading, details } = useGetTransactionDetails();
@@ -28,7 +28,7 @@ onMounted(() => {
       <div class="separator">
         <BadgeDisplay
           :label="$t('history.date')"
-          :value="formatDate(transaction?.transactionDate!)"
+          :value="transaction?.transactionDate!"
         />
 
         <BadgeDisplay

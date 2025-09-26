@@ -9,7 +9,7 @@ const { onConfirmDelete } = useConfirmDialog();
 const { t } = useI18n();
 const searchValue = ref("");
 const page = ref<number>(0);
-const sizePage = 14;
+const sizePage = 10;
 let debounceTimeOut: number | undefined;
 
 async function onRedirectNewProduct() {
@@ -112,6 +112,8 @@ onMounted(async () => {
   text-align: center;
 }
 .inventory {
+  max-width: 1600px;
+  margin: auto;
   &-header {
     display: flex;
     justify-content: center;

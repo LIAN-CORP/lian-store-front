@@ -147,6 +147,8 @@ onMounted(async () => {
         :value="cart"
         data-key="id"
         edit-mode="cell"
+        :rows="5"
+        paginator
         @cell-edit-complete="onCellEditComplete"
       >
         <Column field="product" :header="$t('transaction.table.product')" />
@@ -272,14 +274,15 @@ onMounted(async () => {
 
 <style lang="scss" scoped>
 .transaction {
+  max-width: 1400px;
+  margin: 2rem auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1rem;
-  padding: 1rem;
+  padding: 1.5rem;
   gap: 1rem;
   border-radius: 10px;
-  box-shadow: inset 0px 0px 17px 0px rgba(0, 0, 0, 0.12);
+  box-shadow: 0px 0px 7px -3px rgba(66, 68, 90, 1);
   &-header {
     width: 100%;
     display: flex;

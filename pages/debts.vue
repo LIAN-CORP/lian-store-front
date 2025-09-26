@@ -84,6 +84,9 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .debt {
+  max-width: 1400px;
+  margin: auto;
+
   .notFound {
     padding: 0 1rem;
   }

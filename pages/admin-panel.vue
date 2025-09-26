@@ -87,17 +87,20 @@ onMounted(async () => {
       :total-records="request?.totalElements ?? 0"
     >
       <template #header>
-        <IconButton
-          icon="material-symbols:refresh-rounded"
-          rounded
-          @click="onRefresh"
-          :disabled="isRefreshing"
-        />
+        <div class="title-request">
+          <h3>Request</h3>
+          <IconButton
+            icon="material-symbols:refresh-rounded"
+            rounded
+            @click="onRefresh"
+            :disabled="isRefreshing"
+          />
+        </div>
       </template>
       <Column field="id" :header="$t('auth.admin.id')" />
       <Column field="createdAt" :header="$t('auth.admin.date')">
         <template #body="{ data }">
-          {{ formatDate(data.createdAt) }}
+          {{ data.createdAt }}
         </template>
       </Column>
       <Column field="firstName" :header="$t('auth.admin.name')">
@@ -140,17 +143,6 @@ onMounted(async () => {
         </template>
       </Column>
     </DataTable>
-    <Select
-      show-clear
-      class="states"
-      fluid
-      v-model="selectStatus"
-      :options="REQUEST_STATES"
-      :optionLabel="(option) => $t(option.name)"
-      optionValue="code"
-      :placeholder="$t('auth.status.placeholder')"
-      @change="getHistory(pageHistory, size, selectStatus)"
-    />
     <DataTable
       data-key="id"
       :value="history?.content"
@@ -161,10 +153,24 @@ onMounted(async () => {
       @page="onPageHistoryChange"
       :total-records="history?.totalElements ?? 0"
     >
+      <template #header>
+        <h3 class="title-history">history</h3>
+        <Select
+          show-clear
+          class="states"
+          fluid
+          v-model="selectStatus"
+          :options="REQUEST_STATES"
+          :optionLabel="(option) => $t(option.name)"
+          optionValue="code"
+          :placeholder="$t('auth.status.placeholder')"
+          @change="getHistory(pageHistory, size, selectStatus)"
+        />
+      </template>
       <Column field="id" :header="$t('auth.history.id')" />
       <Column field="createdAt" :header="$t('auth.history.date')">
         <template #body="{ data }">
-          {{ formatDate(data.createdAt) }}
+          {{ data.createdAt }}
         </template>
       </Column>
       <Column field="firstName" :header="$t('auth.history.name')">
@@ -193,6 +199,19 @@ onMounted(async () => {
 
 <style lang="scss" scoped>
 .admin {
+  max-width: 1400px;
+  margin: auto;
+  .title {
+    &-history {
+      width: 100%;
+      text-align: center;
+    }
+    &-request {
+      display: flex;
+      gap: 1em;
+      justify-content: space-between;
+    }
+  }
   padding: 2em 1em;
   &-message {
     margin-bottom: 1em;

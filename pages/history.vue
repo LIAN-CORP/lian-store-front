@@ -2,7 +2,7 @@
 import type { PageState } from "primevue";
 import { TRANSACTION_TYPE } from "../constants/transaction.constant";
 import type { GetTransaction } from "~/interfaces/transaction/response/get.transaction";
-import { formatDate, toLocalISODate } from "#imports";
+import { toLocalISODate } from "#imports";
 
 const { onConfirmDelete } = useConfirmDialog();
 const { onGenerateReport } = useGetResumeFile();
@@ -125,7 +125,7 @@ onMounted(async () => {
           :header="$t('history.table.resume.date')"
         >
           <template #body="{ data }">
-            {{ formatDate(data.transactionDate) }}
+            {{ data.transactionDate }}
           </template>
         </Column>
         <Column
@@ -178,6 +178,10 @@ onMounted(async () => {
   width: 100%;
 }
 .movements {
+  max-width: 1400px;
+  margin: 1em auto;
+  box-shadow: 0px 0px 7px -3px rgba(66, 68, 90, 1);
+
   display: flex;
   flex-direction: column;
   padding: 2rem;
