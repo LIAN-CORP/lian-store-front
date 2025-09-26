@@ -14,52 +14,39 @@ function onSearchDebt() {
 </script>
 
 <template>
-  <div class="card-wrapper">
-    <article class="card">
-      <!-- Float Icon -->
-      <div class="card-icon">
-        <Icon icon="mingcute:user-4-fill" />
-      </div>
-      <div class="nothing"></div>
-
-      <div class="card-info">
-        <!-- Card Info -->
-        <h2 class="user-name">{{ debt.client }}</h2>
+  <article class="card">
+    <div class="card-icon">
+      <Icon icon="mingcute:user-4-fill" />
+    </div>
+    <div class="nothing"></div>
+    <div class="card-info">
+      <div class="card-buttons">
         <h3 class="user-amount-debt">
           ${{ formatAmount(debt.remainingAmount) }}
         </h3>
-        <!-- Button Details -->
-
-        <div class="card-buttons">
-          <IconButton
-            rounded
-            icon="material-symbols:payments-outline"
-            @click="onSearchDebt"
-          />
-        </div>
+        <IconButton
+          rounded
+          icon="material-symbols:payments-outline"
+          @click="onSearchDebt"
+        />
       </div>
-    </article>
-  </div>
+      <h2 class="user-name">{{ debt.client }}</h2>
+    </div>
+  </article>
 </template>
 
 <style lang="scss" scoped>
-.card-wrapper {
-  padding: 2rem 0rem 0rem;
-}
-
 .card {
   display: flex;
   flex-direction: column;
-  border-radius: 1rem;
+  border-radius: 5px;
   box-shadow: 0px 5px 14px 1px rgba(0, 0, 0, 0.25);
   justify-items: center;
   align-items: center;
   width: 100%;
+  height: 200px;
+
   position: relative;
-  &-buttons {
-    display: flex;
-    gap: 1rem;
-  }
   &-icon {
     position: absolute;
     color: #273e91;
@@ -67,7 +54,6 @@ function onSearchDebt() {
     padding: 0.15rem;
     border-radius: 50%;
     background-color: #ffffff;
-    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
 
     :deep(svg) {
       display: block;
@@ -78,17 +64,28 @@ function onSearchDebt() {
   .nothing {
     background-color: #273e91;
     width: 100%;
-    border-radius: 1rem 1rem 0 0;
+    border-radius: 5px 5px 0 0;
     height: 2.5em;
   }
 
   &-info {
     display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
     flex-direction: column;
     padding: 0.5rem;
     justify-items: center;
     align-items: center;
     gap: 0.4rem;
+    .card-buttons {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: 1em;
+      justify-content: space-between;
+    }
     .user-name {
       text-align: center;
       font-weight: 500;

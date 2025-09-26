@@ -40,34 +40,40 @@ onMounted(async () => {
 </script>
 <template>
   <section class="debt">
-    <article class="debt-header">
-      <InputText
-        id="in_label"
-        fluid
-        v-model="searchValue"
-        variant="filled"
-        :placeholder="$t('debtors.search')"
-      />
-    </article>
-    <p v-if="!debts?.content && !loading" class="notFound">
-      {{ $t("records.notFound") }}
-    </p>
-    <ProgressSpinner v-if="loading" animation-duration="0.7" stroke-width="5" />
-    <article v-if="debts?.content != null" class="debt-clients">
-      <DebtsUserCard
-        v-for="debt in filteredDebts"
-        :debt="debt"
-        @search-debt="onShowResume"
-      />
-    </article>
-    <article class="debt-footer">
-      <Paginator
-        v-if="debts?.totalElements"
-        @page="onPageChange"
-        :rows="sizePage"
-        :totalRecords="debts?.totalElements"
-      />
-    </article>
+    <DataView
+      :value="filteredDebts"
+      paginator
+      data-key="id"
+      :rows="sizePage"
+      :total-records="debts?.totalElements"
+      :first="page * sizePage"
+      :loading="loading"
+      @page="onPageChange"
+    >
+      <template #header>
+        <InputText
+          id="in_label"
+          fluid
+          v-model="searchValue"
+          variant="outlined"
+          :placeholder="$t('debtors.search')"
+          style="background-color: #e4e6f1; text-align: center"
+        />
+      </template>
+      <template #list="slotProps">
+        <div class="cards">
+          <DebtsUserCard
+            v-for="debt in slotProps.items"
+            :key="debt.id"
+            :debt="debt"
+            @search-debt="onShowResume"
+          />
+          <p v-if="!debts?.content && !loading" class="notFound">
+            {{ $t("records.notFound") }}
+          </p>
+        </div>
+      </template>
+    </DataView>
   </section>
   <Dialog
     v-model:visible="showResume"
@@ -84,39 +90,32 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .debt {
+  box-shadow: 0px 0px 7px -3px rgba(66, 68, 90, 1);
   max-width: 1400px;
   margin: auto;
-
-  .notFound {
-    padding: 0 1rem;
-  }
-  &-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-  }
-  &-clients {
+  height: 100%;
+  background-color: #e4e6f1;
+  .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    height: 80vh;
-    overflow: hidden;
-    scrollbar-width: none;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-auto-rows: 200px;
+    height: 70dvh;
     overflow-y: auto;
-    padding: 1rem;
-    gap: 1rem;
+    scrollbar-width: none;
+    padding: 2em;
+    column-gap: 1em;
+    row-gap: 3em;
   }
-  &-footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+@media (min-width: 1200px) {
+  .debt {
+    margin: 2em auto;
   }
 }
 
 @media (max-width: 400px) {
   .debt {
     &-clients {
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 0.5rem;
     }
   }
