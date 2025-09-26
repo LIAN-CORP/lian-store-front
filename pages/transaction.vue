@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue/dist/iconify.js";
 import {
   GENERIC_CLIENT,
   TRANSACTION_TYPE,
@@ -102,6 +101,18 @@ function getPrice(product: any) {
   return transactionType.value === "COMPRA" ? product.priceBuy : product.price;
 }
 
+const max = (stock: number) => {
+  return transactionType.value !== "COMPRA" ? stock : undefined;
+};
+
+watch(transactionType, (newType) => {
+  cart.value.forEach((item: any) => {
+    if (newType !== "COMPRA" && item.quantity > item.stock) {
+      item.quantity = item.stock;
+    }
+  });
+});
+
 const totalSum = computed(() => {
   if (cart.value == null) {
     return 0;
@@ -161,10 +172,15 @@ onMounted(async () => {
             <InputNumber
               v-model="data[field]"
               showButtons
-              :min="0"
+              :min="1"
               button-layout="horizontal"
               size="small"
-              :max="data.stock"
+              :max="max(data.stock)"
+              @update:modelValue="
+                (val) => {
+                  data[field] = val ?? 1;
+                }
+              "
             />
           </template>
         </Column>
