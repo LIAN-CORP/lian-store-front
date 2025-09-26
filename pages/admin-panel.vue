@@ -88,7 +88,7 @@ onMounted(async () => {
     >
       <template #header>
         <div class="title-request">
-          <h3>Request</h3>
+          <h3>{{ $t("auth.admin.title") }}</h3>
           <IconButton
             icon="material-symbols:refresh-rounded"
             rounded
@@ -154,7 +154,7 @@ onMounted(async () => {
       :total-records="history?.totalElements ?? 0"
     >
       <template #header>
-        <h3 class="title-history">history</h3>
+        <h3 class="title-history">{{ $t("auth.history.title") }}</h3>
         <Select
           show-clear
           class="states"
