@@ -3,6 +3,7 @@ import type { PageState } from "primevue";
 import { TRANSACTION_TYPE } from "../constants/transaction.constant";
 import type { GetTransaction } from "~/interfaces/transaction/response/get.transaction";
 import { toLocalISODate } from "#imports";
+import type { getListClient } from "~/interfaces/debt/response/get.list.client";
 
 const { onConfirmDelete } = useConfirmDialog();
 const { onGenerateReport } = useGetResumeFile();
@@ -10,13 +11,26 @@ const { t } = useI18n();
 const { loading: deleteLoading, onDeleteTransaction } = useDeleteTransaction();
 const { getTransactions, loading, transactions } = useGetTransaction();
 
+let debounceTimeOut: number | undefined;
+const { result, getClient } = useGetClients();
+
 const detailsDialog = ref(false);
-const selectedType = ref<string | null>(null);
 const selectedTransaction = ref<GetTransaction | null>(null);
 const rangeDate = ref<Date[] | null>();
-const page = ref<number>(0);
-const size = 10;
-
+const filters = reactive({
+  page: 0,
+  size: 5,
+  start: undefined as string | undefined,
+  end: undefined as string | undefined,
+  clientId: undefined as string | undefined,
+  type: undefined as string | undefined,
+});
+function onSearchClient(event: any) {
+  if (debounceTimeOut) clearTimeout(debounceTimeOut);
+  debounceTimeOut = setTimeout(async () => {
+    getClient(event.value);
+  }, 500);
+}
 const canGenerate = computed(() => {
   return (
     rangeDate.value?.length === 2 &&
@@ -24,15 +38,22 @@ const canGenerate = computed(() => {
     rangeDate.value[1] !== null
   );
 });
-
-watch(rangeDate, async (range) => {
-  if (!canGenerate.value) return;
-  page.value = 0;
-  const start = toLocalISODate(range![0]);
-  const end = toLocalISODate(range![1]);
-  await getTransactions(page.value, size, start!, end!);
+watch(rangeDate, (range) => {
+  if (canGenerate.value) {
+    filters.start = toLocalISODate(range![0]) ?? undefined;
+    filters.end = toLocalISODate(range![1]) ?? undefined;
+  } else {
+    filters.start = undefined;
+    filters.end = undefined;
+  }
 });
-
+watch(
+  filters,
+  async () => {
+    await getTransactions(filters);
+  },
+  { deep: true }
+);
 async function onGenerate() {
   if (!canGenerate.value) return;
   const start = toLocalISODate(rangeDate.value![0]);
@@ -41,15 +62,14 @@ async function onGenerate() {
 }
 
 async function onPageChange(e: PageState) {
-  page.value = e.page;
-  getTransactions(page.value, size);
+  filters.page = e.page;
 }
 function onDelete(id: string) {
   onConfirmDelete({
     message: t("confirm.delete.transaction.message", { id: id }),
     async onAccept() {
       await onDeleteTransaction(id);
-      await getTransactions(page.value, size);
+      await getTransactions({ page: filters.page, size: filters.size });
     },
   });
 }
@@ -59,7 +79,8 @@ function showDetails(details: GetTransaction) {
   detailsDialog.value = true;
 }
 onMounted(async () => {
-  getTransactions(page.value, size);
+  getTransactions({ page: filters.page, size: filters.size });
+  getClient();
 });
 </script>
 
@@ -89,7 +110,7 @@ onMounted(async () => {
             :disabled="!canGenerate"
             @click="
               rangeDate = null;
-              getTransactions(page, size);
+              getTransactions({ page: filters.page, size: filters.size });
             "
           />
         </InputGroupAddon>
@@ -107,8 +128,20 @@ onMounted(async () => {
       :optionLabel="(option) => $t(option.name)"
       option-value="code"
       :placeholder="$t('history.selectPlaceholder')"
-      v-model="selectedType"
-    ></Select>
+      v-model="filters.type"
+    />
+    <Select
+      show-clear
+      name="client"
+      :placeholder="$t('transaction.clientSelectPlaceholder')"
+      v-model="filters.clientId"
+      option-label="name"
+      option-value="id"
+      :options="result.clients!"
+      filter
+      @filter="onSearchClient"
+      fluid
+    />
     <div class="movements-content">
       <DataTable
         data-key="id"
@@ -116,7 +149,7 @@ onMounted(async () => {
         paginator
         :value="transactions?.content ?? []"
         :loading="loading"
-        :rows="size"
+        :rows="filters.size"
         :total-records="transactions?.totalElements ?? 0"
         @page="onPageChange"
       >

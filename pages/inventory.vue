@@ -63,7 +63,7 @@ onMounted(async () => {
         class="input-search"
         id="in_label"
         v-model="searchValue"
-        variant="filled"
+        variant="outlined"
         fluid
         :placeholder="$t('inventory.search')"
       />
@@ -110,6 +110,7 @@ onMounted(async () => {
 <style scoped lang="scss">
 .input-search {
   text-align: center;
+  background-color: #e4e6f1;
 }
 .inventory {
   max-width: 1600px;
