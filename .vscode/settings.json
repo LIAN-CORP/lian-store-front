@@ -3,5 +3,6 @@
         "nuxt",
         "primeuix",
         "primevue"
-    ]
+    ],
+    "cSpell.language": "en,es-ES"
 }

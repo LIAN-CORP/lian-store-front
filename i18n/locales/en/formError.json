@@ -1,0 +1,21 @@
+{
+  "formError": {
+    "not_null": "This field is required",
+    "not_null_image": "You must select an image",
+    "type_file_error": "the file must be an image",
+    "size_file_error": "the file size must be less than 10MB",
+    "min_length": "The minimum length is {size} characters",
+    "max_length": "The maximum length is {size} characters",
+    "min_value": "The minimum value is {min}",
+    "max_value": "The maximum value is {max}",
+    "valid_price": "Price must be a multiple of 50",
+    "phone_incomplete": "The phone number is incomplete",
+    "email_error": "Invalid email address",
+    "must_be_18": "You must be at least 18 years old.",
+    "password_match": "Passwords do not match",
+    "password_character": "Password must include at least one special character",
+    "password_uppercase": "Password must include at least one uppercase letter",
+    "password_lowercase": "Password must include at least one lowercase letter",
+    "password_number": "Password must include at least one number"
+  }
+}

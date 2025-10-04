@@ -1,0 +1,60 @@
+<script lang="ts" setup>
+const props = withDefaults(
+  defineProps<{
+    id: string;
+    name: string;
+    label: string;
+    size?: string;
+    placeholder?: string;
+    pattern?: string;
+    autocomplete?: string;
+    inputColor?: string;
+    fluid?: boolean;
+    disabled?: boolean;
+    maxlength?: number;
+    minlength?: number;
+  }>(),
+  {
+    fluid: true,
+    inputColor: "#eef2ff",
+  }
+);
+
+const { value, errorMessage } = useField<string>(() => props.name);
+</script>
+
+<template>
+  <div class="formField">
+    <FloatLabel
+      variant="on"
+      :style="{
+        '--p-floatlabel-on-active-background': inputColor,
+      }"
+    >
+      <InputText
+        :style="{ backgroundColor: inputColor }"
+        :id="id"
+        :name="name"
+        :placeholder="placeholder"
+        :fluid="fluid"
+        :size="size"
+        :disabled="disabled"
+        :maxlength="maxlength"
+        :minlength="minlength"
+        :pattern="pattern"
+        :autocomplete="autocomplete"
+        v-model:model-value="value"
+      />
+      <label :for="id">{{ label }}</label>
+    </FloatLabel>
+    <Message
+      v-if="errorMessage"
+      variant="simple"
+      size="small"
+      severity="error"
+      >{{ errorMessage }}</Message
+    >
+  </div>
+</template>
+
+<style lang="scss" scoped></style>

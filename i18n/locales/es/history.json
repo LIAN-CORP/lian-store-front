@@ -1,0 +1,37 @@
+{
+  "history": {
+    "dateRange": "Rango de fechas",
+    "selectPlaceholder": "Selecciona el tipo de movimiento",
+    "clientNameLabel": "Cliente",
+    "clientPhoneLabel": "Teléfono",
+    "typeMovement": "Movimiento",
+    "date": "Fecha",
+    "debtBadge": "Saldo Pendiente",
+    "modalTitle": "Detalles",
+    "table": {
+      "resume": {
+        "date": "Fecha",
+        "client": "Cliente",
+        "invoice": "Factura",
+        "type": "Tipo",
+        "actions": "Acciones"
+      },
+      "payment": {
+        "receipt": "Factura",
+        "method": "Método",
+        "amount": "Monto"
+      },
+      "product": {
+        "product": "Producto",
+        "quantity": "Cantidad",
+        "unitPrice": "Precio Unitario",
+        "total": "Total"
+      }
+    },
+    "select": {
+      "sales": "Ventas",
+      "purchases": "Compras",
+      "debts": "Deudas a cobrar"
+    }
+  }
+}

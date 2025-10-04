@@ -1,0 +1,33 @@
+{
+  "response": {
+    "error": {
+      "CATEGORY_EXISTS": "this category already exist",
+      "SUBCATEGORY_EXISTS": "this subcategory already exist",
+      "CLIENT_PHONE_ALREADY_EXISTS": "this phone number is already in use",
+      "ILLEGAL_ARGUMENT": "The submitted data is invalid",
+      "SERVER_WEB_INPUT_EXCEPTION": "The submitted data is invalid",
+      "EMAIL_IS_ALREADY_REGISTERED_EXCEPTION": "Email is already registered",
+      "INVALID_CREDENTIALS": "Email or password is incorrect",
+      "UNKNOWN_ERROR": "An unexpected error occurred"
+    },
+    "success": {
+      "new_category": "Category created successfully",
+      "new_subcategory": "Subcategory created successfully",
+      "new_product": "Product created successfully!",
+      "new_client" :"Client created successfully!",
+      "new_payment" :"Payment created successfully!",
+      "new_transaction": "Transaction created successfully!",
+      "new_user": "User created successfully!",
+      "update_category": "Category updated successfully",
+      "update_subcategory": "Subcategory updated successfully",
+      "update_product": "Product updated successfully!",
+      "update_client" :"Client updated successfully",
+      "delete_category": "Category deleted successfully",
+      "delete_subcategory": "Subcategory deleted successfully",
+      "delete_product": "Product deleted successfully!",
+      "delete_transaction": "Transaction deleted successfully!",
+      "reject": "Registration request has been rejected",
+      "accept": "The request was successfully approved"
+    }
+  }
+}

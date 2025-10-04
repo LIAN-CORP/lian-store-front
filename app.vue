@@ -1,19 +1,9 @@
 <template>
-  <div>
-    <Button label="verify" />
-    <div class="card flex justify-center">
-      <InputOtp v-model="value" :length="5" />
-    </div>
-  </div>
+  <NuxtLoadingIndicator color="blue" />
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
 
-<style>
-.algo {
-  background-color: blue;
-}
-</style>
-<script setup>
-import { ref } from "vue";
-
-const value = ref(null);
-</script>
+<style lang="scss" scoped></style>
+<script setup></script>

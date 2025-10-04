@@ -1,0 +1,41 @@
+{
+  "menuOptions": {
+    "transaction": "Transaction",
+    "inventory": "Inventory",
+    "debtors": "Debtors",
+    "history": "History",
+    "user": "User",
+    "logout": "Logout"
+  },
+  "button": {
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "cancel": "Cancel"
+  },
+  "toast": {
+    "success": "Success",
+    "error": "Error",
+    "info": "Info"
+  },
+  "confirm": {
+    "delete": {
+      "header": "Confirm Deletion",
+      "transaction": {
+        "message": "Are you sure you want to delete '{id}' transaction? \n This will permanently remove all associated data."
+      },
+      "product": {
+        "message": "Are you sure you want to delete '{name}'?"
+      },
+      "category": {
+        "message": "Are you sure you want to delete '{name}'?. \n This will permanently remove all associated products and subcategories."
+      },
+      "subcategory": {
+        "message": "Are you sure you want to delete {name}?. \n This will permanently remove all associated products."
+      }
+    }
+  },
+  "records":{
+    "notFound": "No records found"
+  }
+}

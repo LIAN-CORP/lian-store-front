@@ -1,0 +1,32 @@
+{
+  "history": {
+    "dateRange": "Date Range",
+    "selectPlaceholder": "Select type of movement",
+    "clientNameLabel": "Client",
+    "clientPhoneLabel": "Phone",
+    "typeMovement": "Movement",
+    "date": "Date",
+    "debtBadge": "Amount due",
+    "modalTitle": "Details",
+    "table": {
+      "resume": {
+        "date": "Date",
+        "client": "Client",
+        "invoice": "Invoice",
+        "type": "Type",
+        "actions": "Actions"
+      },
+      "product": {
+        "product": "Product",
+        "quantity": "Quantity",
+        "unitPrice": "Unit price",
+        "total": "Total"
+      }
+    },
+    "select": {
+      "sales": "Sales",
+      "purchases": "Purchases",
+      "debts": "Debts to collect"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+@use "../colors" as custom-colors;
+.p-fileupload {
+  border-color: rgb(170, 170, 170);
+  &-basic {
+    flex-direction: column;
+    max-width: 370px;
+    span {
+      text-align: center;
+      width: 250px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .p-fileupload {
+    &-basic {
+      span {
+        width: 150px;
+      }
+    }
+  }
+}

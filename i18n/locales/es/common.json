@@ -1,0 +1,42 @@
+{
+  "menuOptions": {
+    "transaction": "Transacción",
+    "inventory": "Inventario",
+    "debtors": "Deudores",
+    "history": "Historial",
+    "user": "Usuarios",
+    "logout": "Salir"
+  },
+  "button": {
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "cancel": "Cancelar",
+    "search": "Buscar"
+  },
+  "toast": {
+    "success": "Éxito",
+    "error": "Error",
+    "info": "Info"
+  },
+  "confirm": {
+    "delete": {
+      "header": "Confirmar Eliminación",
+      "transaction": {
+        "message": "¿Desea eliminar la transacción '{id}'?.\n Esta acción eliminara los datos relacionados"
+      },
+      "product": {
+        "message": "¿Desea eliminar el producto {name}?"
+      },
+      "category": {
+        "message": "¿Desea eliminar la categoría '{name}'?.\n Esta acción eliminara los productos y subcategorias relacionados."
+      },
+      "subcategory": {
+        "message": "¿Desea eliminar la subcategoría '{name}'?.\n Esta acción eliminara los productos relacionados."
+      }
+    }
+  },
+  "records":{
+    "notFound": "No se encontraron registros"
+  }
+}

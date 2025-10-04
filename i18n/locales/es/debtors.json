@@ -1,0 +1,19 @@
+{
+  "debtors": {
+    "search": "Buscar deudor",
+    "details": "resumen",
+    "modalTitle": "Pagos",
+    "remaining": "Saldo pendiente",
+    "detailsTable": {
+      "date": "Fecha",
+      "payment": "Pago",
+      "amount": "Pagado",
+      "method": "Método de pago"
+    },
+    "form": {
+      "title": "Nuevo Pago",
+      "amount": "Monto",
+      "method": "Método de pago"
+    }
+  }
+}

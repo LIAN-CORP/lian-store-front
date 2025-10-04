@@ -1,0 +1,21 @@
+{
+  "formError": {
+    "not_null": "Este campo es obligatorio",
+    "not_null_image": "Debes seleccionar una imagen",
+    "type_file_error": "El archivo debe ser una imagen",
+    "size_file_error": "El tamaño de la imagen debe ser menor a 10MB",
+    "min_length": "El tamaño mínimo es de {size} letras",
+    "max_length": "El tamaño máximo es de {size} letras",
+    "min_value": "El valor mínimo es de {min}",
+    "max_value": "El valor máximo es de {max}",
+    "valid_price": "El precio debe ser un múltiplo de 50",
+    "phone_incomplete": "El número de teléfono esta incompleto",
+    "email_error": "El correo no es valido",
+    "must_be_18": "Debes tener al menos 18 años.",
+    "password_match": "Las contraseñas no coinciden",
+    "password_character": "La contraseña debe contener al menos un carácter especial",
+    "password_uppercase": "La contraseña debe contener al menos una letra mayúscula",
+    "password_lowercase": "La contraseña debe contener al menos una letra minúscula",
+    "password_number": "La contraseña debe contener al menos un número"
+  }
+}

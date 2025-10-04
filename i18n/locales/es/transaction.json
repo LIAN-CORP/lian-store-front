@@ -1,0 +1,39 @@
+{
+  "transaction": {
+    "addProduct": "Añadir producto",
+    "typeMovementPlaceholder": "Tipo de movimiento",
+    "clientSelectPlaceholder": "Cliente",
+    "paymentTypePlaceholder": "Tipo de pago",
+    "selectProductTitle": "Selecciona los productos del cliente",
+    "newClientButton": "Crear Cliente",
+    "NotEditableClient": "No se puede editar el cliente genérico",
+    "table": {
+      "product": "Producto",
+      "quantity": "Cantidad",
+      "price": "Precio",
+      "total": "Total"
+    },
+    "updateClient": {
+      "title": "Editar Cliente",
+      "name": "Nombre del cliente",
+      "phone": "Número del cliente"
+    },
+    "newClient": {
+      "title": "Crear Cliente",
+      "name": "Nombre del cliente",
+      "phone": "Número del cliente"
+    },
+    "type":{
+      "buy": "Compra",
+      "sell": "Venta",
+      "credit": "Fiado"
+    },
+    "payment":{
+      "cash": "Efectivo",
+      "transfer": "Transferencia"
+    },
+    "submit": "Guardar",
+    "searchProduct": "Buscar producto",
+    "noResults": "No hay resultados"
+  }
+}
