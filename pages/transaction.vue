@@ -9,11 +9,10 @@ const { modalData, modalState, getComponent, open, close } =
 
 let debounceTimeOut: number | undefined;
 const { formatData, loading, saveTransaction } = useNewTransaction();
-const { onDeleteState, onClearState, onGetState } = useCartState();
+const { onDeleteState, onClearState, cart, transactionType, onClearTypeState } =
+  useCartState();
 const { result, getClient } = useGetClients();
 
-const cart = onGetState();
-const transactionType = ref<string | null>(null);
 const paymentMethod = ref<string | null>(null);
 const selectedClient = ref<null | any>(null);
 
@@ -51,7 +50,7 @@ function getProps() {
 
 function onClearControls() {
   onClearState();
-  transactionType.value = null;
+  onClearTypeState();
   paymentMethod.value = null;
   selectedClient.value = null;
 }
@@ -106,11 +105,13 @@ const max = (stock: number) => {
 };
 
 watch(transactionType, (newType) => {
-  cart.value.forEach((item: any) => {
-    if (newType !== "COMPRA" && item.quantity > item.stock) {
-      item.quantity = item.stock;
-    }
-  });
+  if (newType === "COMPRA") return;
+  cart.value = cart.value
+    .filter((item) => item.stock > 0)
+    .map((item) => ({
+      ...item,
+      quantity: Math.min(item.quantity, item.stock),
+    }));
 });
 
 const totalSum = computed(() => {
@@ -132,11 +133,6 @@ onMounted(async () => {
   <section class="transaction">
     <article class="transaction-header">
       <div class="actions">
-        <Button
-          :label="$t('transaction.addProduct')"
-          @click="open('SelectProducts')"
-          severity="success"
-        />
         <Select
           class="transaction-type"
           v-model="transactionType"
@@ -149,8 +145,12 @@ onMounted(async () => {
             selectedClient = null;
           "
         />
+        <Button
+          :label="$t('transaction.addProduct')"
+          @click="open('SelectProducts')"
+          severity="success"
+        />
       </div>
-      <div></div>
     </article>
 
     <article class="transaction-body">

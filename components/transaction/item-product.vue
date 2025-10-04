@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { cart } = useCartState();
+const { cart, transactionType } = useCartState();
 
 defineProps<{
   id: string;
@@ -26,6 +26,7 @@ defineProps<{
           priceBuy: priceBuy,
           stock: stock,
         }"
+        :disabled="transactionType != 'COMPRA' && stock == 0"
       />
     </label>
     <div class="item-container">
@@ -45,6 +46,11 @@ defineProps<{
 </template>
 
 <style lang="scss" scoped>
+.item-checkbox-label:has(.p-checkbox.p-disabled) {
+  pointer-events: none;
+  cursor: not-allowed;
+  background-color: #8182b1;
+}
 .item {
   display: flex;
   max-width: 500px;
