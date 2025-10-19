@@ -62,7 +62,7 @@ async function onPageChange(e: PageState) {
 }
 async function onPageHistoryChange(e: PageState) {
   page.value = e.page;
-  await getRequest(page.value, size);
+  await getHistory(page.value, size);
 }
 
 onMounted(async () => {
