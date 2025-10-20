@@ -1,32 +1,41 @@
 <script lang="ts" setup>
 const { cart, transactionType } = useCartState();
 
-defineProps<{
+const props = defineProps<{
   id: string;
   image: string;
   name: string;
   category: string;
   price: number;
-  priceBuy?: number;
+  priceBuy: number;
   stock: number;
 }>();
+function toggleCart() {
+  const exists = cart.value.find((item) => item.id === props.id);
+  if (exists) {
+    cart.value = cart.value.filter((item) => item.id !== props.id);
+  } else {
+    cart.value.push({
+      id: props.id,
+      product: props.name,
+      price: props.price,
+      priceBuy: props.priceBuy,
+      quantity: 1,
+      stock: props.stock,
+    });
+  }
+}
 </script>
 
 <template>
   <article class="item">
     <label class="item-checkbox-label">
       <Checkbox
-        v-model="cart"
         :input-id="id"
-        :value="{
-          id: id,
-          product: name,
-          price: price,
-          quantity: 1,
-          priceBuy: priceBuy,
-          stock: stock,
-        }"
+        :value="id"
+        :model-value="cart.map((item) => item.id)"
         :disabled="transactionType != 'COMPRA' && stock == 0"
+        @change="toggleCart"
       />
     </label>
     <div class="item-container">
