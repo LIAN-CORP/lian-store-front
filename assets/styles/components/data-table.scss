@@ -1,8 +1,8 @@
 @use "../colors" as custom-colors;
 
 .p-datatable-header-cell {
-  background-color: custom-colors.$blue-950;
-  color: custom-colors.$text-secondary;
+  --p-datatable-header-cell-background: #{custom-colors.$blue-950};
+  --p-datatable-header-cell-color: #{custom-colors.$text-secondary};
 }
 @media (max-width: 800px) {
   .p-datatable-table {

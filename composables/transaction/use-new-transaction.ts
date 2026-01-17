@@ -44,7 +44,6 @@ export default function useNewTransaction() {
       transaction: {
         client: client,
         typeMovement: typeMovement,
-        userId: "612a316e-c9b4-4cc4-91bd-1a24aadf94f0",
       },
     };
     if (typePayment) {

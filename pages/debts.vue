@@ -50,6 +50,9 @@ onMounted(async () => {
       :loading="loading"
       @page="onPageChange"
     >
+      <template #empty>
+        <span class="empty-message"> {{ $t("records.notFound") }}</span>
+      </template>
       <template #header>
         <InputText
           id="in_label"
@@ -90,6 +93,10 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .debt {
+  .empty-message {
+    padding: 0 1em;
+    text-align: center;
+  }
   box-shadow: 0px 0px 7px -3px rgba(66, 68, 90, 1);
   max-width: 1400px;
   margin: auto;

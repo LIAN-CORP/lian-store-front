@@ -6,7 +6,6 @@ export interface Client {
 interface Transaction {
   typeMovement: string;
   client: Client;
-  userId: string;
 }
 
 interface Product {

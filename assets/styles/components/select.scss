@@ -9,9 +9,9 @@
 }
 @media (max-width: 800px) {
   .p-select {
-    font-size: 0.7rem;
+    font-size: 0.7rem !important;
     &-list {
-      font-size: 0.7rem;
+      font-size: 0.7rem !important;
     }
   }
 }
