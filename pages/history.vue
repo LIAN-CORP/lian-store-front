@@ -52,7 +52,7 @@ watch(
   async () => {
     await getTransactions(filters);
   },
-  { deep: true }
+  { deep: true },
 );
 async function onGenerate() {
   if (!canGenerate.value) return;
@@ -116,7 +116,7 @@ onMounted(async () => {
         </InputGroupAddon>
       </InputGroup>
       <Button
-        :label="$t('button.save')"
+        :label="$t('button.generate')"
         :disabled="!canGenerate"
         severity="warn"
         @click="onGenerate"

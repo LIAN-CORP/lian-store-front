@@ -2,8 +2,10 @@
 import type { PageState } from "primevue";
 import useRegistrationHistory from "~/composables/auth/use-request-history";
 import { REQUEST_STATES } from "../constants/request.states";
+import authGlobal from "~/middleware/auth.global";
+import admin from "~/middleware/admin";
 definePageMeta({
-  middleware: "admin",
+  middleware: [admin],
 });
 
 const page = ref<number>(0);

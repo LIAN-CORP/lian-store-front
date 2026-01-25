@@ -12,7 +12,9 @@
     "delete": "Eliminar",
     "edit": "Editar",
     "cancel": "Cancelar",
-    "search": "Buscar"
+    "search": "Buscar",
+    "generate": "Generar Reporte"
+
   },
   "toast": {
     "success": "Éxito",
