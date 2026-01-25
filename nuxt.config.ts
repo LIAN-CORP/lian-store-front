@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
   nitro: {
-    preset: "node",
+    preset: "static",
   },
   runtimeConfig: {
     public: {
