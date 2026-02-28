@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import flagEN from "@/assets/images/en.svg";
+import flagES from "@/assets/images/es.svg";
 definePageMeta({
   layout: "blank",
 });
 const activeLanguage = ref();
 const languages = ref([
-  { unicode: "🇨🇴", code: "es" },
-  { unicode: "🇬🇧", code: "en" },
+  { icon: flagES, code: "es" },
+  { icon: flagEN, code: "en" },
 ]);
 const { locale } = useI18n();
 
@@ -34,13 +36,23 @@ function onChangeForm(name: string) {
           v-model="activeLanguage"
           :options="languages"
           option-value="code"
-          option-label="unicode"
+          option-label="icon"
           @change="$i18n.setLocale(activeLanguage)"
         >
           <template #option="slotProps">
             <div class="options-label">
-              <span>{{ slotProps.option.unicode }}</span>
+              <img :src="slotProps.option.icon" alt="" width="20" height="15" />
               <span>{{ slotProps.option.code.toUpperCase() }}</span>
+            </div>
+          </template>
+          <template #value="slotProps">
+            <div class="options-label" v-if="slotProps.value">
+              <img
+                :src="languages.find((l) => l.code === slotProps.value)?.icon"
+                alt=""
+                width="20"
+                height="15"
+              />
             </div>
           </template>
         </Select>
@@ -55,6 +67,11 @@ function onChangeForm(name: string) {
 
 <style lang="scss" scoped>
 .background {
+  .options-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   display: grid;
   grid-template-rows: 1fr auto;
   place-items: center;

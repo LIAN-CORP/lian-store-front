@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
-
+import flagEN from "@/assets/images/en.svg";
+import flagES from "@/assets/images/es.svg";
 const activeLanguage = ref();
 const router = useRouter();
 const route = useRoute();
@@ -67,8 +68,8 @@ const items = computed(() => [
 ]);
 
 const languages = ref([
-  { unicode: "🇨🇴", code: "es" },
-  { unicode: "🇬🇧", code: "en" },
+  { icon: flagES, code: "es" },
+  { icon: flagEN, code: "en" },
 ]);
 </script>
 
@@ -102,13 +103,23 @@ const languages = ref([
           v-model="activeLanguage"
           :options="languages"
           option-value="code"
-          option-label="unicode"
+          option-label="icon"
           @change="setLocale(activeLanguage)"
         >
           <template #option="slotProps">
             <div class="options-label">
-              <span>{{ slotProps.option.unicode }}</span>
+              <img :src="slotProps.option.icon" alt="" width="20" height="15" />
               <span>{{ slotProps.option.code.toUpperCase() }}</span>
+            </div>
+          </template>
+          <template #value="slotProps">
+            <div class="options-label" v-if="slotProps.value">
+              <img
+                :src="languages.find((l) => l.code === slotProps.value)?.icon"
+                alt=""
+                width="20"
+                height="15"
+              />
             </div>
           </template>
         </Select>
@@ -125,6 +136,8 @@ h1 {
 }
 .options-label {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 0.5rem;
 }
 .p-select {
