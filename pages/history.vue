@@ -78,6 +78,13 @@ function showDetails(details: GetTransaction) {
   selectedTransaction.value = details;
   detailsDialog.value = true;
 }
+
+const sortedData = computed(() => {
+  return transactions.value?.content
+    ? [...transactions.value?.content].reverse()
+    : [];
+});
+
 onMounted(async () => {
   getTransactions({ page: filters.page, size: filters.size });
   getClient();
@@ -147,7 +154,7 @@ onMounted(async () => {
         data-key="id"
         lazy
         paginator
-        :value="transactions?.content ?? []"
+        :value="sortedData"
         :loading="loading"
         :rows="filters.size"
         :total-records="transactions?.totalElements ?? 0"

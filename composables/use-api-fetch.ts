@@ -16,7 +16,7 @@ interface ApiFetchOptions {
 
 export function useApiFetch<T>(
   endpoint: string,
-  options?: ApiFetchOptions
+  options?: ApiFetchOptions,
 ): ApiResult<T> {
   const token = useCookie("access_token");
   const url = useGetApiUrl(endpoint);
@@ -39,7 +39,7 @@ export function useApiFetch<T>(
       });
       error.value = null;
     } catch (e: any) {
-      const err = e as ErrorResponse;
+      const err = e.data as ErrorResponse;
       error.value = err;
       if (err.code === 401) {
         token.value = null;

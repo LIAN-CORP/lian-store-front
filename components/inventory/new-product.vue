@@ -25,13 +25,23 @@ const { handleSubmit, resetField, resetForm, values, meta } = useForm({
 const refreshActions: Record<string, () => void> = {
   NewCategory: async () => await fetchAllCategories(),
   EditCategory: async () => {
+    const categoryId = values.category?.id;
     await fetchAllCategories();
     close();
+    if (categoryId) {
+      const updatedCategory = categories.value?.content?.find(
+        (cat) => cat.id === categoryId,
+      );
+      if (updatedCategory) {
+        resetField("category", { value: updatedCategory });
+      }
+    }
   },
   NewSubcategory: () => refresh(values.category?.id!),
   EditSubcategory: () => {
     refresh(values.category?.id!);
     close();
+    resetField("subcategory");
   },
 };
 function getModalProps() {
@@ -74,8 +84,7 @@ function onDeleteCategory() {
       if (!values.category) return;
       await deleteCategory(values.category.id!);
       await fetchAllCategories();
-      resetField("subcategory");
-      resetField("category");
+      resetForm({ values: { category: null, subcategory: null } });
     },
   });
 }
@@ -99,10 +108,19 @@ function handleRefresh() {
 }
 
 watch(
+  () => values,
+  (newValues) => {
+    console.log("Formulario cambió:", newValues);
+  },
+  { deep: true }, // Necesario para detectar cambios en propiedades anidadas
+);
+watch(
   () => values.category?.id,
   (id) => {
     resetField("subcategory");
-    refresh(id!);
+    if (!id) {
+      refresh(id!);
+    }
   },
 );
 
