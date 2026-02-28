@@ -5,7 +5,7 @@ import { REQUEST_STATES } from "../constants/request.states";
 import authGlobal from "~/middleware/auth.global";
 import admin from "~/middleware/admin";
 definePageMeta({
-  middleware: [admin],
+  middleware: [authGlobal, admin],
 });
 
 const page = ref<number>(0);

@@ -8,6 +8,7 @@
       "SERVER_WEB_INPUT_EXCEPTION": "Los datos enviados no son válidos",
       "EMAIL_REGISTERED": "El correo electrónico ya esta registrado",
       "INVALID_CREDENTIALS": "El correo o contraseña no son correctas",
+      "SALE_LESS_THAN_BUY": "El precio de venta no puede ser menor al de precio de compra",
       "UNKNOWN_ERROR": "Ha ocurrido un error inesperado"
     },
     "success": {

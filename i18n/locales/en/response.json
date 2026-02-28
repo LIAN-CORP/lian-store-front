@@ -8,6 +8,7 @@
       "SERVER_WEB_INPUT_EXCEPTION": "The submitted data is invalid",
       "EMAIL_IS_ALREADY_REGISTERED_EXCEPTION": "Email is already registered",
       "INVALID_CREDENTIALS": "Email or password is incorrect",
+      "SALE_LESS_THAN_BUY": "The sale price cannot be lower than the buying price",
       "UNKNOWN_ERROR": "An unexpected error occurred"
     },
     "success": {
