@@ -16,6 +16,7 @@
     "password_character": "La contraseña debe contener al menos un carácter especial",
     "password_uppercase": "La contraseña debe contener al menos una letra mayúscula",
     "password_lowercase": "La contraseña debe contener al menos una letra minúscula",
-    "password_number": "La contraseña debe contener al menos un número"
+    "password_number": "La contraseña debe contener al menos un número",
+    "sale_less_than_buy": "El precio de venta no puede ser menor al de precio de compra"
   }
 }

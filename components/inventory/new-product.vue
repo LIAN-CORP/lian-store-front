@@ -16,9 +16,9 @@ const { categories, fetchAllCategories } = useGetCategory();
 const scheme = NewProductScheme(t);
 const { createNewProduct, loading: loadNewProduct } = useNewProduct();
 const isLoading = computed(
-  () => loadDeleteCat.value || loadDeleteSub.value || loadNewProduct.value
+  () => loadDeleteCat.value || loadDeleteSub.value || loadNewProduct.value,
 );
-const { handleSubmit, resetField, resetForm, values } = useForm({
+const { handleSubmit, resetField, resetForm, values, meta } = useForm({
   name: "newProduct",
   validationSchema: toTypedSchema(scheme),
 });
@@ -103,7 +103,7 @@ watch(
   (id) => {
     resetField("subcategory");
     refresh(id!);
-  }
+  },
 );
 
 async function onCancel() {
@@ -221,6 +221,7 @@ onMounted(async () => {
             rounded
             raised
             :label="$t('button.save')"
+            :disabled="!meta.valid"
           />
         </div>
       </article>

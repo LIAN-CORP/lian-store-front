@@ -89,7 +89,7 @@ watch(
   (id) => {
     resetField("subcategoryId", { value: "" });
     refresh(id!);
-  }
+  },
 );
 
 const onSubmit = handleSubmit(async (values: updatedProductInferScheme) => {

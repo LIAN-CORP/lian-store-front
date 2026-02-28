@@ -1,6 +1,8 @@
+import { computed } from "vue";
+
 export default function useFormChangeHandle() {
   function normalize(value: unknown) {
-    if (typeof value == "string") {
+    if (typeof value === "string") {
       return value.trim();
     }
     return value;
@@ -18,7 +20,11 @@ export default function useFormChangeHandle() {
 
   function hasChanges(initialValues: any, values: any, meta: any) {
     return computed(() => {
-      return meta.value.dirty && !compareValues(values, initialValues);
+      const isDirty = meta.value.dirty;
+      const isValid = meta.value.valid;
+      const changed = !compareValues(values, initialValues);
+
+      return isDirty && changed && isValid;
     });
   }
 
