@@ -31,7 +31,7 @@ const props = withDefaults(
     minFractionDigits: 0,
     maxFractionDigits: 0,
     locale: "es-CO",
-  }
+  },
 );
 const { value, errorMessage } = useField<number>(() => props.name);
 function onInput(event: any) {
@@ -82,4 +82,8 @@ function onInput(event: any) {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.formField {
+  width: 100%;
+}
+</style>

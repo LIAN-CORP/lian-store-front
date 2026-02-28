@@ -16,7 +16,7 @@ const props = withDefaults(
   {
     fluid: true,
     inputColor: "#eef2ff",
-  }
+  },
 );
 const { value, errorMessage } = useField<string>(() => props.name);
 </script>
@@ -49,6 +49,9 @@ const { value, errorMessage } = useField<string>(() => props.name);
 </template>
 
 <style lang="scss" scoped>
+.formField {
+  width: 100%;
+}
 .p-textarea {
   resize: none;
 }

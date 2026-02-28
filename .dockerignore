@@ -1,0 +1,23 @@
+# Dependencias locales
+node_modules
+.nodemodules
+.angular
+.vscode
+
+# Archivos de build
+dist
+tmp
+coverage
+
+# Archivos de control de versiones
+.git
+.gitignore
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Documentación y metadatos
+README.md
+LICENSE
+Dockerfile

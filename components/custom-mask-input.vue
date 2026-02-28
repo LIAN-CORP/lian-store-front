@@ -16,7 +16,7 @@ const props = withDefaults(
   {
     fluid: true,
     inputColor: "#eef2ff",
-  }
+  },
 );
 
 const { value, errorMessage } = useField<string>(() => props.name);
@@ -50,4 +50,8 @@ const { value, errorMessage } = useField<string>(() => props.name);
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.formField {
+  width: 100%;
+}
+</style>
