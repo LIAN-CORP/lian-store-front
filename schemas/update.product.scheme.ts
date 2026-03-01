@@ -57,7 +57,7 @@ export const updateProductScheme = (t: any) => {
       }),
     })
     .superRefine((data, ctx) => {
-      if (data.priceSale <= data.priceBuying) {
+      if (data.priceSale < data.priceBuying) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: t("formError.sale_less_than_buy"),
