@@ -41,8 +41,6 @@ watch(searchValue, async (newVal) => {
     if (newVal) {
       page.value = 0;
       await fetchAllProductsByName(page.value, sizePage, searchValue.value);
-
-      console.log(products);
     } else {
       await fetchAllProducts(page.value, sizePage);
     }

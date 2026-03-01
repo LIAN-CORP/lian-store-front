@@ -44,7 +44,6 @@ const refreshActions: Record<string, () => void> = {
     resetField("subcategoryId");
 
     refresh(values.category!);
-    console.log(subcategories);
     close();
   },
 };

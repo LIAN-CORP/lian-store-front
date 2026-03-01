@@ -96,14 +96,6 @@ onMounted(async () => {
   getTransactions({ page: filters.page, size: filters.size });
   getClient();
 });
-
-watch(
-  () => transactions.value?.content,
-  (val) => {
-    console.log("transactions updated →", val);
-  },
-  { immediate: true },
-);
 </script>
 
 <template>

@@ -82,6 +82,7 @@ function onDeleteCategory() {
     }),
     onAccept: async () => {
       if (!values.category) return;
+      console.log(values.category.id!);
       await deleteCategory(values.category.id!);
       await fetchAllCategories();
       resetForm({ values: { category: null, subcategory: null } });
