@@ -1,5 +1,10 @@
 <script lang="ts" setup>
 import type { GetListDebtResponse } from "~/interfaces/debt/response/get.list.debt.response";
+const {
+  getTransactionWithAllDetails,
+  loading: tLoading,
+  details,
+} = useGetTransactionDetails();
 
 const props = defineProps<{
   data: GetListDebtResponse;
@@ -13,6 +18,7 @@ function onCreated() {
 const { getPayment, loading, payments } = useGetClientPayments();
 onMounted(() => {
   getPayment(props.data.id);
+  getTransactionWithAllDetails(props.data.transactionId);
 });
 </script>
 
@@ -35,6 +41,8 @@ onMounted(() => {
         :header="$t('debtors.detailsTable.method')"
       />
     </DataTable>
+
+    <HistoryInvoiceDetails :details="details ?? []" :loading="tLoading" />
 
     <DebtsNewPayment
       :client-id="data.clientId"

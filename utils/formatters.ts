@@ -6,7 +6,13 @@ export function formatAmount(amount: number): string {
 }
 
 export function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("es-CO");
+  const locale = navigator.language;
+  return new Date(dateStr).toLocaleDateString(locale);
+}
+
+export function formatDateWithUTC(dateStr: string) {
+  const date = new Date(dateStr);
+  return date.toLocaleString("es-CO", { timeZone: "UTC" });
 }
 
 export function formatDateTime(date: Date | string): string {
@@ -32,6 +38,6 @@ export function formatPhone(phone: string) {
   const prefix = `(${phone.slice(0, 3)}) `;
   return `${prefix}${phone.slice(3, 6)}-${phone.slice(6, 10)}-${phone.slice(
     10,
-    13
+    13,
   )}`;
 }

@@ -11,11 +11,14 @@ const { t } = useI18n();
 const { loading: deleteLoading, onDeleteTransaction } = useDeleteTransaction();
 const { getTransactions, loading, transactions } = useGetTransaction();
 
+const { getDetails, loading: tLoading, details } = useGetTransactionDetails();
+
 let debounceTimeOut: number | undefined;
 const { result, getClient } = useGetClients();
 
 const detailsDialog = ref(false);
 const selectedTransaction = ref<GetTransaction | null>(null);
+
 const rangeDate = ref<Date[] | null>();
 const filters = reactive({
   page: 0,
@@ -38,6 +41,16 @@ const canGenerate = computed(() => {
     rangeDate.value[1] !== null
   );
 });
+
+watch(
+  () => selectedTransaction.value?.id,
+  async (id) => {
+    if (id) {
+      await getDetails(id);
+    }
+  },
+);
+
 watch(rangeDate, (range) => {
   if (canGenerate.value) {
     filters.start = toLocalISODate(range![0]) ?? undefined;
@@ -79,16 +92,18 @@ function showDetails(details: GetTransaction) {
   detailsDialog.value = true;
 }
 
-const sortedData = computed(() => {
-  return transactions.value?.content
-    ? [...transactions.value?.content].reverse()
-    : [];
-});
-
 onMounted(async () => {
   getTransactions({ page: filters.page, size: filters.size });
   getClient();
 });
+
+watch(
+  () => transactions.value?.content,
+  (val) => {
+    console.log("transactions updated →", val);
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
@@ -154,7 +169,7 @@ onMounted(async () => {
         data-key="id"
         lazy
         paginator
-        :value="sortedData"
+        :value="transactions?.content ?? []"
         :loading="loading"
         :rows="filters.size"
         :total-records="transactions?.totalElements ?? 0"
@@ -165,7 +180,7 @@ onMounted(async () => {
           :header="$t('history.table.resume.date')"
         >
           <template #body="{ data }">
-            {{ data.transactionDate }}
+            {{ formatDateWithUTC(data.transactionDate) }}
           </template>
         </Column>
         <Column
@@ -205,7 +220,11 @@ onMounted(async () => {
     v-model:visible="detailsDialog"
   >
     <template #default>
-      <HistoryInvoiceDetails :transaction="selectedTransaction!" />
+      <HistoryInvoiceDetails
+        :transaction="selectedTransaction!"
+        :details="details ?? []"
+        :loading="tLoading"
+      />
     </template>
   </Dialog>
 </template>

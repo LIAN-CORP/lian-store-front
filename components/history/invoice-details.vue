@@ -1,30 +1,27 @@
 <script lang="ts" setup>
 import { formatPhone } from "#imports";
 import type { GetTransaction } from "~/interfaces/transaction/response/get.transaction";
-
-const { getDetails, loading, details } = useGetTransactionDetails();
+import type { GetTransactionDetails } from "~/interfaces/transaction/response/get.transaction.details";
 
 const props = defineProps<{
   transaction?: GetTransaction;
+  details: GetTransactionDetails[];
+  loading: boolean;
 }>();
 
 const totalSum = computed(() => {
-  if (details.value == null) {
+  if (!props.details || props.details.length === 0) {
     return 0;
   }
-  return details.value.reduce((sum, product) => {
+  return props.details.reduce((sum, product) => {
     return sum + product.unitPrice * product.quantity;
   }, 0);
-});
-
-onMounted(() => {
-  getDetails(props.transaction?.id!);
 });
 </script>
 
 <template>
   <section class="invoice">
-    <article class="invoice-header">
+    <article class="invoice-header" v-if="transaction">
       <div class="separator">
         <BadgeDisplay
           :label="$t('history.date')"

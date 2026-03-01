@@ -106,21 +106,11 @@ function handleRefresh() {
   const action = refreshActions[modalData.activeForm];
   if (action) action();
 }
-
-watch(
-  () => values,
-  (newValues) => {
-    console.log("Formulario cambió:", newValues);
-  },
-  { deep: true }, // Necesario para detectar cambios en propiedades anidadas
-);
 watch(
   () => values.category?.id,
   (id) => {
     resetField("subcategory");
-    if (!id) {
-      refresh(id!);
-    }
+    refresh(id!);
   },
 );
 
